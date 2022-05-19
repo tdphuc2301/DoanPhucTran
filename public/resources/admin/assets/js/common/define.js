@@ -1,0 +1,1 @@
+window.LIMIT = 10;
