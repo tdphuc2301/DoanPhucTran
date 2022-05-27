@@ -17,12 +17,14 @@ class CreatePromotionsTable extends Migration
             $table->id();
             $table->string('name')->nullable(false);
             $table->integer('code')->nullable(false);
-            $table->string('description');
             $table->enum('type',[10,20,25,50,65,80,90])->nullable(false);
             $table->dateTime('begin')->nullable(false);
             $table->dateTime('end')->nullable(false);
             $table->integer('value')->nullable(false);
-            $table->tinyInteger('status');
+            $table->integer('index')->nullable()->default(1);
+            $table->string('description')->nullable();
+            $table->string('search')->nullable();
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
     }

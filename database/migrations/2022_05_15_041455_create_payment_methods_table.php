@@ -16,8 +16,9 @@ class CreatePaymentMethodsTable extends Migration
         Schema::create('payment_methods', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable(false);
-            $table->string('description');
-            $table->integer('index');
+            $table->integer('index')->nullable()->default(1);
+            $table->string('description')->nullable();
+            $table->string('search')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });

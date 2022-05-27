@@ -9,8 +9,13 @@ use App\Http\Requests\Product\CreateProductRequest;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\ProductResource;
 use App\Http\Responses\PaginationResponse;
+use App\Services\BranchService;
+use App\Services\BrandService;
 use App\Services\CategoryService;
+use App\Services\ColorService;
 use App\Services\ProductService;
+use App\Services\RamService;
+use App\Services\RomService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -23,15 +28,35 @@ class ProductController extends Controller
 
     protected $productService;
     protected $categoryService;
+    protected $romService;
+    protected $ramService;
+    protected $colorService;
+    protected $branchService;
+    protected $brandService;
+
 
     /**
      * @param ProductService $productService
      * @return void
      */
-    public function __construct(ProductService $productService, CategoryService $categoryService)
+    public function __construct(
+        ProductService $productService, 
+        CategoryService $categoryService,
+        RomService $romService,
+        RamService $ramService,
+        ColorService $colorService,
+        BranchService $branchService,
+        BrandService $brandService
+
+    )
     {
         $this->productService = $productService;
         $this->categoryService = $categoryService;
+        $this->romService = $romService;
+        $this->ramService = $ramService;
+        $this->colorService = $colorService;
+        $this->branchService = $branchService;
+        $this->brandService = $brandService;
     }
     public function index(Request $request)
     {
@@ -49,9 +74,19 @@ class ProductController extends Controller
         $sortValue = $filter['sort_value'] ?? config('pagination.sort_default.value');
         $products = $this->productService->paginateAll($page, $limit, $filter, $sortKey, $sortValue);
         $categories = $this->categoryService->getAllCategories();
+        $roms= $this->romService->getAllRom();
+        $rams= $this->ramService->getAllRam();
+        $colors= $this->colorService->getAllColor();
+        $branchs= $this->branchService->getAllBranch();
+        $brands= $this->brandService->getAllBrand();
         $result = [
             'list' => ProductResource::collection($products->items())->toArray($request),
             'categories' => CategoryResource::collection($categories)->toArray($request),
+            'roms' => CategoryResource::collection($roms)->toArray($request),
+            'rams' => CategoryResource::collection($rams)->toArray($request),
+            'colors' => CategoryResource::collection($colors)->toArray($request),
+            'branchs' => CategoryResource::collection($branchs)->toArray($request),
+            'brands' => CategoryResource::collection($brands)->toArray($request),
             'pagination' => PaginationResponse::getPagination($products),
             'sort_key' => $sortKey,
             'sort_value' => $sortValue,

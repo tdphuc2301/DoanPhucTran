@@ -14,13 +14,15 @@ class Promotion extends Model
     protected $fillable = [
         'name',
         'code',
-        'description',
         'type',
         'begin',
         'end',
         'value',
+        'type',
+        'search',
+        'index',
+        'description',
         'status',
-        'type'
     ];
 
     protected $casts = [

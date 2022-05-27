@@ -16,8 +16,26 @@ class Product_color extends Model
         'color_id',
     ];
 
-    protected $casts = [
-        'created_at' => 'datetime:Y-m-d h:i:s',
-        'updated_at' => 'datetime:Y-m-d h:i:s',
+    protected $appends = [
+        'formatted_created_at',
+        'formatted_updated_at',
     ];
+
+    public $timestamps = true;
+
+    public function alias(){
+        return $this->morphOne(Alias::class,'model');
+    }
+
+    public function metaseo(){
+        return $this->morphOne(MetaSeo::class,'model');
+    }
+
+    public function images(){
+        return $this->morphMany(Image::class,'model');
+    }
+
+    public function getImagesByIndex(array $indexs){
+        return $this->images()->whereIn('index', $indexs)->get();
+    }
 }

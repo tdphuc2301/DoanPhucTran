@@ -16,7 +16,7 @@
     <!-- endinject -->
     <!-- Layout styles -->
     <link rel="stylesheet" href="{{ asset('resources/admin/assets/css/style.css') }}">
-    <!-- End Layouts styles -->
+    <!-- End layout styles -->
     <link rel="shortcut icon" href="{{ asset('resources/admin/assets/images/favicon.png') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('resources/admin/assets/css/select2.min.css') }}">

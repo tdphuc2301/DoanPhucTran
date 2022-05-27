@@ -17,11 +17,11 @@ class CreateBranchsTable extends Migration
             $table->id();
             $table->string('name')->nullable(false);
             $table->string('address')->nullable(false);
-            $table->string('province_code');
-            $table->string('district_code');
-            $table->string('ward_code');
             $table->string('long');
             $table->string('lat');
+            $table->string('search')->default(null);
+            $table->integer('index')->default(1);
+            $table->string('description')->default(null);
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
 

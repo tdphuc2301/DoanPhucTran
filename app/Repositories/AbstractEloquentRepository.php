@@ -33,7 +33,7 @@ abstract class AbstractEloquentRepository implements BaseRepository
 
     /**
      * @param $id
-     * @param array|null $withRelations
+     * @param array|null $relations
      * @return Builder|Model|object|null
      */
     public function findOne($id, array $withRelations = null): ?Model

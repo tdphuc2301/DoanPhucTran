@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
     <!-- CSRF Token -->
     <style>
         [v-cloak] {
@@ -13,10 +14,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Buylike') }}</title>
     @include('Admin.Layouts.header')
-
+    @yield('head')
 </head>
 <body class="bg-accpunt-pages">
-<div style="background-image: url('http://dev.tingarden.com/loading.gif')"></div>
 <div class="container-scroller">
 @include('Admin.Layouts.menu-top')
 <!-- partial:partials/_navbar.html -->
@@ -54,7 +54,7 @@
 </div>
 <div class="modal" tabindex="-1" role="dialog" id="modalChangePass">
     <div id="object-change-password"
-         user-id="{{Auth::user()->_id ?? ''}}" api-change-password="{{route('admin.Customer.change_password')}}" class="modal-dialog" role="document">
+         user-id="{{Auth::user()->_id ?? ''}}" api-change-password="{{route('admin.user.change_password')}}" class="modal-dialog" role="document">
         <div class="modal-content  bg-white">
             <div class="modal-header">
                 <h5 class="modal-title">Thay đổi mật khẩu</h5>
@@ -109,26 +109,21 @@
 </body>
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/AmagiTech/JSLoader/amagiloader.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
-
 <script src="{{ asset('resources/admin/assets/vendors/js/vendor.bundle.base.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
 {{--<script src="../../resources/admin/assets/js/off-canvas.js"></script>--}}
-
-
 <script src="{{ asset('resources/admin/assets/js/hoverable-collapse.js') }}"></script>
 <script src="{{ asset('resources/admin/assets/js/misc.js?time=').time() }}"></script>
-
-
 <script src="{{ asset('resources/admin/assets/js/lodash.min.js') }}"></script>
 <script src="{{ asset('resources/admin/assets/js/todolist.js') }}"></script>
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
-<script src="{{ asset('resources/admin/assets/vendors/moment/moment.js')}}"></script>
-<script src="{{ asset('resources/admin/assets/vendors/daterangepicker/daterangepicker.min.js') }}"></script>
 <script src="{{ asset('resources/admin/assets/js/vue/vue.js') }}"></script>
 <script src="{{ asset('resources/admin/assets/js/vue/vee-validate.js') }}"></script>
 <script src="{{ asset('resources/admin/assets/js/vue/vi.js') }}"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+<script src="{{ asset('resources/admin/assets/vendors/moment/moment.js')}}"></script>
+<script src="{{ asset('resources/admin/assets/vendors/daterangepicker/daterangepicker.min.js') }}"></script>
 <script src="{{ asset('resources/admin/assets/js/helper.js') }}"></script>
 <script src="{{ asset('resources/admin/assets/js/vue/vue-filter.js') }}"></script>
 <script src="{{ asset('resources/admin/assets/js/vue/components.js?time=').time() }}"></script>
@@ -147,58 +142,5 @@
     })
 </script>
 <script>
-    var changePassword = new objectChangePassword('#object-change-password');
-
-    function objectChangePassword(element) {
-        // Vue.use(VeeValidate, {
-        //     locale: 'vi',
-        //     fieldsBagName: 'vvFields'
-        // });
-        var timeout = null;
-        this.vm = new Vue({
-            el: element,
-            data: {
-                loading: false,
-                api_change_password: $(element).attr('api-change-password'),
-                data_create: {
-                    old_password: '',
-                    password: '',
-                    _id: $(element).attr('Customer-id')
-                }
-
-            },
-            methods: {
-                changePassword: function () {
-                    var vm = this;
-                    vm.loading = true;
-                    this.$validator.validate().then(valid => {
-                        if (valid) {
-                            axios.post(vm.api_change_password, vm.data_create).then(function (response) {
-                                vm.isLoading = false;
-                                var data = response.data;
-                                if (data.error) {
-                                    helper.showNotification(data.message, 'danger');
-                                    return;
-                                }
-                                $('#modalChangePass').modal('hide');
-                                helper.showNotification(data.message, 'success');
-                            })
-                        }
-                    })
-                },
-            },
-
-            created: function () {
-                console.log(this.user_id);
-            },
-            computed: {},
-            mounted: function () {
-
-            },
-            watch: {
-            },
-        });
-        return this;
-    }
 </script>
 </html>

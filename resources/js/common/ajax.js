@@ -18,6 +18,7 @@ function sendRequest(
     $.ajaxSetup({
         cache: false
     });
+    
     return $.ajax({
         type: method,
         data: payload,
@@ -28,19 +29,22 @@ function sendRequest(
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         success: function (response) {
+            AmagiLoader.hide();
             callback(response)
         },
         beforeSend: function () {
+            AmagiLoader.show();
             //Cancel request if multiple same api called on the same time
             if (currentRequest) {
                 currentRequest.abort();
             }
         },
         error: function (response) {
+            AmagiLoader.hide();
             if (callBackError) {
                 callBackError(response)
             }
-        }
+        },
     });
 }
 
@@ -76,9 +80,11 @@ function sendFormData(
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         success: function (response) {
+            AmagiLoader.hide();
             callback(response)
         },
         beforeSend: function () {
+            AmagiLoader.show();
             //Cancel request if multiple same api called on the same time
             if (currentRequest) {
                 currentRequest.abort();
@@ -88,7 +94,7 @@ function sendFormData(
             if (callBackError) {
                 callBackError(response)
             }
-        }
+        },
     });
 }
 

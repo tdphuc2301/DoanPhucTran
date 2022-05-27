@@ -14,7 +14,7 @@ class Price extends Model
     protected $fillable = [
         'name',
         'begin',
-        'end'
+        'end',
     ];
 
     protected $casts = [

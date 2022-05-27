@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin\Category;
 
 use App\Http\Controllers\Traits\Lib;
-use App\Http\Requests\Category\CreateCategoryRequest;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\ChangeCategoryStatusRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Category\CreateCategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Http\Responses\PaginationResponse;
 use App\Services\CategoryService;

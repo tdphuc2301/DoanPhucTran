@@ -17,6 +17,9 @@ class CreateRomsTable extends Migration
             $table->id();
             $table->string('name')->nullable(false);
             $table->integer('capacity')->nullable(false);
+            $table->integer('index')->nullable()->default(1);
+            $table->string('description')->nullable();
+            $table->string('search')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });

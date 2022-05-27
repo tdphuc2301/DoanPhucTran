@@ -33,7 +33,7 @@ class SettingController extends Controller
     }
 
 
-    // public function changeStatus(ChangeCategoryStatusRequest $request){
+    // public function changeStatus(ChangeBrandStatusRequest $request){
     //     try {
     //         return DB::transaction(function () use ($request) {
     //             $category = $this->categoryService->changeStatus($request->id, $request->boolean('status'));

@@ -19,6 +19,7 @@ class CategorySeeder extends Seeder
         for ($i = 0; $i < count($arrayNameCategory); $i++) {
             DB::table('categories')->insert([
                 'name' => $arrayNameCategory[$i],
+                'search'=> $arrayNameCategory[$i]
             ]);
         }
     }

@@ -280,7 +280,7 @@
                 methods: {
                     getDataReport: function () {
                         var vm = this;
-                        axios.post(vm.api_report, vm.filter).then(function (response) {
+                        axios.get(vm.api_report, vm.filter).then(function (response) {
                             var data = response.data;
                             vm.category_bar = _.get(data, 'category_bar', []);
                             vm.category_pie = _.get(data, 'category_pie', []);

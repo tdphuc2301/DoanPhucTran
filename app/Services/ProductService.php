@@ -7,6 +7,7 @@ use App\Events\InsertNewRecord;
 use App\Exceptions\UploadImageException;
 use App\Http\Services\UploadImageService;
 use App\Models\Product;
+use App\Models\Product_color;
 use App\Repositories\ProductRepository;
 use App\Repositories\ImageRepository;
 use Illuminate\Database\Eloquent\Model;
@@ -18,6 +19,8 @@ class ProductService
     private $productRepository;
     private $imageRepository;
     private $uploadImageService;
+    private $colorService;
+
     /**
      * @param ProductRepository $productRepository
      * @param UploadImageService $uploadImageService
@@ -27,11 +30,13 @@ class ProductService
     public function __construct(
         ProductRepository $productRepository,
         UploadImageService $uploadImageService,
-        ImageRepository $imageRepository
+        ImageRepository $imageRepository,
+        ColorService $colorService
     ) {
         $this->productRepository = $productRepository;
         $this->uploadImageService = $uploadImageService;
         $this->imageRepository = $imageRepository;
+        $this->colorService = $colorService;
     }
 
     public function paginateAll(
@@ -86,6 +91,10 @@ class ProductService
         } else {
             $product = $this->productRepository->save([
                 'category_id' => $data['category_id'],
+                'branch_id' => $data['branch_id'],
+                'ram_id' => $data['ram_id'],
+                'rom_id' => $data['rom_id'],
+                'brand_id' => $data['brand_id'],
                 'name' => $data['name'],
                 'code' => $data['code'] ?? '',
                 'index' => $data['index'] ?? config('common.default_index'),
@@ -97,6 +106,13 @@ class ProductService
                 'total_rate' => $data['total_rate'] ?? 0,
                 'status' => $data['status'] ?? config('common.status.active')
             ]);
+            $colors = [1,2,3];
+            foreach ($colors as $color) {
+                $product_color = new Product_color();
+                $product_color->product_id = $product->id;
+                $product_color->color_id = $color;
+                $product_color->save();
+            }
         }
 
         if (!empty($product->id)) {
