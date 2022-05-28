@@ -19,7 +19,7 @@ class TypeCustomerSeeder extends Seeder
         for ($i = 0; $i < count($arrayNameTypeCustomer); $i++) {
             DB::table('type_customers')->insert([
                 'name' => $arrayNameTypeCustomer[$i],
-                'search'=> $arrayNameTypeCustomer[$i]
+                'description' => $arrayNameTypeCustomer[$i]
             ]);
         }
     }

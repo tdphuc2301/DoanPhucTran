@@ -43,9 +43,9 @@
                                     <div class="form-group">
                                         <p class="m-0 font-0-9">Mã khuyến mãi<span class="text-danger">*</span>
                                         </p>
-                                        <input name="code" id="code_promotion" placeholder="Mã khuyến mãi" required type="text"
+                                        <input name="code" id="code_promotion" readonly placeholder="Mã khuyến mãi" required type="text"
                                                class="form-control form-control-sm">
-                                        <button onclick="randomCodePromotion(10)" >Random mã khuyến mãi</button>
+                                        <button type="button" class="btn btn-success theme-color" onclick="randomCodePromotion(10)" >Random mã khuyến mãi</button>
                                     </div>
 
                                     <div class="form-group">

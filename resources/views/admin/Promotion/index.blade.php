@@ -71,6 +71,9 @@
             }
             document.getElementById('code_promotion').value = result;
         }
+        $(document).ready(function () {
+            $('select.search').selectpicker();
+        })
     </script>
     <script src="{{ asset('/js/admin/listing.js') }}"></script>
     <script src="{{ asset('/js/admin/promotion.js') }}"></script>

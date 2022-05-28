@@ -30,7 +30,7 @@ class CreatePromotionRequest extends FormRequest
         return [
             'code' => 'required',
             'value' => 'required',
-            'type' => ['required',Rule::in(['percent', 'money'])],
+            'type_promotion_id' => ['required',Rule::in(['1', '2'])],
         ];
     }
 
@@ -38,7 +38,7 @@ class CreatePromotionRequest extends FormRequest
     {
         return [
             'code.required' => 'Mã voucher bắt buộc phải có',
-            'type.required' => 'Vui lòng chọn loại khuyến mãi',
+            'type_promotion_id.required' => 'Vui lòng chọn loại khuyến mãi',
             'value.required' => 'Vui lòng nhập trị giá khuyến mãi',
         ];
     }

@@ -754,6 +754,11 @@ $(document).delegate('.btn-edit', 'click', function (e) {
       $('input[name="name"]').val(data.name);
       $('input[name="alias"]').val(alias ? alias.alias : '');
       $('input[name="index"]').val(data.index);
+      $('input[name="begin"]').val(data.begin);
+      $('input[name="end"]').val(data.end);
+      $('input[name="code"]').val(data.code);
+      $('input[name="value"]').val(data.value);
+      $('input[name="type_promotion_id"]').val(data.type_promotion_id);
       $('.description').val(data.description);
 
       if (images) {
@@ -786,7 +791,7 @@ $(document).delegate('#btn-create', 'click', function (e) {
 
   if (isValid) {
     var fd = new FormData();
-    var dataArr = $('#create-data-form input').serializeArray();
+    var dataArr = $('#create-data-form input, #create-data-form select').serializeArray();
     var metaseoArr = $('#metaseo-form input,#metaseo-form textarea').serializeArray();
     dataArr.forEach(function (input, index) {
       fd.append(input.name, input.value);

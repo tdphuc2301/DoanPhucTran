@@ -17,10 +17,7 @@ class TypeCustomer extends Model
 
     protected $fillable = [
         'name',
-        'search',
-        'index',
         'description',
-        'status',
     ];
 
     protected $appends = [

@@ -106,6 +106,11 @@ class PromotionService
         } else {
             $promotion = $this->promotionRepository->save([
                 'name' => $data['name'],
+                'code' => $data['code'],
+                'type_promotion_id' => $data['type_promotion_id'],
+                'value' => $data['value'],
+                'begin' => $data['begin'],
+                'end' => $data['end'],
                 'index' => $data['index'] ?? config('common.default_index'),
                 'description' => $data['description'] ?? '',
                 'status' => $data['status'] ?? config('common.status.active')

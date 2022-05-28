@@ -30,6 +30,10 @@ return [
         'paymentMethod' => [
             'width' => 640,
             'height' => 630,
+        ],
+        'promotion' => [
+            'width' => 640,
+            'height' => 630,
         ]
         
         

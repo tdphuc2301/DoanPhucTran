@@ -7,6 +7,7 @@
         <th>STT</th>
         <th @click="sort('name')"> Tên <i class="fas fa-sort float-right"
                                           :class="showClassSort('name')"></i></th>
+        <th>Hình ảnh</th>
         <th>Mã khuyến mãi</th>
         <th>Loại</th>
         <th>Giá trị</th>
@@ -28,7 +29,7 @@
                         <img src="{{ !empty($item['images'][0]['path']) ? asset($item['images'][0]['path']) : asset(config('image.default_image')) }}">
                     </td>
                     <td> {{ $item['code'] }}</td>
-                    <td> {{ $item['type'] }}</td>
+                    <td> {{ $item['type_promotion_id'] === 1 ? $type_promotions[0]['name'] : $type_promotions[1]['name']}}</td>
                     <td> {{ $item['value'] }}</td>
                     <td> {{ $item['begin'] }}</td>
                     <td> {{ $item['end'] }}</td>
