@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Promotion\CreatePromotionRequest;
 use App\Http\Resources\PromotionResource;
 use App\Http\Responses\PaginationResponse;
+use App\Models\TypePromotion;
 use App\Services\PromotionService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -47,6 +48,7 @@ class PromotionController extends Controller
             'pagination' => PaginationResponse::getPagination($promotion),
             'sort_key' => $sortKey,
             'sort_value' => $sortValue,
+            'type_promotions'=> TypePromotion::all()
         ];
         if ($request->wantsJson()) {
             return $this->responseOK(view('Admin.Promotion.datatable', $result)->render());

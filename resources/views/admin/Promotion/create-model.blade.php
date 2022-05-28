@@ -29,7 +29,7 @@
                                             class="form-control form-control-sm">
                                     </div>
                                     <div class="form-group">
-                                        <p class="m-0 font-0-9">Tên danh mục<span class="text-danger">*</span>
+                                        <p class="m-0 font-0-9">Tên khuyến mãi<span class="text-danger">*</span>
                                         </p>
                                         <input name="name" placeholder="Tên danh mục" required type="text"
                                             class="form-control form-control-sm">
@@ -40,6 +40,31 @@
                                         <input name="alias" placeholder="Đường dẫn" required type="text"
                                             class="form-control form-control-sm">
                                     </div>
+                                    <div class="form-group">
+                                        <p class="m-0 font-0-9">Mã khuyến mãi<span class="text-danger">*</span>
+                                        </p>
+                                        <input name="code" id="code_promotion" placeholder="Mã khuyến mãi" required type="text"
+                                               class="form-control form-control-sm">
+                                        <button onclick="randomCodePromotion(10)" >Random mã khuyến mãi</button>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <p class="m-0 font-0-9">Loại khuyến mãi<span class="text-danger">*</span></p>
+                                        <select class="search select-search show-tick" name="type_promotion_id"
+                                                data-live-search="true">
+                                            @foreach ($type_promotions as $type_promotion)
+                                                <option value="{{ $type_promotion['id'] }}">{{ $type_promotion['name'] }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <p class="m-0 font-0-9">Gía trị khuyến mãi (%/tiền)<span class="text-danger">*</span>
+                                        </p>
+                                        <input name="value" placeholder="nhập giá tiền hoặc tiền" required type="text"
+                                               class="form-control form-control-sm">
+                                    </div>
+                                    
                                     <div class="form-group">
                                         <p class="m-0 font-0-9">Vị trí</p>
                                         <input name="index" type="number" value="1" min="0"
@@ -59,6 +84,19 @@
                                             <input ref="file" class="file-upload" index="0" image-type="image" type="file"
                                                 accept="image/*" />
                                         </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <p class="m-0 font-0-9">Ngày bắt đầu<span class="text-danger">*</span>
+                                        </p>
+                                        <input name="begin" placeholder="Ngày bắt đầu" required type="date"
+                                               class="form-control form-control-sm">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <p class="m-0 font-0-9">Ngày kết thúc<span class="text-danger">*</span>
+                                        </p>
+                                        <input name="end" placeholder="Ngày kết thúc" required type="date"
+                                               class="form-control form-control-sm">
                                     </div>
                                 </div>
                                 <div class="col-md-12">

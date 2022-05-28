@@ -61,6 +61,16 @@
         var messageRequired = '{{ trans('message.required') }}';
         var messageMin = '{{ trans('message.min') }}';
         var messageMax = '{{ trans('message.max') }}';
+        function randomCodePromotion() {
+            var result           = '';
+            var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            var charactersLength = characters.length;
+            for ( var i = 0; i < length; i++ ) {
+                result += characters.charAt(Math.floor(Math.random() *
+                    charactersLength));
+            }
+            document.getElementById('code_promotion').value = result;
+        }
     </script>
     <script src="{{ asset('/js/admin/listing.js') }}"></script>
     <script src="{{ asset('/js/admin/promotion.js') }}"></script>

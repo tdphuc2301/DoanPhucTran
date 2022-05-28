@@ -17,7 +17,7 @@ class TypePromotionSeeder extends Seeder
         $arrayNameTypePromotion = ['money', 'percent'];
 
         for ($i = 0; $i < count($arrayNameTypePromotion); $i++) {
-            DB::table('categories')->insert([
+            DB::table('type_promotions')->insert([
                 'name' => $arrayNameTypePromotion[$i]
             ]);
         }
