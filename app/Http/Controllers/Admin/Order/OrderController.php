@@ -8,6 +8,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Order\CreateOrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Http\Responses\PaginationResponse;
+use App\Models\Customer;
+use App\Models\Product;
+use App\Models\Promotion;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -47,6 +50,9 @@ class OrderController extends Controller
             'pagination' => PaginationResponse::getPagination($order),
             'sort_key' => $sortKey,
             'sort_value' => $sortValue,
+            'products'=> Product::all(),
+            'promotions' => Promotion::all(),
+            'customers'=> Customer::all(),
         ];
         if ($request->wantsJson()) {
             return $this->responseOK(view('Admin.Order.datatable', $result)->render());

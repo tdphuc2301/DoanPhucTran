@@ -30,6 +30,8 @@ class CreateProductsTable extends Migration
             $table->integer('sale_off_price');
             $table->integer('rate')->default(1);
             $table->integer('total_rate')->default(1);
+            $table->integer('stock_quantity')->nullable(false);
+            
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
 

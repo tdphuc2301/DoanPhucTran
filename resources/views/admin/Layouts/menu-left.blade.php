@@ -49,7 +49,7 @@
 
         <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.category.index') }}">
-                <span class="menu-title">Danh mục sản phẩm</span>
+                <span class="menu-title">Danh mục loại sản phẩm</span>
                 <i class="mdi mdi-vector-arrange-above menu-icon"></i>
             </a>
         </li>

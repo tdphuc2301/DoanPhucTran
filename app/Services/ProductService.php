@@ -104,6 +104,7 @@ class ProductService
                 'sale_off_price' => $data['sale_off_price'] ?? 0,
                 'rate' => $data['rate'] ?? 0,
                 'total_rate' => $data['total_rate'] ?? 0,
+                'stock_quantity' => $data['stock_quantity'] ?? 0,
                 'status' => $data['status'] ?? config('common.status.active')
             ]);
             $colors = [1,2,3];

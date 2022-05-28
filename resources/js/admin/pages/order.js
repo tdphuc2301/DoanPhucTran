@@ -75,7 +75,6 @@ $(document).delegate('.btn-edit', 'click', function (e) {
             $('input[name="index"]').val(data.index);
             $('input[name="price"]').val(data.price);
             $('input[name="sale_off_price"]').val(data.sale_off_price);
-            $('input[name="stock_quantity"]').val(data.stock_quantity);
             $('select[name="category_id"]').selectpicker('val', category ? category.id : '');
             $('.description').val(data.description);
             if(images){

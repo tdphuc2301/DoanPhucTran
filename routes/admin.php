@@ -83,7 +83,7 @@ Route::group(['namespace'=>'Admin'], function (){
         Route::get('/get-order', 'OrderController@getList')->name('admin.order.get_order');
         Route::get('/find/{id?}', 'OrderController@getById')->name('admin.order.get_order_detail');
         Route::post('/create', 'OrderController@create')->name('admin.order.create');
-        Route::put('/change-status', 'OrderController@changeStatus')->name('admin.order.update');
+        Route::put('/change-status', 'OrderController@changeStatus')->name('admin.order.change_status');
     });
 
     Route::group(['namespace' => 'PaymentMethod', 'prefix' => 'payment-method'], function () {

@@ -687,9 +687,9 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
 "use strict";
-/*!*********************************************!*\
-  !*** ./resources/js/admin/pages/product.js ***!
-  \*********************************************/
+/*!*******************************************!*\
+  !*** ./resources/js/admin/pages/order.js ***!
+  \*******************************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _common_helper_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common/helper.js */ "./resources/js/common/helper.js");
 /* harmony import */ var _create_data_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../create-data.js */ "./resources/js/admin/create-data.js");
@@ -757,7 +757,6 @@ $(document).delegate('.btn-edit', 'click', function (e) {
       $('input[name="index"]').val(data.index);
       $('input[name="price"]').val(data.price);
       $('input[name="sale_off_price"]').val(data.sale_off_price);
-      $('input[name="stock_quantity"]').val(data.stock_quantity);
       $('select[name="category_id"]').selectpicker('val', category ? category.id : '');
       $('.description').val(data.description);
 

@@ -15,6 +15,9 @@ class OrderResource extends JsonResource
      */
     public function toArray($request)
     {
+        
+        $promotion = $this->relationLoaded('promotions') ;
+        $customer = $this->relationLoaded('customers') ;
         return [
             'id' => $this->id,
             'name' => $this->name,

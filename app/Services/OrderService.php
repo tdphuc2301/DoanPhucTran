@@ -7,6 +7,7 @@ use App\Events\InsertNewRecord;
 use App\Exceptions\UploadImageException;
 use App\Http\Services\UploadImageService;
 use App\Models\order;
+use App\Models\Order_detail;
 use App\Repositories\OrderRepository;
 use App\Repositories\ImageRepository;
 use Illuminate\Database\Eloquent\Collection;
@@ -104,12 +105,25 @@ class OrderService
             $order = $this->orderRepository->findOne($data['id']);
             $order = $this->orderRepository->update($order, $data);
         } else {
+            
             $order = $this->orderRepository->save([
-                'name' => $data['name'],
+                'customer_id' => $data['customer_id'],
+                'promotion_id' => $data['promotion_id'],
+                'code' => $data['code'],
+                'note' => $data['note'],
+                'total_price' => $data['total_price'],
                 'index' => $data['index'] ?? config('common.default_index'),
                 'description' => $data['description'] ?? '',
                 'status' => $data['status'] ?? config('common.status.active')
             ]);
+            
+            $order_detail = new Order_detail();
+            $order_detail->product_id = $data['product_id'];
+            $order_detail->order_id = $order->id;
+            $order_detail->quantity = $data['quantity'];
+            $order_detail->price = $data['price'];
+
+
         }
 
         if (!empty($order->id)) {

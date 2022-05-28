@@ -13,8 +13,6 @@
                     <ul class="nav nav-tabs mb-4" role="tablist">
                         <li role="presentation" class="nav-item"><a href="#home" class="nav-link  active"
                                 aria-controls="home" role="tab" data-toggle="tab">Thông tin chung</a></li>
-                        <li role="presentation" class="nav-item "><a href="#settings" class="nav-link"
-                                aria-controls="settings" role="tab" data-toggle="tab">SEO</a></li>
                     </ul>
 
                     <!-- Tab panes -->
@@ -41,92 +39,73 @@
                                             class="form-control form-control-sm">
                                     </div>
                                     <div class="form-group">
-                                        <p class="m-0 font-0-9">Mã khuyến mãi<span class="text-danger">*</span>
+                                        <p class="m-0 font-0-9">Mã Order<span class="text-danger">*</span>
                                         </p>
                                         <input name="code" id="code_promotion" readonly placeholder="Mã khuyến mãi" required type="text"
                                                class="form-control form-control-sm">
                                         <button type="button" class="btn btn-success theme-color" onclick="randomCodePromotion(10)" >Random mã khuyến mãi</button>
                                     </div>
-
-                                    <div class="form-group">
-                                        <p class="m-0 font-0-9">Loại khuyến mãi<span class="text-danger">*</span></p>
-                                        <select class="search  show-tick" name="type_promotion_id"
-                                                data-live-search="true">
-                                            <option value="" selected>Vui lòng chọn</option>
-                                            @foreach ($type_promotions as $type_promotion)
-                                                <option value="{{ $type_promotion['id'] }}">{{ $type_promotion['name'] }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <p class="m-0 font-0-9">Gía trị khuyến mãi (%/tiền)<span class="text-danger">*</span>
-                                        </p>
-                                        <input name="value" placeholder="nhập giá tiền hoặc tiền" required type="text"
-                                               class="form-control form-control-sm">
-                                    </div>
-                                    
                                     <div class="form-group">
                                         <p class="m-0 font-0-9">Vị trí</p>
                                         <input name="index" type="number" value="1" min="0"
                                             class="form-control form-control-sm">
                                     </div>
+                                    
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <p class="text-center ">Ảnh đại diện <span><a class="remove-image" style="display:none" href="#">(Xóa)</a></span></p>
-                                        <div class="avatar-wrapper">
-                                            <img class="profile-pic"
-                                                image-type="image"
-                                                src="{{ asset('resources/admin/assets/images/default-thumbnail.png') }}" />
-                                            <div class="upload-button" image-type="image">
-                                                <i class="fas fa-camera"></i>
-                                            </div>
-                                            <input ref="file" class="file-upload" index="0" image-type="image" type="file"
-                                                accept="image/*" />
-                                        </div>
+                                        <p class="m-0 font-0-9">Chọn khách hàng<span class="text-danger">*</span>
+                                        <select class="search customer show-tick" name="customer_id"
+                                                data-live-search="true">
+                                            <option value="" selected>Vui lòng chọn</option>
+                                            @foreach ($customers as $customer)
+                                                <option value="{{ $customer['id'] }}">{{ $customer['name'] }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
+
                                     <div class="form-group">
-                                        <p class="m-0 font-0-9">Ngày bắt đầu<span class="text-danger">*</span>
+                                        <p class="m-0 font-0-9">Chọn sản phẩm<span class="text-danger">*</span>
                                         </p>
-                                        <input name="begin" placeholder="Ngày bắt đầu" required type="date"
+                                        <select class="search product show-tick" name="customer_id"
+                                                data-live-search="true">
+                                            <option value="" selected>Vui lòng chọn</option>
+                                            @foreach ($products as $product)
+                                                <option value="{{ $product['id'] }}">{{ $product['name'] }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <p class="m-0 font-0-9">Chọn khuyến mãi<span class="text-danger">*</span>
+                                            <select class="search promotion show-tick" name="promotion_id"
+                                                    data-live-search="true">
+                                                <option value="" selected>Vui lòng chọn</option>
+                                                @foreach ($promotions as $promotion)
+                                                    <option value="{{ $promotion['id'] }}">{{ $promotion['name'] }}</option>
+                                                @endforeach
+                                            </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <p class="m-0 font-0-9">Gía cả(price)<span class="text-danger">*</span>
+                                        </p>
+                                        <input  name="price" placeholder="Nhập số lượng" required type="number"
                                                class="form-control form-control-sm">
                                     </div>
 
                                     <div class="form-group">
-                                        <p class="m-0 font-0-9">Ngày kết thúc<span class="text-danger">*</span>
+                                        <p class="m-0 font-0-9">Số lương(quantity)<span class="text-danger">*</span>
                                         </p>
-                                        <input name="end" placeholder="Ngày kết thúc" required type="date"
+                                        <input name="quantity" placeholder="Nhập số lượng" required type="number"
                                                class="form-control form-control-sm">
                                     </div>
-                                </div>
-                                <div class="col-md-12">
+
                                     <div class="form-group">
-                                        <p class="m-0 font-0-9">Description
+                                        <p class="m-0 font-0-9">Total(tổng tiền)<span class="text-danger">*</span>
                                         </p>
-                                        <textarea class="description" name="description"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div role="tabpanel" class="tab-pane" id="settings">
-                            <div class="row" id="metaseo-form">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <p class="m-0 font-0-9">Title</p>
-                                        <input name="title" type="text" class="form-control form-control-sm">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <p class="m-0 font-0-9">Keyword</p>
-                                        <input name="keyword" type="text" class="form-control form-control-sm">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <p class="m-0 font-0-9">Mô tả</p>
-                                        <textarea name="description" type="text" rows="6" class="form-control form-control-sm"></textarea>
+                                        <input name="total_price" readonly required type="number"
+                                               class="form-control form-control-sm">
                                     </div>
                                 </div>
                             </div>

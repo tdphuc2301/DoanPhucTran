@@ -28,6 +28,7 @@ class ProductResource extends JsonResource
             'sale_off_price' => $this->sale_off_price,
             'rate' => $this->rate,
             'total_rate' => $this->total_rate,
+            'stock_quantity' => $this->stock_quantity,
             'status' => $this->status,
             'status_label' => config("common.status_label.$this->status"),
             'formatted_created_at' => $this->formatted_created_at ?? Carbon::parse($this->created_at)->format(config('common.date_format')),

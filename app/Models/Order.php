@@ -43,6 +43,14 @@ class Order extends Model
         return $this->morphMany(Image::class,'model');
     }
 
+    public function customers(){
+        return $this->belongsTo(Customer::class,'customer_id','id');
+    }
+
+    public function promotions(){
+        return $this->belongsTo(Promotion::class,'promotion_id','id');
+    }
+
     public function getImagesByIndex(array $indexs){
         return $this->images()->whereIn('index', $indexs)->get();
     }

@@ -29,6 +29,7 @@ class Product extends Model
         'sale_off_price',
         'rate',
         'total_rate',
+        'stock_quantity',
         'status',
     ];
     public $timestamps = true;
