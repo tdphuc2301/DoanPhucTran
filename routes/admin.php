@@ -97,17 +97,18 @@ Route::group(['namespace'=>'Admin'], function (){
     Route::group(['namespace' => 'Customer', 'prefix' => 'customer'], function () {
         Route::get('/', 'CustomerController@index')->name('admin.customer.index');
         Route::get('/get-list', 'CustomerController@getList')->name('admin.customer.get_list');
-        Route::get('/get-item', 'CustomerController@getById')->name('admin.customer.get_item');
+        Route::get('/find/{id?}', 'CustomerController@getById')->name('admin.customer.get_customer');
         Route::post('/create', 'CustomerController@create')->name('admin.customer.create');
-        Route::post('/update', 'CustomerController@update')->name('admin.customer.update');
+        Route::post('/change-status', 'CustomerController@update')->name('admin.customer.change_status');
     });
 
     Route::group(['namespace' => 'Promotion', 'prefix' => 'promotion'], function () {
         Route::get('/', 'PromotionController@index')->name('admin.promotion.index');
         Route::get('/get-list', 'PromotionController@getList')->name('admin.promotion.get_list');
-        Route::get('/get-item', 'PromotionController@getById')->name('admin.promotion.get_item');
+        Route::get('/find/{id?}', 'PromotionController@getById')->name('admin.promotion.get_promotion');
         Route::post('/create', 'PromotionController@create')->name('admin.promotion.create');
-        Route::post('/update', 'PromotionController@update')->name('admin.promotion.update');
+        Route::put('/change-status', 'PromotionController@changeStatus')->name('admin.promotion.change_status');
+
     });
 
     Route::group(['namespace' => 'Setting', 'prefix' => 'setting'], function () {

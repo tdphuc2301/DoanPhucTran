@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Ram;
+use App\Models\TypePromotion;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,7 +21,10 @@ class DatabaseSeeder extends Seeder
         $this->call(PriceSeeder::class);
         $this->call(ColorSeeder::class);
         $this->call(CategorySeeder::class);
+        $this->call(TypeCustomerSeeder::class);
         $this->call(BranchSeeder::class);
         $this->call(BrandSeeder::class);
+        $this->call(TypePromotionSeeder::class);
+        $this->call(RoleSeeder::class);
     }
 }

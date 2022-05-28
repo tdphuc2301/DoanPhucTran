@@ -9,7 +9,7 @@ class Promotion extends Model
 {
     use HasFactory;
 
-    protected $table = 'promotion';
+    protected $table = 'promotions';
 
     protected $fillable = [
         'name',
@@ -18,15 +18,15 @@ class Promotion extends Model
         'begin',
         'end',
         'value',
-        'type',
+        'type_promotion_id',
         'search',
         'index',
         'description',
         'status',
     ];
 
-    protected $casts = [
-        'created_at' => 'datetime:Y-m-d h:i:s',
-        'updated_at' => 'datetime:Y-m-d h:i:s',
-    ];
+    public function typePromotion()
+    {
+        $this->belongsTo(TypePromotion::class,'type_promotion_id','id');
+    }
 }

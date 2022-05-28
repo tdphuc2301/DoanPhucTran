@@ -4,13 +4,21 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use  HasFactory, Notifiable;
+
+    protected $table = 'users';
+
+    public CONST MANAGER = 'manager';
+    public CONST ADMIN   = 'admin';
+    public CONST SHIPPER    = 'shipper';
+    public CONST CUSTOMER    = 'customer';
+
 
     /**
      * The attributes that are mass assignable.
@@ -19,14 +27,14 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
         'email_verified_at',
         'password',
         'status',
-        'role',
+        'role_id',
         'forgot_password_token',
-        'remember_token',
-        
+        'remember_token'
     ];
 
     /**
@@ -49,4 +57,14 @@ class User extends Authenticatable
         'created_at' => 'datetime:Y-m-d h:i:s',
         'updated_at' => 'datetime:Y-m-d h:i:s',
     ];
+
+    /**
+     * Relation with role
+     *
+     * @return BelongsTo
+     */
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
 }

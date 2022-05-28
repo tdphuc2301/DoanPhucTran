@@ -24,7 +24,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('admin.logout') }}">
+            <a class="nav-link" href="{{ route('admin.customer.index') }}">
                 <span class="menu-title">Danh sách khách hàng</span>
                 <i class="mdi mdi-human-child menu-icon"></i>
             </a>
@@ -99,7 +99,7 @@
 
 
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('admin.logout') }}">
+            <a class="nav-link" href="{{ route('admin.promotion.index') }}">
                 <span class="menu-title">Chương trình khuyến mãi</span>
                 <i class="mdi mdi-vector-difference-ba menu-icon"></i>
             </a>

@@ -16,14 +16,18 @@ class CreateCustomersTable extends Migration
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable(false);
-            $table->integer('phone')->nullable(false);
+            $table->string('phone')->nullable(false);
             $table->string('email');
             $table->string('address');
-            $table->string('province_code');
-            $table->string('district_code');
-            $table->string('ward_code');
-            $table->tinyInteger('status');
-            $table->tinyInteger('type');
+            $table->string('lat');
+            $table->string('long');
+            $table->integer('point');
+            $table->integer('index')->nullable()->default(1);
+            $table->string('description')->nullable();
+            $table->string('search')->nullable();
+            $table->tinyInteger('status')->default(1);
+            $table->tinyInteger('user_id');
+            $table->integer('type_id');
             $table->timestamps();
         });
     }

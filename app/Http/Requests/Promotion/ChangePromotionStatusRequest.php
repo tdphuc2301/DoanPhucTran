@@ -1,13 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Customer;
+namespace App\Http\Requests\Promotion;
 
 use App\Http\Requests\ApiRequest;
-use App\Models\Category;
-use App\Models\Customer;
-use App\Rules\ValidateAlias;
 
-class CreateCustomerRequest extends ApiRequest
+class ChangePromotionStatusRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,12 +24,8 @@ class CreateCustomerRequest extends ApiRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'alias' => [
-                'bail',
-                'required',
-                new ValidateAlias(Customer::class)
-            ],
+            'id' => 'required',
+            'status' => 'bail|required|boolean',
         ];
     }
 }
