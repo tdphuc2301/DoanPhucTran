@@ -27,47 +27,33 @@
                                             class="form-control form-control-sm">
                                     </div>
                                     <div class="form-group">
-                                        <p class="m-0 font-0-9">Tên khuyến mãi<span class="text-danger">*</span>
-                                        </p>
-                                        <input name="name" placeholder="Tên danh mục" required type="text"
-                                            class="form-control form-control-sm">
-                                    </div>
-                                    <div class="form-group">
-                                        <p class="m-0 font-0-9">Đường dẫn<span class="text-danger">*</span>
-                                        </p>
-                                        <input name="alias" placeholder="Đường dẫn" required type="text"
-                                            class="form-control form-control-sm">
-                                    </div>
-                                    <div class="form-group">
                                         <p class="m-0 font-0-9">Mã Order<span class="text-danger">*</span>
                                         </p>
-                                        <input name="code" id="code_promotion" readonly placeholder="Mã khuyến mãi" required type="text"
+                                        <input name="code" id="code_order" readonly placeholder="Mã khuyến mãi" required type="text"
                                                class="form-control form-control-sm">
-                                        <button type="button" class="btn btn-success theme-color" onclick="randomCodePromotion(10)" >Random mã khuyến mãi</button>
-                                    </div>
-                                    <div class="form-group">
-                                        <p class="m-0 font-0-9">Vị trí</p>
-                                        <input name="index" type="number" value="1" min="0"
-                                            class="form-control form-control-sm">
-                                    </div>
-                                    
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <p class="m-0 font-0-9">Chọn khách hàng<span class="text-danger">*</span>
-                                        <select class="search customer show-tick" name="customer_id"
-                                                data-live-search="true">
-                                            <option value="" selected>Vui lòng chọn</option>
-                                            @foreach ($customers as $customer)
-                                                <option value="{{ $customer['id'] }}">{{ $customer['name'] }}</option>
-                                            @endforeach
-                                        </select>
+                                        <button type="button" class="btn btn-success theme-color" onclick="randomCodeOrder(10)" >Random mã khuyến mãi</button>
                                     </div>
 
                                     <div class="form-group">
+                                        <p class="m-0 font-0-9">Nhập note<span class="text-danger">*</span>
+                                        </p>
+                                        <input name="note"  placeholder="note của khách hàng" required type="text"
+                                               class="form-control form-control-sm">
+                                    </div>
+                                    <div class="form-group">
+                                        <p class="m-0 font-0-9">Chọn khách hàng<span class="text-danger">*</span>
+                                            <select class="search customer show-tick" name="customer_id"
+                                                    data-live-search="true">
+                                                <option value="" selected>Vui lòng chọn</option>
+                                                @foreach ($customers as $customer)
+                                                    <option value="{{ $customer['id'] }}">{{ $customer['name'] }}</option>
+                                                @endforeach
+                                            </select>
+                                    </div>
+                                    <div class="form-group">
                                         <p class="m-0 font-0-9">Chọn sản phẩm<span class="text-danger">*</span>
                                         </p>
-                                        <select class="search product show-tick" name="customer_id"
+                                        <select class="search product show-tick" name="product_id"
                                                 data-live-search="true">
                                             <option value="" selected>Vui lòng chọn</option>
                                             @foreach ($products as $product)
@@ -75,7 +61,8 @@
                                             @endforeach
                                         </select>
                                     </div>
-
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <p class="m-0 font-0-9">Chọn khuyến mãi<span class="text-danger">*</span>
                                             <select class="search promotion show-tick" name="promotion_id"
@@ -88,23 +75,34 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <p class="m-0 font-0-9">Chọn Phương thức thanh toán<span class="text-danger">*</span>
+                                            <select class="search promotion show-tick" name="type_payment_method"
+                                                    data-live-search="true">
+                                                <option value="" selected>Vui lòng chọn</option>
+                                                @foreach ($payment_methods as $payment_method)
+                                                    <option value="{{ $payment_method['id'] }}">{{ $payment_method['name'] }}</option>
+                                                @endforeach
+                                            </select>
+                                    </div>
+
+                                    <div class="form-group">
                                         <p class="m-0 font-0-9">Gía cả(price)<span class="text-danger">*</span>
                                         </p>
-                                        <input  name="price" placeholder="Nhập số lượng" required type="number"
+                                        <input id="price"  name="price" placeholder="Nhập số lượng" required type="number"
                                                class="form-control form-control-sm">
                                     </div>
 
                                     <div class="form-group">
                                         <p class="m-0 font-0-9">Số lương(quantity)<span class="text-danger">*</span>
                                         </p>
-                                        <input name="quantity" placeholder="Nhập số lượng" required type="number"
+                                        <input id="quantity" name="quantity" placeholder="Nhập số lượng" required type="number"
                                                class="form-control form-control-sm">
                                     </div>
 
                                     <div class="form-group">
                                         <p class="m-0 font-0-9">Total(tổng tiền)<span class="text-danger">*</span>
                                         </p>
-                                        <input name="total_price" readonly required type="number"
+                                        <input id="total_price" name="total_price" readonly required type="number"
                                                class="form-control form-control-sm">
                                     </div>
                                 </div>

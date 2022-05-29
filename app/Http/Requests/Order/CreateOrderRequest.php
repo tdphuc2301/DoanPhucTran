@@ -26,12 +26,12 @@ class CreateOrderRequest extends ApiRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'alias' => [
-                'bail',
-                'required',
-                new ValidateAlias(Order::class)
-            ],
+//            'name' => 'required',
+//            'alias' => [
+//                'bail',
+//                'required',
+//                new ValidateAlias(Order::class)
+//            ],
         ];
     }
 }

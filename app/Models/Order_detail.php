@@ -15,11 +15,16 @@ class Order_detail extends Model
         'order_id',
         'product_id',
         'quantity',
-        'price'
+        'price',
+        'status'
+    ];
+    protected $appends = [
+        'formatted_created_at',
+        'formatted_updated_at',
     ];
 
-    protected $casts = [
-        'created_at' => 'datetime:Y-m-d h:i:s',
-        'updated_at' => 'datetime:Y-m-d h:i:s',
-    ];
+    public $timestamps = true;
+    
+
+    
 }

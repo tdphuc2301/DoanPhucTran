@@ -16,19 +16,37 @@ class OrderResource extends JsonResource
     public function toArray($request)
     {
         
-        $promotion = $this->relationLoaded('promotions') ;
-        $customer = $this->relationLoaded('customers') ;
+        $promotion = $this->promotions ;
+        $customer = $this->customers ;
+        $orderDetail = $this->orderDetails ;
+        $paid = $this->paids[0]->paid ;
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'index' => $this->index,
-            'search' => $this->search,
+            'code' => $this->code,
+            'name_customer' => $customer->name,
+            'email_customer' => $customer->email,
+            'address' => $customer->address,
+            'promotion' => $promotion->id === 2 ? $promotion->value . '%' : $promotion->value . 'VNĐ',
+            'total_price' => $this->total_price,
+            'paid' => $this->toConvertPaid($paid),
+            'paid_key' => $paid,
             'status' => $this->status,
             'status_label' => config("common.status_label.$this->status"),
             'formatted_created_at' => $this->formatted_created_at ?? Carbon::parse($this->created_at)->format(config('common.date_format')),
             'formatted_updated_at' => $this->formatted_updated_at ?? Carbon::parse($this->updated_at)->format(config('common.date_format')),
-            'images' => $this->relationLoaded('images') ? 
-            ImageResource::collection($this->whenLoaded('images'))->toArray($request) : []
         ];
+    }
+
+    public function toConvertPaid($paid)
+    {
+        $stringPaid ='';
+        if($paid == 1) {
+            $stringPaid =  "Chưa thanh toán";
+        } else if($paid == 2) {
+            $stringPaid = 'Thanh toán thất bại';
+        } else if($paid == 3) {
+            $stringPaid = 'Thanh toán thành công';
+        }
+        return $stringPaid;
     }
 }

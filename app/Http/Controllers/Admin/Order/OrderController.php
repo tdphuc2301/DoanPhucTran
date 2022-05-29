@@ -9,6 +9,7 @@ use App\Http\Requests\Order\CreateOrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Http\Responses\PaginationResponse;
 use App\Models\Customer;
+use App\Models\Payment_method;
 use App\Models\Product;
 use App\Models\Promotion;
 use App\Services\OrderService;
@@ -53,6 +54,7 @@ class OrderController extends Controller
             'products'=> Product::all(),
             'promotions' => Promotion::all(),
             'customers'=> Customer::all(),
+            'payment_methods'=> Payment_method::all(),
         ];
         if ($request->wantsJson()) {
             return $this->responseOK(view('Admin.Order.datatable', $result)->render());

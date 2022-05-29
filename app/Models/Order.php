@@ -11,7 +11,6 @@ class Order extends Model
 {
     use HasFactory;
     use FormatDateTrait;
-    use SlugNameTrait;
 
     protected $table = 'orders';
 
@@ -49,6 +48,14 @@ class Order extends Model
 
     public function promotions(){
         return $this->belongsTo(Promotion::class,'promotion_id','id');
+    }
+
+    public function orderDetails(){
+        return $this->hasMany(Order_detail::class);
+    }
+
+    public function paids(){
+        return $this->hasMany(Payment::class);
     }
 
     public function getImagesByIndex(array $indexs){

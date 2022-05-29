@@ -257,3 +257,17 @@ function showClassStatus(int $status): string
             return '';
     }
 }
+
+function showClassStatusPaid(int $status): string
+{
+    switch ($status) {
+        case 1:
+            return 'bg-primary';
+        case 2:
+            return 'bg-danger';
+        case 3:
+            return 'bg-success';
+        default:
+            return '';
+    }
+}

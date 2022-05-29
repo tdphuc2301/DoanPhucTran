@@ -52,10 +52,8 @@
 @endsection
 @section('script')
     <script>
-        let price_product = '';
-        let total_price = '';
-        let quantity = '';
-        let promotion = ''
+        let promotion_value = '';
+        let promotion_ids ='';
         var apiGetList = '{{ route('admin.order.get_list') }}';
         var apiCreate = '{{ route('admin.order.create') }}';
         var apiGetItem = '{{ route('admin.order.get_order') }}';
@@ -65,7 +63,7 @@
         var messageRequired = '{{ trans('message.required') }}';
         var messageMin = '{{ trans('message.min') }}';
         var messageMax = '{{ trans('message.max') }}';
-        function randomCodeOrder() {
+        function randomCodeOrder(length) {
             var result           = '';
             var characters       = 'ABCDEFGHIJKLMNOPQRSTU' +
                 'VWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -74,6 +72,7 @@
                 result += characters.charAt(Math.floor(Math.random() *
                     charactersLength));
             }
+            console.log('code_order',result);
             document.getElementById('code_order').value = result;
         }
         $('select.search').selectpicker();
@@ -87,6 +86,24 @@
             $('select.search.product').on('change', function() {
                 callAjaxFindProductById(this.value);
             });
+            $('#quantity').on('change', function() {
+                console.log("document.getElementById('quantity').value",document.getElementById('quantity').value);
+                console.log("document.getElementById('price').value",document.getElementById('price').value);
+                console.log("document.getElementById('total_price').value",document.getElementById('total_price').value);
+                if(promotion_ids === 1) {
+                    if(document.getElementById('quantity').value !== null) {
+                        document.getElementById('total_price').value =  document.getElementById('quantity').value * document.getElementById('price').value - promotion_value;
+                    }
+
+                }
+                else if(promotion_ids === 2) {
+                    if(document.getElementById('quantity').value !== null) {
+                        document.getElementById('total_price').value = document.getElementById('quantity').value * document.getElementById('price').value * promotion_value/100;
+                    }
+
+                }
+            });
+            
         })
         
 
@@ -97,10 +114,7 @@
                 context: this,
                 dataType: "json",
                 success: function (response) {
-                    console.log(response.data);
-                     price_product = response.data.price;
-                     quantity = response.data.quantity;
-
+                    document.getElementById('price').value = response.data.price;
                 },
                 beforeSend: function () {
 
@@ -118,17 +132,9 @@
                 context: this,
                 dataType: "json",
                 success: function (response) {
-                    console.log(response);
-                    promotion = response.data.value
-                    if(response.data.type_promotion_id === 1) {
-                        total_price = quantity * price_product - promotion;
-                    }
-                    else if(response.data.type_promotion_id === 2) {
-                        total_price = quantity * price_product*promotion/100;
-                    }
-                    document.getElementById('code_order').value = result;
-                    document.getElementById('code_order').value = result;
-                    document.getElementById('code_order').value = result;
+                    console.log('callAjaxFindPromotionById',response.data);
+                    promotion_ids = response.data.id;
+                    promotion_value = response.data.value
                 },
                 beforeSend: function () {
 

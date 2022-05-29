@@ -14,7 +14,7 @@
                                                     :class="showClassSort('discount')"></i></th>
         <th @click="sort('sub_total')">Tổng tiền($)<i class="fas fa-sort float-right"
                                                       :class="showClassSort('sub_total')"></i></th>
-        <th @click="sort('total_price')">Đã thanh toán($) <i class="fas fa-sort float-right"
+        <th @click="sort('total_price')">Trạng thái thanh toán(VNĐ) <i class="fas fa-sort float-right"
                                                              :class="showClassSort('total_price')"></i>
         </th>
         <th @click="sort('create_at')"> Ngày tạo<i class="fas fa-sort float-right"
@@ -28,21 +28,22 @@
         @if ($list)
             @foreach ($list as $index => $item)
                 <tr>
-{{--                    <td> {{ $index + 1 + $pagination['per_page'] * ($pagination['current_page'] - 1) }}</td>--}}
-{{--                    <td> {{ $item['name'] }}</td>--}}
-{{--                    <td>--}}
-{{--                        <img src="{{ !empty($item['images'][0]['path']) ? asset($item['images'][0]['path']) : asset(config('image.default_image')) }}">--}}
-{{--                    </td>--}}
-{{--                    <td> {{ $item['code'] }}</td>--}}
-{{--                    <td> {{ $item['type_promotion_id'] === 1 ? $type_promotions[0]['name'] : $type_promotions[1]['name']}}</td>--}}
-{{--                    <td> {{ $item['value'] }}</td>--}}
-{{--                    <td> {{ $item['begin'] }}</td>--}}
-{{--                    <td> {{ $item['end'] }}</td>--}}
-{{--                    <td>--}}
-{{--                        <label class="badge text-white {{ showClassStatus($item['status']) }}">--}}
-{{--                            {{ $item['status_label'] }}--}}
-{{--                        </label>--}}
-{{--                    </td>--}}
+                    <td> {{ $index + 1 + $pagination['per_page'] * ($pagination['current_page'] - 1) }}</td>
+                    <td> {{ $item['code'] }}</td>
+                    <td> {{ $item['name_customer'] }}</td>
+                    <td> {{ $item['email_customer'] }}</td>
+                    <td> {{ $item['address'] }}</td>
+                    <td> {{ $item['promotion'] }}</td>
+                    <td> {{ $item['total_price'] }}</td>
+                    <td> <label class="badge text-white {{ showClassStatusPaid($item['paid_key']) }}">
+                            {{ $item['paid'] }}
+                        </label></td>
+                    <td> {{ $item['formatted_created_at'] }}</td>
+                    <td>
+                        <label class="badge text-white {{ showClassStatus($item['status']) }}">
+                            {{ $item['status_label'] }}
+                        </label>
+                    </td>
                     <td class="text-center text-nowrap">
                         <button data-id={{ $item['id'] }} title="Chỉnh sửa" v-tooltip
                             class="btn-edit btn btn-sm btn-outline-warning">

@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Payment extends Model
 {
+    public CONST paid = 3;
+    public CONST unpaid   = 1;
+    public CONST payment_failed    = 2;
+    
+    
     use HasFactory;
 
     protected $table = 'payments';

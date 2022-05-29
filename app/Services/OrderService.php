@@ -8,6 +8,7 @@ use App\Exceptions\UploadImageException;
 use App\Http\Services\UploadImageService;
 use App\Models\order;
 use App\Models\Order_detail;
+use App\Models\Payment;
 use App\Repositories\OrderRepository;
 use App\Repositories\ImageRepository;
 use Illuminate\Database\Eloquent\Collection;
@@ -105,7 +106,7 @@ class OrderService
             $order = $this->orderRepository->findOne($data['id']);
             $order = $this->orderRepository->update($order, $data);
         } else {
-            
+            // Save order
             $order = $this->orderRepository->save([
                 'customer_id' => $data['customer_id'],
                 'promotion_id' => $data['promotion_id'],
@@ -116,92 +117,42 @@ class OrderService
                 'description' => $data['description'] ?? '',
                 'status' => $data['status'] ?? config('common.status.active')
             ]);
-            
+
+            // Save order detail
             $order_detail = new Order_detail();
             $order_detail->product_id = $data['product_id'];
             $order_detail->order_id = $order->id;
             $order_detail->quantity = $data['quantity'];
             $order_detail->price = $data['price'];
+            $order_detail->save();
 
+            // Save payment
+            $payment = new Payment();
+            $payment->payment_code = $this->generateRandomString();
+            if($data['type_payment_method'] == 1) {
+                
+                $payment->payment_method_id = 1;
+            }
 
+            if($data['type_payment_method'] == 2) {
+                $payment->payment_method_id = 2;
+            }
+            $payment->order_id = $order->id;
+            $payment->paid = 1;
+            $payment->save();
         }
-
-        if (!empty($order->id)) {
-            // Create alias
-            event(new InsertNewRecord($order, $data['alias'] ?? $order->name));
-            if (!empty($data['remove_images'])) {
-                $this->removeorderImage($order, $data['remove_images']);
-            }
-            if (!empty($data['images'])) {
-                foreach ($data['images'] as $index => $image) {
-                    if (isUploadFile($image ?? null)) {
-                        $this->updateorderImage($order, $image, $index);
-                    }
-                }
-            }
-            // Create meta seo
-            if (!empty($data['meta_seo'])) {
-                event(new ChangeMetaSeo($order, $data['meta_seo']));
-            }
-            return $order;
-        }
-        return null;
+        
+        return $order;
     }
 
-    /**
-     * @param Order $order
-     * @param UploadedFile $image
-     * @param int $index
-     * @return void
-     */
-    protected function updateorderImage(Order $order, UploadedFile $image, int $index = 1): void
-    {
-        $uploadImage = $this->uploadImageService
-            ->setModule('order')
-            ->setWidth(config('image.resize.order.width'))
-            ->setHeight(config('image.resize.order.height'))
-            ->uploadImage($image, null, true);
-
-        if ($uploadImage->isSuccess()) {
-            $uploadImage = $uploadImage->getData();
-            $this->removeorderImage($order, [$index]);
-            $this->imageRepository->updateOrCreate(
-                [
-                    'model_id' => $order->id,
-                    'model_type' => get_class($order),
-                    'index' => $index,
-                ],
-                [
-                    'width' => $uploadImage['width'] ?? null,
-                    'height' => $uploadImage['height'] ?? null,
-                    'size' => $uploadImage['size'] ?? null,
-                    'path' => $uploadImage['path'] ?? null,
-                ]
-            );
-        } else {
-            throw new UploadImageException($uploadImage->getMessage());
+    function generateRandomString($length = 10) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
-    }
-
-    /**
-     * @param Order $order
-     * @param array $indexs
-     * @return void
-     */
-    public function removeorderImage(Order $order, array $indexs = []): void
-    {
-        if ($indexs) {
-            $images = $order->getImagesByIndex($indexs);
-        } else {
-            $images = $order->images;
-        }
-        /**
-         * @param Image $image
-         */
-        foreach ($images as $image) {
-            $this->uploadImageService->removeFile(public_path($image->path));
-            $image->delete();
-        }
+        return $randomString;
     }
 
     /**
