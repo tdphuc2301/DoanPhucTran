@@ -1,35 +1,38 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Category;
+namespace App\Http\Controllers\Admin\AdminUser;
 
 use App\Http\Controllers\Traits\Lib;
-use App\Http\Requests\Category\ChangeAdminUserStatusRequest;
+use App\Http\Requests\AdminUser\ChangeAdminUserStatusRequest;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Category\CreateAdminUserRequest;
-use App\Http\Resources\CategoryResource;
+use App\Http\Requests\AdminUser\CreateAdminUserRequest;
+use App\Http\Resources\AdminUserResource;
 use App\Http\Responses\PaginationResponse;
-use App\Services\CategoryService;
+use App\Models\Branch;
+use App\Models\Role;
+use App\Models\User;
+use App\Services\AdminUserService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
-class CategoryController extends Controller
+class AdminUserController extends Controller
 {
     use Lib;
 
-    protected $categoryService;
+    protected $adminUserService;
 
     /**
-     * @param CategoryService $categoryService
+     * @param AdminUserService $adminUserService
      * @return void
      */
-    public function __construct(CategoryService $categoryService)
+    public function __construct(AdminUserService $adminUserService)
     {
-        $this->categoryService = $categoryService;
+        $this->adminUserService = $adminUserService;
     }
     public function index(Request $request)
     {
-        return view('Admin.Category.index', $this->getList($request));
+        return view('Admin.AdminUser.index', $this->getList($request));
     }
 
     public function getList(Request $request)
@@ -41,15 +44,24 @@ class CategoryController extends Controller
         $filter['status'] = $filter['status'] ?? config('common.status.active');
         $sortKey = !empty($filter['sort_key']) ? $filter['sort_key'] : config('pagination.sort_default.key');
         $sortValue = $filter['sort_value'] ?? config('pagination.sort_default.value');
-        $categories = $this->categoryService->paginateAll($page, $limit, $filter, $sortKey, $sortValue);
+        $adminUser = $this->adminUserService->paginateAll($page, $limit, $filter, $sortKey, $sortValue);
+        $roles = Role::all();
+        $listRole = [];
+        foreach ($roles as $role) {
+            if($role->name === User::ADMIN || $role->name === User::SHIPPER) {
+                $listRole[] = $role;
+            }
+        }
         $result = [
-            'list' => CategoryResource::collection($categories->items())->toArray($request),
-            'pagination' => PaginationResponse::getPagination($categories),
+            'list' => AdminUserResource::collection($adminUser->items())->toArray($request),
+            'pagination' => PaginationResponse::getPagination($adminUser),
             'sort_key' => $sortKey,
             'sort_value' => $sortValue,
+            'branchs' => Branch::all(),
+            'role' => $listRole
         ];
         if ($request->wantsJson()) {
-            return $this->responseOK(view('Admin.Category.datatable', $result)->render());
+            return $this->responseOK(view('Admin.AdminUser.datatable', $result)->render());
         }
         return $result;
     }
@@ -57,8 +69,8 @@ class CategoryController extends Controller
     public function getById($id = null, Request $request)
     {
         if($id){
-            $category = $this->categoryService->findCategory($id);
-            return $this->responseOK($category);
+            $adminUser = $this->adminUserService->findAdminUser($id);
+            return $this->responseOK($adminUser);
         }
         return $this->responseOK();
     }
@@ -67,9 +79,9 @@ class CategoryController extends Controller
     {
         try {
             return DB::transaction(function () use ($request) {
-                $category = $this->categoryService->createCategory($request->all());
-                if ($category) {
-                    return $this->responseOK($category);
+                $adminUser = $this->adminUserService->createAdminUser($request->all());
+                if ($adminUser) {
+                    return $this->responseOK($adminUser);
                 }
                 return $this->responseError(Response::HTTP_BAD_REQUEST);
             });
@@ -81,9 +93,9 @@ class CategoryController extends Controller
     public function changeStatus(ChangeAdminUserStatusRequest $request){
         try {
             return DB::transaction(function () use ($request) {
-                $category = $this->categoryService->changeStatus($request->id, $request->boolean('status'));
-                if ($category) {
-                    return $this->responseOK($category);
+                $adminUser = $this->adminUserService->changeStatus($request->id, $request->boolean('status'));
+                if ($adminUser) {
+                    return $this->responseOK($adminUser);
                 }
                 return $this->responseError(Response::HTTP_BAD_REQUEST);
             });

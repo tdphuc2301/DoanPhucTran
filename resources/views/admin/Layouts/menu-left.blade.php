@@ -105,6 +105,12 @@
             </a>
         </li>
 
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.adminUser.index') }}">
+                <span class="menu-title">Quản trị viên</span>
+                <i class="mdi mdi-account menu-icon"></i>
+            </a>
+        </li>
 
         <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.logout') }}">
@@ -114,12 +120,12 @@
         </li>
 
 
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('admin.page.index') }}">
-                <span class="menu-title">Trang</span>
-                <i class="mdi mdi-note-outline menu-icon"></i>
-            </a>
-        </li>
+{{--        <li class="nav-item">--}}
+{{--            <a class="nav-link" href="{{ route('admin.page.index') }}">--}}
+{{--                <span class="menu-title">Trang</span>--}}
+{{--                <i class="mdi mdi-note-outline menu-icon"></i>--}}
+{{--            </a>--}}
+{{--        </li>--}}
 
 
 {{--        <li class="nav-item">--}}
@@ -144,14 +150,7 @@
                 <i class="mdi mdi-menu menu-icon"></i>
             </a>
         </li>
-
-
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('admin.logout') }}">
-                <span class="menu-title">Quản trị viên</span>
-                <i class="mdi mdi-account menu-icon"></i>
-            </a>
-        </li>
+        
 
 
         <li class="nav-item">

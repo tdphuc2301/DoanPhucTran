@@ -689,9 +689,9 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
 "use strict";
-/*!*******************************************!*\
-  !*** ./resources/js/admin/pages/color.js ***!
-  \*******************************************/
+/*!***********************************************!*\
+  !*** ./resources/js/admin/pages/adminUser.js ***!
+  \***********************************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _common_helper_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../common/helper.js */ "./resources/js/common/helper.js");
 /* harmony import */ var _create_data_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../create-data.js */ "./resources/js/admin/create-data.js");
@@ -756,8 +756,6 @@ $(document).delegate('.btn-edit', 'click', function (e) {
       $('input[name="name"]').val(data.name);
       $('input[name="alias"]').val(alias ? alias.alias : '');
       $('input[name="index"]').val(data.index);
-      $('input[name="color"]').val(data.color_code);
-      $('input[name="color_code"]').val(data.color_code);
       $('.description').val(data.description);
 
       if (images) {

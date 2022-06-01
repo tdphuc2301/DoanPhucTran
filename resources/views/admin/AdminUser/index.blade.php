@@ -1,6 +1,6 @@
 @extends('Admin.Layouts.app')
 @section('content')
-    <div class="row" id="object-adminuser">
+    <div class="row" id="object-adminUser">
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body ">
@@ -8,15 +8,7 @@
                         <div class="filter-action-checked w-100 w-sm-auto">
                             <div class="filter-block d-flex flex-wrap flex-sm-nowrap  active">
                                 <button type="button"
-                                    class="btn-open-create-modal btn btn-gradient-success btn-sm">Thêm Manager
-                                    <i class="mdi mdi-plus btn-icon-append"></i>
-                                </button>
-                                <button type="button"
-                                        class="btn-open-create-modal btn btn-gradient-success btn-sm">Thêm Admin
-                                    <i class="mdi mdi-plus btn-icon-append"></i>
-                                </button>
-                                <button type="button"
-                                        class="btn-open-create-modal btn btn-gradient-success btn-sm">Thêm Shipper
+                                    class="btn-open-create-modal btn btn-gradient-success btn-sm">Thêm mới
                                     <i class="mdi mdi-plus btn-icon-append"></i>
                                 </button>
                                 <div class="searchbox advance-searchs d-inline-block w-100 w-sm-auto ml-1 mr-sm-1">
@@ -60,10 +52,10 @@
 @endsection
 @section('script')
     <script>
-        var apiGetList = '{{ route('admin.adminuser.get_list') }}';
-        var apiCreate = '{{ route('admin.adminuser.create') }}';
-        var apiGetItem = '{{ route('admin.adminuser.get_adminuser') }}';
-        var apiChangeStatus = '{{ route('admin.adminuser.change_status') }}';
+        var apiGetList = '{{ route('admin.adminUser.get_list') }}';
+        var apiCreate = '{{ route('admin.adminUser.create') }}';
+        var apiGetItem = '{{ route('admin.adminUser.get_adminUser') }}';
+        var apiChangeStatus = '{{ route('admin.adminUser.change_status') }}';
         var datatable = '#datatable';
         var limit = {{ config('pagination.limit') }};
         var messageRequired = '{{ trans('message.required') }}';
@@ -71,5 +63,5 @@
         var messageMax = '{{ trans('message.max') }}';
     </script>
     <script src="{{ asset('/js/admin/listing.js') }}"></script>
-    <script src="{{ asset('/js/admin/adminuser.js') }}"></script>
+    <script src="{{ asset('/js/admin/adminUser.js') }}"></script>
 @endsection

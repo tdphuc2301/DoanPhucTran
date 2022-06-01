@@ -3,42 +3,30 @@
 @endphp
 <table class="table table-bordered table-responsive">
     <thead>
-    <tr>
-        <th>STT</th>
-        <th @click="sort('code')"> Code <i class="fas fa-sort float-right"
-                                           :class="showClassSort('name')"></i></th>
-        <th>Khách hàng</th>
-        <th>Email</th>
-        <th>Vị trí</th>
-        <th @click="sort('discount')">Khuyến mãi <i class="fas fa-sort float-right"
-                                                    :class="showClassSort('discount')"></i></th>
-        <th @click="sort('sub_total')">Tổng tiền(VNĐ)<i class="fas fa-sort float-right"
-                                                      :class="showClassSort('sub_total')"></i></th>
-        <th @click="sort('total_price')">Trạng thái thanh toán(VNĐ) <i class="fas fa-sort float-right"
-                                                             :class="showClassSort('total_price')"></i>
-        </th>
-        <th @click="sort('create_at')"> Ngày tạo<i class="fas fa-sort float-right"
-                                                   :class="showClassSort('create_at')"></i>
-        </th>
-        <th> Trạng thái</th>
-        <th style="width: 5%">Hành động</th>
-    </tr>
+        <tr>
+            <th>STT</th>
+            <th class="sort-list" data-sort-key="name" data-sort-value="{{ $sortKeyAction }}">
+                Tên <i class="fas fa-sort float-right {{ showClassSort('name',$sort_key, $sort_value) }}"></i>
+            </th>
+            <th>Hình ảnh</th>
+            <th class="sort-list" data-sort-key="created_at" data-sort-value="{{ $sortKeyAction }}">
+                Ngày tạo <i class="fas fa-sort float-right {{ showClassSort('created_at',$sort_key, $sort_value) }}"></i>
+            </th>
+            <th>Trạng thái</th>
+            <th style="width: 5%">Hành động</th>
+        </tr>
     </thead>
     <tbody>
         @if ($list)
             @foreach ($list as $index => $item)
                 <tr>
                     <td> {{ $index + 1 + $pagination['per_page'] * ($pagination['current_page'] - 1) }}</td>
-                    <td> {{ $item['code'] }}</td>
-                    <td> {{ $item['name_customer'] }}</td>
-                    <td> {{ $item['email_customer'] }}</td>
-                    <td> {{ $item['address'] }}</td>
-                    <td> {{ $item['promotion'] }}</td>
-                    <td> {{ $item['total_price'] }}</td>
-                    <td> <label class="badge text-white {{ showClassStatusPaid($item['paid_key']) }}">
-                            {{ $item['paid'] }}
-                        </label></td>
+                    <td> {{ $item['name'] }}</td>
+                    <td>
+                        <img src="{{ !empty($item['images'][0]['path']) ? asset($item['images'][0]['path']) : asset(config('image.default_image')) }}">
+                    </td>
                     <td> {{ $item['formatted_created_at'] }}</td>
+
                     <td>
                         <label class="badge text-white {{ showClassStatus($item['status']) }}">
                             {{ $item['status_label'] }}

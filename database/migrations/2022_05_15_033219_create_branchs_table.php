@@ -19,10 +19,10 @@ class CreateBranchsTable extends Migration
             $table->string('address')->nullable(false);
             $table->string('long');
             $table->string('lat');
-            $table->string('search')->default(null);
-            $table->integer('index')->default(1);
-            $table->string('description')->default(null);
-            $table->tinyInteger('status')->default(1);
+            $table->string('search')->nullable();
+            $table->integer('index')->nullable();
+            $table->string('description')->nullable();
+            $table->tinyInteger('status')->nullable()->default(1);
             $table->timestamps();
 
             //$table->foreign('province_code')->references('province_code')->on('provinces')->onDelete('cascade');

@@ -9,8 +9,10 @@ use App\Http\Services\UploadImageService;
 use App\Models\order;
 use App\Models\Order_detail;
 use App\Models\Payment;
+use App\Repositories\OrderDetailRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\ImageRepository;
+use App\Repositories\PaymentRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
@@ -19,22 +21,22 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class OrderService
 {
     private $orderRepository;
-    private $imageRepository;
-    private $uploadImageService;
+    private $orderDetailRepository;
+    private $paymentRepository;
     /**
      * @param OrderRepository $orderRepository
-     * @param UploadImageService $uploadImageService
-     * @param ImageRepository $imageRepository
+     * @param OrderDetailRepository $orderDetailRepository
+     * @param PaymentRepository $paymentRepository
      * @return void
      */
     public function __construct(
         OrderRepository $orderRepository,
-        UploadImageService $uploadImageService,
-        ImageRepository $imageRepository
+        OrderDetailRepository $orderDetailRepository,
+        PaymentRepository $paymentRepository
     ) {
         $this->orderRepository = $orderRepository;
-        $this->uploadImageService = $uploadImageService;
-        $this->imageRepository = $imageRepository;
+        $this->orderDetailRepository = $orderDetailRepository;
+        $this->paymentRepository = $paymentRepository;
     }
 
     public function paginateAll(
@@ -73,7 +75,7 @@ class OrderService
      * @param int|null $status
      * @return Collection|null
      */
-    public function getAllCategories(?int $status=null): ?Collection{
+    public function getAllOrder(?int $status=null): ?Collection{
         $filter = [];
         if($status){
             $filter['status'] = $status;
@@ -91,20 +93,29 @@ class OrderService
      * @param int $id
      * @return Model|null
      */
-    public function findorder(int $id): ?Model
+    public function findOrder(int $id): ?Model
     {
-        return $this->orderRepository->findOne($id, ['images', 'metaseo', 'alias']);
+        return $this->orderRepository->findOne($id, ['customers','promotions','orderDetails','paids']);
     }
 
     /**
      * @param array $data
      * @return null|Model
      */
-    public function createorder(array $data): ?Model
+    public function createOrder(array $data): ?Model
     {
         if (!empty($data['id'])) {
             $order = $this->orderRepository->findOne($data['id']);
             $order = $this->orderRepository->update($order, $data);
+            
+            $order_detail = Order_detail::where('order_id', $data['id'])->first();
+            $order_detail->quantity = $data['quantity'];
+            $order_detail->save();
+
+            $payment_order = Payment::where('order_id', $data['id'])->first();
+            $payment_order->paid = $data['paid'];
+            $payment_order->save();
+            
         } else {
             // Save order
             $order = $this->orderRepository->save([
@@ -119,27 +130,21 @@ class OrderService
             ]);
 
             // Save order detail
-            $order_detail = new Order_detail();
-            $order_detail->product_id = $data['product_id'];
-            $order_detail->order_id = $order->id;
-            $order_detail->quantity = $data['quantity'];
-            $order_detail->price = $data['price'];
-            $order_detail->save();
-
+            $order_detail = $this->orderDetailRepository->save([
+            'product_id' => $data['product_id'],
+            'order_id' => $order->id,
+            'quantity' => $data['quantity'],
+            'price' => $data['price'],
+            ]);
+            
             // Save payment
-            $payment = new Payment();
-            $payment->payment_code = $this->generateRandomString();
-            if($data['type_payment_method'] == 1) {
-                
-                $payment->payment_method_id = 1;
-            }
-
-            if($data['type_payment_method'] == 2) {
-                $payment->payment_method_id = 2;
-            }
-            $payment->order_id = $order->id;
-            $payment->paid = 1;
-            $payment->save();
+            $payment_order = $this->paymentRepository->save([
+                'payment_code' => $this->generateRandomString(),
+                'order_id' => $order->id,
+                'payment_method_id' => (int)$data['type_payment_method'],
+                'paid' => $data['paid'],
+            ]);
+            
         }
         
         return $order;

@@ -44,7 +44,7 @@
                                         <p class="m-0 font-0-9">Chọn khách hàng<span class="text-danger">*</span>
                                             <select class="search customer show-tick" name="customer_id"
                                                     data-live-search="true">
-                                                <option value="" selected>Vui lòng chọn</option>
+                                                <option value="" >Vui lòng chọn</option>
                                                 @foreach ($customers as $customer)
                                                     <option value="{{ $customer['id'] }}">{{ $customer['name'] }}</option>
                                                 @endforeach
@@ -55,7 +55,7 @@
                                         </p>
                                         <select class="search product show-tick" name="product_id"
                                                 data-live-search="true">
-                                            <option value="" selected>Vui lòng chọn</option>
+                                            <option value="" >Vui lòng chọn</option>
                                             @foreach ($products as $product)
                                                 <option value="{{ $product['id'] }}">{{ $product['name'] }}</option>
                                             @endforeach
@@ -67,7 +67,7 @@
                                         <p class="m-0 font-0-9">Chọn khuyến mãi<span class="text-danger">*</span>
                                             <select class="search promotion show-tick" name="promotion_id"
                                                     data-live-search="true">
-                                                <option value="" selected>Vui lòng chọn</option>
+                                                <option value="" >Vui lòng chọn</option>
                                                 @foreach ($promotions as $promotion)
                                                     <option value="{{ $promotion['id'] }}">{{ $promotion['name'] }}</option>
                                                 @endforeach
@@ -78,7 +78,7 @@
                                         <p class="m-0 font-0-9">Chọn Phương thức thanh toán<span class="text-danger">*</span>
                                             <select class="search promotion show-tick" name="type_payment_method"
                                                     data-live-search="true">
-                                                <option value="" selected>Vui lòng chọn</option>
+                                                <option value="" >Vui lòng chọn</option>
                                                 @foreach ($payment_methods as $payment_method)
                                                     <option value="{{ $payment_method['id'] }}">{{ $payment_method['name'] }}</option>
                                                 @endforeach
@@ -97,6 +97,17 @@
                                         </p>
                                         <input id="quantity" name="quantity" placeholder="Nhập số lượng" required type="number"
                                                class="form-control form-control-sm">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <p class="m-0 font-0-9">Trạng thái thanh toán<span class="text-danger">*</span>
+                                        </p>
+                                        <select class="search promotion show-tick" name="paid"
+                                                data-live-search="true">
+                                                <option value="1">Chưa thanh toán</option>
+                                                <option value="2">Thanh toán thất bại</option>
+                                                <option value="3">Thanh toán thành công</option>
+                                        </select>
                                     </div>
 
                                     <div class="form-group">

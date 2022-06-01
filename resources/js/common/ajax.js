@@ -91,6 +91,7 @@ function sendFormData(
             }
         },
         error: function (response) {
+            AmagiLoader.hide();
             if (callBackError) {
                 callBackError(response)
             }

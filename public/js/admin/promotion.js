@@ -309,6 +309,8 @@ function sendFormData(method, payload, url, callback, callBackError, currentRequ
       }
     },
     error: function error(response) {
+      AmagiLoader.hide();
+
       if (callBackError) {
         callBackError(response);
       }

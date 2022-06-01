@@ -14,10 +14,10 @@ class User extends Authenticatable
 
     protected $table = 'users';
 
-    public CONST MANAGER = 'manager';
-    public CONST ADMIN   = 'admin';
-    public CONST SHIPPER    = 'shipper';
-    public CONST CUSTOMER    = 'customer';
+    public CONST MANAGER = 'Manager';
+    public CONST ADMIN   = 'Admin';
+    public CONST SHIPPER    = 'Shipper';
+    public CONST CUSTOMER    = 'Customer';
 
 
     /**
@@ -33,6 +33,8 @@ class User extends Authenticatable
         'password',
         'status',
         'role_id',
+        'search',
+        'branch_id',
         'forgot_password_token',
         'remember_token'
     ];
@@ -54,9 +56,30 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'created_at' => 'datetime:Y-m-d h:i:s',
-        'updated_at' => 'datetime:Y-m-d h:i:s',
     ];
+
+    protected $appends = [
+        'formatted_created_at',
+        'formatted_updated_at',
+    ];
+
+    public $timestamps = true;
+
+    public function alias(){
+        return $this->morphOne(Alias::class,'model');
+    }
+
+    public function metaseo(){
+        return $this->morphOne(MetaSeo::class,'model');
+    }
+
+    public function images(){
+        return $this->morphMany(Image::class,'model');
+    }
+
+    public function getImagesByIndex(array $indexs){
+        return $this->images()->whereIn('index', $indexs)->get();
+    }
 
     /**
      * Relation with role

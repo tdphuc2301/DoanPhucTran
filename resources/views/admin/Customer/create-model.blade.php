@@ -40,24 +40,7 @@
                                         <input name="alias" placeholder="Đường dẫn" required type="text"
                                                class="form-control form-control-sm">
                                     </div>
-                                    <div class="form-group">
-                                        <p class="m-0 font-0-9">Số điện thoại<span class="text-danger">*</span>
-                                        </p>
-                                        <input name="phone" placeholder="số điện thoại" required type="number"
-                                               class="form-control form-control-sm">
-                                    </div>
-                                    <div class="form-group">
-                                        <p class="m-0 font-0-9">Email<span class="text-danger">*</span>
-                                        </p>
-                                        <input name="email" placeholder="nhập email" required type="text"
-                                               class="form-control form-control-sm">
-                                    </div>
-                                    <div class="form-group">
-                                        <p class="m-0 font-0-9">Username<span class="text-danger">*</span>
-                                        </p>
-                                        <input name="username" placeholder="username" required type="text"
-                                               class="form-control form-control-sm">
-                                    </div>
+                                    
                                     
                                     <div class="form-group">
                                         <p class="m-0 font-0-9">Vị trí</p>

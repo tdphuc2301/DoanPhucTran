@@ -53,8 +53,8 @@
     </div>
 </div>
 <div class="modal" tabindex="-1" role="dialog" id="modalChangePass">
-    <div id="object-change-password"
-         user-id="{{Auth::user()->_id ?? ''}}" api-change-password="{{route('admin.user.change_password')}}" class="modal-dialog" role="document">
+    <div id="object-change-password"   user_id="{{Auth::user()->id ?? ''}}"
+         class="modal-dialog" >
         <div class="modal-content  bg-white">
             <div class="modal-header">
                 <h5 class="modal-title">Thay đổi mật khẩu</h5>
@@ -66,41 +66,24 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group"><p class="m-0 font-0-9">Mật khẩu cũ
-                            </p> <input data-vv-as="Mật khẩu cũ" v-validate="'required|min:6'" name="old_password"
-                                        v-model="data_create.old_password" data-vv-as="Mã sản phẩm" name="code" type="password" class="form-control form-control-sm">
-                            <div v-show="errors.has('old_password')" class="text-danger">
-                                <i class="fas fa-exclamation-circle"></i>
-                                <span>@{{ errors.first('old_password') }}</span>
-                            </div>
+                            </p> <input name="password_old" type="password" class="form-control form-control-sm">
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group"><p class="m-0 font-0-9">Mật khẩu mới
-                            </p> <input data-vv-as="password" v-validate="'required|min:6'" name="password"
-                                        v-model="data_create.password" data-vv-as="Mã sản phẩm" name="code" type="password" class="form-control form-control-sm">
-                            <div v-show="errors.has('password')" class="text-danger">
-                                <i class="fas fa-exclamation-circle"></i>
-                                <span>@{{ errors.first('password') }}</span>
-                            </div>
+                            </p> <input  name="password" type="password" class="form-control form-control-sm">
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group"><p class="m-0 font-0-9">Xác nhận mật khẩu mới
-                            </p> <input data-vv-as="confirm password"
-                                        v-validate="'required|min:6|confirmed:password'" name="confirm_password"
-                                        data-vv-as="Mã sản phẩm" name="code" type="password" class="form-control form-control-sm">
-                            <div v-show="errors.has('confirm_password')"
-                                 class="text-danger">
-                                <i class="fas fa-exclamation-circle"></i>
-                                <span>@{{ errors.first('confirm_password') }}</span>
-                            </div>
+                            </p> <input name="confirm_password" type="password" class="form-control form-control-sm">
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                <button type="button" @click="changePassword()" class="btn btn-success">Cập nhật</button>
+                <button type="button" onclick="changePassword()" class="btn btn-success">Cập nhật</button>
             </div>
         </div>
     </div>
@@ -140,6 +123,59 @@
         CKEDITOR.config.filebrowserUploadUrl =
             "{{ route('api.upload.ckeditor') . '?_token=' . csrf_token() }}";
     })
+
+    function changePassword() {
+            console.log('payload',123);
+            let payload = {
+                'password_old': $('input[name="password_old"]').val(),
+                'password' : $('input[name="password"]').val(),
+                'confirm_password' : $('input[name="confirm_password"]').val(),
+                'id': $('#object-change-password').attr("user_id")
+            }
+            
+            console.log('payload',payload);
+        
+        
+            $.ajax({
+                type: 'POST',
+                data: payload,
+                url: '{{ route('admin.user.update')}}',
+                context: this,
+                dataType: "json",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (response) {
+                    AmagiLoader.hide();
+                    $('.modal').modal('hide');
+                    showNotification("Cập nhật thành công ", 'success');
+                    
+                    
+                },
+                beforeSend: function () {
+                    AmagiLoader.show();
+                },
+                error: function (response) {
+                    AmagiLoader.hide();
+                    $('.modal').modal('hide');
+                    showNotification("Cập nhật thất bại ", 'danger');
+                    
+                },
+            });
+
+        function showNotification(message, type, time, icon) {
+            icon = icon == null ? '' : icon;
+            type = type == null ? 'info' : type;
+            time = time == null ? 3000 : time;
+            $('.system_message').addClass('show').addClass(type);
+            $('.system_message').find('.title').html(message);
+            setTimeout(function () {
+                $('.system_message').removeClass('show').removeClass(type);
+                $('.system_message')
+            }, time)
+
+        }
+    }
 </script>
 <script>
 </script>

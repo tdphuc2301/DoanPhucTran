@@ -14,15 +14,35 @@ class BranchSeeder extends Seeder
      */
     public function run()
     {
-//        $arrayAddressBranch = [
-//            'Điện máy Xanh 189A Cống Quỳnh, Phường Nguyễn Cư Trinh, Quận 1, Thành phố Hồ Chí Minh '
-//        ];
-//
-//        for ($i = 0; $i < count($arrayAddressBranch); $i++) {
-//            DB::table('branchs')->insert([
-//                'name' => 'Thế giới di dộng',
-//                'address' => $arrayNameCategory[$i],
-//            ]);
-//        }
+        $arrayNameBranch = [
+            'CHI NHANH 1',
+            'CHI NHANH 2',
+            'CHI NHANH 3',
+        ];
+        $arrayAddressBranch = [
+            'Thành phố Hồ Chí Minh',
+            'Thành phố HA NOI',
+            'Thành phố QUI NHON',
+        ];
+
+        $arrayLongBranch = [
+            '123.45',
+            '456.57',
+            '678.23',
+        ];
+        $arrayLatBranch = [
+            '123.45',
+            '456.57',
+            '678.23',
+        ];
+
+        for ($i = 0; $i < count($arrayNameBranch); $i++) {
+            DB::table('branchs')->insert([
+                'name' => $arrayNameBranch[$i],
+                'address' => $arrayAddressBranch[$i],
+                'long' => $arrayLongBranch[$i],
+                'lat' => $arrayLatBranch[$i],
+            ]);
+        }
     }
 }

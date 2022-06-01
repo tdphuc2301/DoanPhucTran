@@ -309,6 +309,8 @@ function sendFormData(method, payload, url, callback, callBackError, currentRequ
       }
     },
     error: function error(response) {
+      AmagiLoader.hide();
+
       if (callBackError) {
         callBackError(response);
       }
@@ -745,37 +747,25 @@ $(document).delegate('.btn-edit', 'click', function (e) {
 
   var successCallback = function successCallback(response) {
     var data = response.data;
-    var alias = data.alias;
-    var metaseo = data.metaseo;
-    var images = data.images;
-    var category = data.category;
+    console.log(data);
+    console.log('data.customer_id', data.customer_id);
+    console.log('data.customer_id', data.customer_id);
+    console.log('data.order_details[0].product_id', data.order_details[0].product_id);
+    console.log('data.promotion_id', data.promotion_id);
+    console.log('data.paids[0].payment_method_id', data.paids[0].payment_method_id);
 
     if (data) {
       $('input[name="id"]').val(data.id);
-      $('input[name="name"]').val(data.name);
-      $('input[name="alias"]').val(alias ? alias.alias : '');
-      $('input[name="index"]').val(data.index);
-      $('input[name="price"]').val(data.price);
-      $('input[name="sale_off_price"]').val(data.sale_off_price);
-      $('select[name="category_id"]').selectpicker('val', category ? category.id : '');
-      $('.description').val(data.description);
-
-      if (images) {
-        images = (0,_common_helper_js__WEBPACK_IMPORTED_MODULE_0__.keyBy)('index', images);
-        $('.profile-pic').each(function (index) {
-          if (images[index]) {
-            $(this).attr('src', (0,_common_helper_js__WEBPACK_IMPORTED_MODULE_0__.refactorUrl)('/' + images[index].path));
-            $(this).closest('.form-group').find('.remove-image').css('display', 'inline-block').attr('has-image', 1);
-          } else {
-            $(this).attr('src', (0,_common_helper_js__WEBPACK_IMPORTED_MODULE_0__.refactorUrl)(_DEFAULT_IMAGE));
-            $(this).closest('.form-group').find('.remove-image').css('display', 'none').attr('has-image', 0);
-          }
-        });
-      }
-
-      $('#metaseo-form input[name="title"]').val(metaseo ? metaseo.title : '');
-      $('#metaseo-form input[name="keyword"]').val(metaseo ? metaseo.keyword : '');
-      $('#metaseo-form textarea[name="description"]').val(metaseo ? metaseo.description : '');
+      $('input[name="code"]').val(data.code);
+      $('input[name="note"]').val(data.note);
+      $('select[name="customer_id"]').selectpicker('val', data.customer_id);
+      $('select[name="product_id"]').selectpicker('val', data.order_details[0].product_id);
+      $('select[name="promotion_id"]').selectpicker('val', data.promotion_id);
+      $('select[name="type_payment_method"]').selectpicker('val', data.paids[0].payment_method_id);
+      $('select[name="paid"]').selectpicker('val', data.paids[0].paid);
+      $('input[name="price"]').val(data.order_details[0].price);
+      $('input[name="quantity"]').val(data.order_details[0].quantity);
+      $('input[name="total_price"]').val(data.total_price);
       (0,_common_helper_js__WEBPACK_IMPORTED_MODULE_0__.removeAllErrorMessage)();
       (0,_create_data_js__WEBPACK_IMPORTED_MODULE_1__.openCreateModal)(false);
     } else {

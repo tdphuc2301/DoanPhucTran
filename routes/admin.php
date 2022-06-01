@@ -1,8 +1,11 @@
 <?php
+
+use App\Http\Controllers\Api\Login\LoginController;
+use App\Http\Controllers\Api\User\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['namespace'=>'Admin'], function (){
-    Route::get('/', 'DashboardController@index');
+Route::group(['namespace'=>'Admin','middleware'=>'admin.check'], function (){
+    Route::get('/', 'DashboardController@index')->name('admin.dashboard');
     Route::get('/report', 'DashboardController@report')->name('admin.report');
     Route::get('/logout', 'DashboardController@logout')->name('admin.logout');
     Route::get('/change-password', 'DashboardController@logout')->name('admin.user.change_password');
@@ -69,21 +72,29 @@ Route::group(['namespace'=>'Admin'], function (){
         Route::put('/change-status', 'ProductController@changeStatus')->name('admin.product.change_status');
     });
 
-    Route::group(['namespace' => 'Page', 'prefix' => 'page'], function () {
-        Route::get('/', 'PageController@index')->name('admin.page.index');
-        Route::get('/get-list', 'PageController@getList')->name('admin.page.get_list');
-        Route::get('/get-page', 'PageController@getById')->name('admin.page.get_page');
-        Route::post('/create', 'PageController@create')->name('admin.page.create');
-        Route::post('/update', 'PageController@update')->name('admin.page.update');
-    });
+//    Route::group(['namespace' => 'Page', 'prefix' => 'page'], function () {
+//        Route::get('/', 'PageController@index')->name('admin.page.index');
+//        Route::get('/get-list', 'PageController@getList')->name('admin.page.get_list');
+//        Route::get('/get-page', 'PageController@getById')->name('admin.page.get_page');
+//        Route::post('/create', 'PageController@create')->name('admin.page.create');
+//        Route::post('/update', 'PageController@update')->name('admin.page.update');
+//    });
 
     Route::group(['namespace' => 'Order', 'prefix' => 'order'], function () {
         Route::get('/', 'OrderController@index')->name('admin.order.index');
         Route::get('/get-list', 'OrderController@getList')->name('admin.order.get_list');
-        Route::get('/get-order', 'OrderController@getList')->name('admin.order.get_order');
-        Route::get('/find/{id?}', 'OrderController@getById')->name('admin.order.get_order_detail');
+        Route::get('/find/{id?}', 'OrderController@getById')->name('admin.order.get_order');
         Route::post('/create', 'OrderController@create')->name('admin.order.create');
         Route::put('/change-status', 'OrderController@changeStatus')->name('admin.order.change_status');
+    });
+
+    // Admin User
+    Route::group(['namespace' => 'AdminUser', 'prefix' => 'adminUser'], function () {
+        Route::get('/', 'AdminUserController@index')->name('admin.adminUser.index');
+        Route::get('/get-list', 'AdminUserController@getList')->name('admin.adminUser.get_list');
+        Route::get('/find/{id?}', 'AdminUserController@getById')->name('admin.adminUser.get_adminUser');
+        Route::post('/create', 'AdminUserController@create')->name('admin.adminUser.create');
+        Route::put('/change-status', 'AdminUserController@changeStatus')->name('admin.adminUser.change_status');
     });
 
     Route::group(['namespace' => 'PaymentMethod', 'prefix' => 'payment-method'], function () {
@@ -115,5 +126,8 @@ Route::group(['namespace'=>'Admin'], function (){
         Route::get('/', 'SettingController@index')->name('admin.setting.index');
         Route::post('/update', 'SettingController@update')->name('admin.setting.update');
     });
+    Route::get('/logout', [LoginController::class,'getLogout'])->name('admin.logout');
+    Route::post('/update', [UserController::class,'update'])->name('admin.user.update');
 });
-
+Route::get('/login', [LoginController::class,'login'])->name('screen_admin_login');
+Route::post('/login', [LoginController::class,'postLogin'])->name('admin.authenticate');
