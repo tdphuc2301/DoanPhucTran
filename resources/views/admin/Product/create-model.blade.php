@@ -107,15 +107,20 @@
                                                     </select>
                                                 @endif
                                             </div>
-                                            <div class="col-sm">
-                                                <p class="m-0 font-0-9">Màu<span class="text-danger">*</span></p>
-                                                <select id="colors" name="color_id">
-                                                    <option value="" selected>Vui lòng chọn</option>
-                                                    @foreach ($colors as $color)
-                                                        <option value="{{ $color['id'] }}">{{ $color['name'] }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
+{{--                                            <div class="col-sm">--}}
+{{--                                                <p class="m-0 font-0-9">Màu<span class="text-danger">*</span></p>--}}
+
+{{--                                                <fieldset>--}}
+{{--                                                    <legend>Chọn màu <span class="text-danger">*</span></legend>--}}
+{{--                                                    <div>--}}
+{{--                                                        @foreach ($colors as $color)--}}
+{{--                                                        <input type="checkbox" name="color" value="haha" id="{{ $color['id'] }}">--}}
+{{--                                                        <label for="{{ $color['id'] }}">{{ $color['name'] }}</label>--}}
+{{--                                                        @endforeach--}}
+{{--                                                    </div>--}}
+{{--                                                </fieldset>--}}
+{{--                                                --}}
+{{--                                            </div>--}}
                                             <input id="branch_id" name="branch_id" type="hidden"
                                                    class="form-control form-control-sm">
                                         </div>

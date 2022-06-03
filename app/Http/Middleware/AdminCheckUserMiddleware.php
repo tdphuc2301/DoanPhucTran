@@ -19,7 +19,7 @@ class AdminCheckUserMiddleware
     public function handle(Request $request, Closure $next)
     {
         if(!Auth::check()) {
-            return redirect(route('screen_admin_login'))->with('message', 'You not login');
+            return redirect(route('screen_admin_login'));
         } else {
             $user = Auth::user();
             $roles = $user->role;
