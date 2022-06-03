@@ -13,6 +13,7 @@ use App\Repositories\ImageRepository;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 
 class ProductService
 {
@@ -58,6 +59,10 @@ class ProductService
                 'operator' => 'LIKE',
                 'value' => "%". $data['keyword']. "%"
             ];
+        }
+        $user_branch_id = Auth::user()->branch_id;
+        if(isset($user_branch_id)) {
+            $filter['branch_id'] = $user_branch_id;
         }
         $searchCriteria = [
             'page' => $page,

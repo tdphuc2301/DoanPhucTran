@@ -21,6 +21,7 @@ import {
 import {
     sendFormData
 } from '../../common/ajax.js';
+
 require('../../common/define.js');
 
 var adminObject = new AdminObject();
@@ -52,40 +53,36 @@ $(document).delegate('.remove-image', 'click', function (e) {
     var fileIndex = parseInt(fileUploadElm.attr('index'));
     profilePicElm.attr('src', _DEFAULT_IMAGE);
     fileUploadElm.val('');
-    if($(this).attr('has-image') == 1 && removedImages.indexOf(fileIndex) == -1){
+    if ($(this).attr('has-image') == 1 && removedImages.indexOf(fileIndex) == -1) {
         removedImages.push(fileIndex);
     }
-    $(this).css('display','none');
+    $(this).css('display', 'none');
 })
 
 // open modal to edit
 $(document).delegate('.btn-edit', 'click', function (e) {
     removedImages = [];
     var id = $(this).data('id');
-    var successCallback = function(response){
+    var successCallback = function (response) {
         var data = response.data;
-        console.log(data);
-        console.log('data.customer_id',data.customer_id);
-        console.log('data.customer_id',data.customer_id);
-        console.log('data.order_details[0].product_id',data.order_details[0].product_id);
-        console.log('data.promotion_id',data.promotion_id);
-        console.log('data.paids[0].payment_method_id',data.paids[0].payment_method_id);
-
-        if(data){
+        if (data) {
             $('input[name="id"]').val(data.id);
             $('input[name="code"]').val(data.code);
             $('input[name="note"]').val(data.note);
             $('select[name="customer_id"]').selectpicker('val', data.customer_id);
-            $('select[name="product_id"]').selectpicker('val',data.order_details[0].product_id);
-            $('select[name="promotion_id"]').selectpicker('val',data.promotion_id);
-            $('select[name="type_payment_method"]').selectpicker('val',data.paids[0].payment_method_id);
-            $('select[name="paid"]').selectpicker('val',data.paids[0].paid);
+            $('select[name="product_id"]').selectpicker('val', data.order_details[0].product_id);
+            $('select[name="promotion_id"]').selectpicker('val', data.promotion_id);
+            $('select[name="type_payment_method"]').selectpicker('val', data.paids[0].payment_method_id);
+            $('select[name="paid"]').selectpicker('val', data.paids[0].paid);
             $('input[name="price"]').val(data.order_details[0].price);
             $('input[name="quantity"]').val(data.order_details[0].quantity);
             $('input[name="total_price"]').val(data.total_price);
+            if (data.branch_id !== null) {
+                $('select[name="branch_id"]').selectpicker('val', data.branch_id);
+            }
             removeAllErrorMessage();
             openCreateModal(false);
-        }else{
+        } else {
             showNotification('Không tìm thấy danh mục', 'danger');
         }
     };
@@ -97,43 +94,28 @@ $(document).delegate('#btn-create', 'click', function (e) {
     if (isValid) {
         var fd = new FormData();
         var dataArr = $('#create-data-form input, #create-data-form select').serializeArray();
-        var metaseoArr = $('#metaseo-form input,#metaseo-form textarea').serializeArray();
-        dataArr.forEach(function (input, index) {
-            fd.append(input.name, input.value);
-        })
-        if($('#create-data-form .description').length){
-            fd.append('description', $('#create-data-form .description').val());
-        }
-        metaseoArr.forEach(function (input, index) {
-            fd.append('meta_seo[' + input.name +']' , input.value);
-        })
-        $('.file-upload').each(function (index) {
-            var files = $(this)[0].files;
-            // Check file selected or not
-            if (files.length > 0) {
-                fd.append('images['+ index +']', files[0]);
-                removedImages = removeArrayElement(removedImages, index);
-            }else{
-                fd.append('images['+ index +']', null);
+        dataArr.forEach(function (input,) {
+            if(input.name === 'branch_id' && input.value !=='') {
+                fd.append(input.name, input.value);
             }
-        });
-        for (let i in removedImages){
-            fd.append('remove_images[]', removedImages);
-        }
+
+            if(input.name !== 'branch_id') {
+                fd.append(input.name, input.value);
+            }
+        })
         
         var successCallback = function (response) {
             removedImages = [];
             showNotification(response.message, 'success');
             adminObject.setStatus($('.btn-status.active').data('status'));
-            adminObject.setKeyword($('#keyword').val());
             adminObject.getList();
             closeCreateModal();
         }
         var failCallback = function (response) {
             var messages = response.responseJSON.message;
-            for(let i in messages){
-                let inputElm = $('#create-data-form input[name="'+ i +'"]');
-                if(inputElm.length){
+            for (let i in messages) {
+                let inputElm = $('#create-data-form input[name="' + i + '"]');
+                if (inputElm.length) {
                     $(createErrorMessage(messages[i])).insertAfter(inputElm);
                 }
             }

@@ -34,7 +34,11 @@ return [
         'promotion' => [
             'width' => 640,
             'height' => 630,
-        ]
+        ],
+        'adminUser' => [
+            'width' => 640,
+            'height' => 630,
+        ],
         
         
     ],

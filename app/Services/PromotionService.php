@@ -50,7 +50,7 @@ class PromotionService
             }
         }
         if(!empty($data['keyword'])){
-            $filter['search'] = [
+            $filter['code'] = [
                 'operator' => 'LIKE',
                 'value' => "%". $data['keyword']. "%"
             ];

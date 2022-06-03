@@ -35,6 +35,7 @@ function AdminObject() {
     limit: typeof limit !== 'undefined' ? limit : _LIMIT
   };
   this.filter = {
+    branch_id: '',
     status: 1,
     keyword: '',
     sort_key: typeof sortKey !== 'undefined' ? sortKey : _SORT_KEY,
@@ -119,6 +120,12 @@ function AdminObject() {
     var originalFilter = this.filter; //merge filter to originalFilter
 
     this.filter = _objectSpread(_objectSpread({}, originalFilter), filter);
+    console.log("this filer set", this.filter);
+  };
+
+  this.removeSetFilterBranchId = function () {
+    delete this.filter.branch_id;
+    console.log('this.filter remove', this.filter);
   };
 }
 
@@ -610,6 +617,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 __webpack_require__(/*! ../common/define.js */ "./resources/js/common/define.js");
 
 var adminObject = new _admin_js__WEBPACK_IMPORTED_MODULE_0__.AdminObject();
+initFilterBranchId();
 $(document).delegate('.sort-list', 'click', function (e) {
   adminObject.setSortKey($(this).data('sort-key'));
   adminObject.setSortValue($(this).data('sort-value'));
@@ -638,10 +646,24 @@ $(document).delegate('#limit-option', 'change', function (e) {
   adminObject.getList();
 });
 $(document).delegate('select.select-search', 'change', function (e) {
+  initFilterBranchId();
+  console.log('$(this).data(\'search\')', $(this).data('search'));
   var searchKey = $(this).data('search');
   adminObject.setFilter(_defineProperty({}, searchKey, $(this).val()));
   adminObject.getList();
 });
+
+function initFilterBranchId() {
+  var branch_id = $('.branch_id_filter').attr("branch_id");
+  console.log('branch_id', branch_id);
+
+  if (branch_id !== null && branch_id !== '') {
+    console.log('branch_id', branch_id);
+    adminObject.setFilter(_defineProperty({}, 'branch_id', branch_id));
+  } else {
+    adminObject.removeSetFilterBranchId();
+  }
+}
 })();
 
 /******/ })()

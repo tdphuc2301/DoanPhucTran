@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AdminUserService
 {
@@ -55,6 +57,11 @@ class AdminUserService
                 'value' => "%". $data['keyword']. "%"
             ];
         }
+        $user_branch_id = Auth::user()->branch_id;
+        if(isset($user_branch_id)) {
+            $filter['branch_id'] = $user_branch_id;
+        }
+        
         $searchCriteria = [
             'page' => $page,
             'limit' => $limit,
@@ -106,6 +113,11 @@ class AdminUserService
         } else {
             $adminUser = $this->adminUserRepository->save([
                 'name' => $data['name'],
+                'role_id' => $data['role_id'],
+                'branch_id' => $data['branch_id'],
+                'username' => $data['username'],
+                'password' => Hash::make($data['password']),
+                'email' => $data['email'],
                 'index' => $data['index'] ?? config('common.default_index'),
                 'description' => $data['description'] ?? '',
                 'status' => $data['status'] ?? config('common.status.active')

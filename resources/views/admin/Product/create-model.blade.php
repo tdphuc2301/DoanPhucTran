@@ -45,17 +45,19 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-sm">
-                                                <p class="m-0 font-0-9">Loại điện thoại<span class="text-danger">*</span></p>
+                                                <p class="m-0 font-0-9">Loại điện thoại<span
+                                                            class="text-danger">*</span></p>
                                                 <select name="category_id" class="search show-tick"
                                                         data-live-search="true">
                                                     <option value="" selected>Vui lòng chọn</option>
-                                                @foreach ($categories as $category)
+                                                    @foreach ($categories as $category)
                                                         <option value="{{ $category['id'] }}">{{ $category['name'] }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                             <div class="col-sm">
-                                                <p class="m-0 font-0-9">Bộ nhớ trong<span class="text-danger">*</span></p>
+                                                <p class="m-0 font-0-9">Bộ nhớ trong<span class="text-danger">*</span>
+                                                </p>
                                                 <select class="search show-tick" name="rom_id"
                                                         data-live-search="true">
                                                     <option value="" selected>Vui lòng chọn</option>
@@ -68,8 +70,9 @@
 
                                         <div class="row">
                                             <div class="col-sm">
-                                                <p class="m-0 font-0-9">Bộ nhớ ngoài<span class="text-danger">*</span></p>
-                                                <select class="search  show-tick" name="ram_id" 
+                                                <p class="m-0 font-0-9">Bộ nhớ ngoài<span class="text-danger">*</span>
+                                                </p>
+                                                <select class="search  show-tick" name="ram_id"
                                                         data-live-search="true">
                                                     <option value="" selected>Vui lòng chọn</option>
                                                     @foreach ($rams as $ram)
@@ -78,7 +81,8 @@
                                                 </select>
                                             </div>
                                             <div class="col-sm">
-                                                <p class="m-0 font-0-9">Thương hiệu<span class="text-danger">*</span></p>
+                                                <p class="m-0 font-0-9">Thương hiệu<span class="text-danger">*</span>
+                                                </p>
                                                 <select class="search  show-tick" name="brand_id"
                                                         data-live-search="true">
                                                     <option value="" selected>Vui lòng chọn</option>
@@ -91,24 +95,29 @@
 
                                         <div class="row">
                                             <div class="col-sm">
-                                                <p class="m-0 font-0-9">Chi nhánh<span class="text-danger">*</span></p>
-                                                <select class="search  show-tick" name="branch_id"
-                                                        data-live-search="true">
-                                                    <option value="" selected>Vui lòng chọn</option>
-                                                    @foreach ($branchs as $branch)
-                                                        <option value="{{ $branch['id'] }}">{{ $branch['name'] }}</option>
-                                                    @endforeach
-                                                </select>
+                                                @if (Auth::user()->branch_id === null)
+                                                    <p class="m-0 font-0-9">Chi nhánh<span class="text-danger">*</span>
+                                                    </p>
+                                                    <select class="search  show-tick" name="branch_id"
+                                                            data-live-search="true">
+                                                        <option value="" selected>Vui lòng chọn</option>
+                                                        @foreach ($branchs as $branch)
+                                                            <option value="{{ $branch['id'] }}">{{ $branch['name'] }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                @endif
                                             </div>
                                             <div class="col-sm">
                                                 <p class="m-0 font-0-9">Màu<span class="text-danger">*</span></p>
                                                 <select id="colors" name="color_id">
                                                     <option value="" selected>Vui lòng chọn</option>
                                                     @foreach ($colors as $color)
-                                                    <option value="{{ $color['id'] }}">{{ $color['name'] }}</option>
+                                                        <option value="{{ $color['id'] }}">{{ $color['name'] }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
+                                            <input id="branch_id" name="branch_id" type="hidden"
+                                                   class="form-control form-control-sm">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -127,7 +136,7 @@
                                         <p class="m-0 font-0-9">Số lương tồn kho<span class="text-danger">*</span>
                                         </p>
                                         <input name="stock_quantity" type="number" min="0" required
-                                               class="form-control form-control-sm">
+                                               class="form-control form-control-sm stock_quantity">
                                     </div>
                                     <div class="form-group">
                                         <p class="m-0 font-0-9">Vị trí</p>

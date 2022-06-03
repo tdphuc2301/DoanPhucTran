@@ -17,7 +17,8 @@ class CreateReportsTable extends Migration
             $table->id();
             $table->integer('total_price')->nullable(false);
             $table->integer('total_order')->nullable(false);
-            $table->dateTime('date')->nullable(false);
+            $table->date('date_created')->nullable(false);
+            $table->integer('branch_id')->nullable(false);
             $table->timestamps();
         });
     }

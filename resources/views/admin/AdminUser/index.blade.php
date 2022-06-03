@@ -1,6 +1,6 @@
 @extends('Admin.Layouts.app')
 @section('content')
-    <div class="row" id="object-adminUser">
+    <div class="row branch_id_filter" id="object-adminUser" branch_id="{{Auth::user()->branch_id ?? ''}}">
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body ">
@@ -19,6 +19,15 @@
                                         </div>
                                     </div>
                                 </div>
+                                @if (Auth::user()->branch_id === null)
+                                    <select class="search select-search show-tick" data-search="branch_id"
+                                            data-live-search="true">
+                                        <option value="">Chọn chi nhánh</option>
+                                        @foreach ($branchs as $branch)
+                                            <option value="{{ $branch['id'] }}">{{ $branch['name'] }}</option>
+                                        @endforeach
+                                    </select>
+                                @endif
                             </div>
                         </div>
                         <div class="d-flex flex-sm-nowrap flex-wrap w-100 float-right w-sm-auto">
@@ -64,4 +73,16 @@
     </script>
     <script src="{{ asset('/js/admin/listing.js') }}"></script>
     <script src="{{ asset('/js/admin/adminUser.js') }}"></script>
+    <script >
+        $(document).delegate('#password', 'change', function (e) {
+            console.log('branch_id truoc',document.getElementById('branch_id').value)
+            document.getElementById('branch_id').value = $('.branch_id_filter').attr("branch_id");
+            console.log('branch_id truoc',document.getElementById('branch_id').value)
+        })
+        $(document).ready(function () {
+            $('select.search').selectpicker();
+
+        })
+    </script>
+    
 @endsection

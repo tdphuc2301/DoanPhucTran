@@ -503,6 +503,7 @@ function AdminObject() {
     limit: typeof limit !== 'undefined' ? limit : _LIMIT
   };
   this.filter = {
+    branch_id: '',
     status: 1,
     keyword: '',
     sort_key: typeof sortKey !== 'undefined' ? sortKey : _SORT_KEY,
@@ -587,6 +588,12 @@ function AdminObject() {
     var originalFilter = this.filter; //merge filter to originalFilter
 
     this.filter = _objectSpread(_objectSpread({}, originalFilter), filter);
+    console.log("this filer set", this.filter);
+  };
+
+  this.removeSetFilterBranchId = function () {
+    delete this.filter.branch_id;
+    console.log('this.filter remove', this.filter);
   };
 }
 

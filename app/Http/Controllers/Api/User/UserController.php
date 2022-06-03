@@ -13,7 +13,7 @@ class UserController extends Controller
 {
     public function update(Request $request) {
         $user = User::find($request->id);
-        if (Hash::check($request->password_old, $user->password)) {
+        if (Hash::check($request->password_old,$user->password)) {
             if($request->password === $request->confirm_password) {
                 $user->password = Hash::make($request->password);
                 $user->save();

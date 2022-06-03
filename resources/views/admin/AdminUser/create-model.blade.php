@@ -39,12 +39,6 @@
                                             class="form-control form-control-sm">
                                     </div>
                                     <div class="form-group">
-                                        <p class="m-0 font-0-9">Số điện thoại<span class="text-danger">*</span>
-                                        </p>
-                                        <input name="phone" placeholder="số điện thoại" required type="number"
-                                               class="form-control form-control-sm">
-                                    </div>
-                                    <div class="form-group">
                                         <p class="m-0 font-0-9">Email<span class="text-danger">*</span>
                                         </p>
                                         <input name="email" placeholder="nhập email" required type="text"
@@ -59,9 +53,11 @@
                                     <div class="form-group">
                                         <p class="m-0 font-0-9">Password<span class="text-danger">*</span>
                                         </p>
-                                        <input name="password" placeholder="password" required type="password"
+                                        <input name="password" placeholder="password" required type="password" id="password" 
                                                class="form-control form-control-sm">
                                     </div>
+                                    <input name="branch_id" id="branch_id" type="hidden"
+                                           class="form-control form-control-sm">
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -78,6 +74,16 @@
                                         </div>
                                     </div>
                                     
+                                    <div class="form-group">
+                                        <select class="search  show-tick" data-search="role_id"
+                                                id="role_id" name="role_id"
+                                                data-live-search="true">
+                                            <option value="">Chọn quyền</option>
+                                            @foreach ($roles as $key => $value)
+                                                <option value="{{ $key }}">{{ $value }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                                
                             </div>

@@ -35,6 +35,7 @@ function AdminObject() {
     limit: typeof limit !== 'undefined' ? limit : _LIMIT
   };
   this.filter = {
+    branch_id: '',
     status: 1,
     keyword: '',
     sort_key: typeof sortKey !== 'undefined' ? sortKey : _SORT_KEY,
@@ -119,6 +120,12 @@ function AdminObject() {
     var originalFilter = this.filter; //merge filter to originalFilter
 
     this.filter = _objectSpread(_objectSpread({}, originalFilter), filter);
+    console.log("this filer set", this.filter);
+  };
+
+  this.removeSetFilterBranchId = function () {
+    delete this.filter.branch_id;
+    console.log('this.filter remove', this.filter);
   };
 }
 
@@ -747,12 +754,6 @@ $(document).delegate('.btn-edit', 'click', function (e) {
 
   var successCallback = function successCallback(response) {
     var data = response.data;
-    console.log(data);
-    console.log('data.customer_id', data.customer_id);
-    console.log('data.customer_id', data.customer_id);
-    console.log('data.order_details[0].product_id', data.order_details[0].product_id);
-    console.log('data.promotion_id', data.promotion_id);
-    console.log('data.paids[0].payment_method_id', data.paids[0].payment_method_id);
 
     if (data) {
       $('input[name="id"]').val(data.id);
@@ -766,6 +767,11 @@ $(document).delegate('.btn-edit', 'click', function (e) {
       $('input[name="price"]').val(data.order_details[0].price);
       $('input[name="quantity"]').val(data.order_details[0].quantity);
       $('input[name="total_price"]').val(data.total_price);
+
+      if (data.branch_id !== null) {
+        $('select[name="branch_id"]').selectpicker('val', data.branch_id);
+      }
+
       (0,_common_helper_js__WEBPACK_IMPORTED_MODULE_0__.removeAllErrorMessage)();
       (0,_create_data_js__WEBPACK_IMPORTED_MODULE_1__.openCreateModal)(false);
     } else {
@@ -782,38 +788,20 @@ $(document).delegate('#btn-create', 'click', function (e) {
   if (isValid) {
     var fd = new FormData();
     var dataArr = $('#create-data-form input, #create-data-form select').serializeArray();
-    var metaseoArr = $('#metaseo-form input,#metaseo-form textarea').serializeArray();
-    dataArr.forEach(function (input, index) {
-      fd.append(input.name, input.value);
-    });
+    dataArr.forEach(function (input) {
+      if (input.name === 'branch_id' && input.value !== '') {
+        fd.append(input.name, input.value);
+      }
 
-    if ($('#create-data-form .description').length) {
-      fd.append('description', $('#create-data-form .description').val());
-    }
-
-    metaseoArr.forEach(function (input, index) {
-      fd.append('meta_seo[' + input.name + ']', input.value);
-    });
-    $('.file-upload').each(function (index) {
-      var files = $(this)[0].files; // Check file selected or not
-
-      if (files.length > 0) {
-        fd.append('images[' + index + ']', files[0]);
-        removedImages = (0,_common_helper_js__WEBPACK_IMPORTED_MODULE_0__.removeArrayElement)(removedImages, index);
-      } else {
-        fd.append('images[' + index + ']', null);
+      if (input.name !== 'branch_id') {
+        fd.append(input.name, input.value);
       }
     });
-
-    for (var i in removedImages) {
-      fd.append('remove_images[]', removedImages);
-    }
 
     var successCallback = function successCallback(response) {
       removedImages = [];
       (0,_common_helper_js__WEBPACK_IMPORTED_MODULE_0__.showNotification)(response.message, 'success');
       adminObject.setStatus($('.btn-status.active').data('status'));
-      adminObject.setKeyword($('#keyword').val());
       adminObject.getList();
       (0,_create_data_js__WEBPACK_IMPORTED_MODULE_1__.closeCreateModal)();
     };
@@ -821,11 +809,11 @@ $(document).delegate('#btn-create', 'click', function (e) {
     var failCallback = function failCallback(response) {
       var messages = response.responseJSON.message;
 
-      for (var _i in messages) {
-        var inputElm = $('#create-data-form input[name="' + _i + '"]');
+      for (var i in messages) {
+        var inputElm = $('#create-data-form input[name="' + i + '"]');
 
         if (inputElm.length) {
-          $((0,_common_helper_js__WEBPACK_IMPORTED_MODULE_0__.createErrorMessage)(messages[_i])).insertAfter(inputElm);
+          $((0,_common_helper_js__WEBPACK_IMPORTED_MODULE_0__.createErrorMessage)(messages[i])).insertAfter(inputElm);
         }
       }
 

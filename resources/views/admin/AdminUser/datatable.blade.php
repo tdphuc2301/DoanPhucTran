@@ -10,7 +10,7 @@
             </th>
             <th>Hình ảnh</th>
             <th class="sort-list" data-sort-key="created_at" data-sort-value="{{ $sortKeyAction }}">
-                Ngày tạo <i class="fas fa-sort float-right {{ showClassSort('created_at',$sort_key, $sort_value) }}"></i>
+                Chức vụ <i class="fas fa-sort float-right {{ showClassSort('created_at',$sort_key, $sort_value) }}"></i>
             </th>
             <th>Trạng thái</th>
             <th style="width: 5%">Hành động</th>
@@ -25,7 +25,7 @@
                     <td>
                         <img src="{{ !empty($item['images'][0]['path']) ? asset($item['images'][0]['path']) : asset(config('image.default_image')) }}">
                     </td>
-                    <td> {{ $item['formatted_created_at'] }}</td>
+                    <td> {{ $item['role'] }}</td>
 
                     <td>
                         <label class="badge text-white {{ showClassStatus($item['status']) }}">

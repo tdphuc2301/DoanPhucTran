@@ -41,7 +41,7 @@ class BranchSeeder extends Seeder
                 'name' => $arrayNameBranch[$i],
                 'address' => $arrayAddressBranch[$i],
                 'long' => $arrayLongBranch[$i],
-                'lat' => $arrayLatBranch[$i],
+                'lat' => $arrayLatBranch[$i]
             ]);
         }
     }

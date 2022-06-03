@@ -15,10 +15,12 @@ class AdminUserResource extends JsonResource
      */
     public function toArray($request)
     {
+        $role = $this->role;
+        
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'index' => $this->index,
+            'role' => $role->name,
             'search' => $this->search,
             'status' => $this->status,
             'status_label' => config("common.status_label.$this->status"),

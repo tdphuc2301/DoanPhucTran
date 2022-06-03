@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Order\CreateOrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Http\Responses\PaginationResponse;
+use App\Models\Branch;
 use App\Models\Customer;
 use App\Models\Payment_method;
 use App\Models\Product;
@@ -54,6 +55,7 @@ class OrderController extends Controller
             'products'=> Product::all(),
             'promotions' => Promotion::all(),
             'customers'=> Customer::all(),
+            'branchs' => Branch::all(),
             'payment_methods'=> Payment_method::all(),
         ];
         if ($request->wantsJson()) {

@@ -15,6 +15,7 @@ function AdminObject() {
         limit :  (typeof limit !== 'undefined') ? limit : _LIMIT,
     };
     this.filter = {
+        branch_id : '',
         status : 1,
         keyword : '',
         sort_key : (typeof sortKey !== 'undefined') ? sortKey : _SORT_KEY,
@@ -26,6 +27,7 @@ function AdminObject() {
      * Get data list
      */
     this.getList = function(){
+        
         var payload = {
             limit : this.pagination.limit,
             page : this.pagination.page,
@@ -41,6 +43,8 @@ function AdminObject() {
             this.apiGetList,
             successCallback
         );
+        
+        
     },
 
     /**
@@ -112,6 +116,12 @@ function AdminObject() {
         var originalFilter = this.filter;
         //merge filter to originalFilter
         this.filter = {...originalFilter, ...filter};
+        console.log("this filer set",this.filter);
+    }
+
+    this.removeSetFilterBranchId = function(){
+        delete this.filter.branch_id;
+        console.log('this.filter remove',this.filter);
     }
 }
 export {AdminObject};

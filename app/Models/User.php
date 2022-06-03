@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\Traits\FormatDateTrait;
+use App\Http\Controllers\Traits\SlugNameTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,6 +12,8 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+    use FormatDateTrait;
+    use SlugNameTrait;
     use  HasFactory, Notifiable;
 
     protected $table = 'users';
@@ -18,8 +22,7 @@ class User extends Authenticatable
     public CONST ADMIN   = 'Admin';
     public CONST SHIPPER    = 'Shipper';
     public CONST CUSTOMER    = 'Customer';
-
-
+    
     /**
      * The attributes that are mass assignable.
      *

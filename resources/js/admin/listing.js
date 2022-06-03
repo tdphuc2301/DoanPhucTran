@@ -2,7 +2,7 @@ import {AdminObject} from './admin.js';
 require('../common/define.js');
 
 var adminObject = new AdminObject();
-
+initFilterBranchId();
 $(document).delegate('.sort-list','click',function(e){
     adminObject.setSortKey($(this).data('sort-key'));
     adminObject.setSortValue($(this).data('sort-value'));
@@ -37,9 +37,25 @@ $(document).delegate('#limit-option','change',function(e){
 })
 
 $(document).delegate('select.select-search','change',function(e){
+    initFilterBranchId();
+    console.log('$(this).data(\'search\')',$(this).data('search'));
     var searchKey = $(this).data('search');
     adminObject.setFilter({
         [searchKey] : $(this).val()
     });
     adminObject.getList()
 })
+
+function initFilterBranchId() {
+   let branch_id = $('.branch_id_filter').attr("branch_id")
+    console.log('branch_id',branch_id)
+    if(branch_id !== null && branch_id !== '') {
+        console.log('branch_id',branch_id)
+        adminObject.setFilter({
+            ['branch_id'] : branch_id
+        });
+    } else {
+        adminObject.removeSetFilterBranchId();
+        
+    }
+}

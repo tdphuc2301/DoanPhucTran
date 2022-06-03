@@ -16,7 +16,8 @@ class Report extends Model
     protected $fillable = [
         'total_price',
         'total_order',
-        'date'
+        'date',
+        'branch_id',
     ];
     public $timestamps = true;
 

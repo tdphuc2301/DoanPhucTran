@@ -35,6 +35,7 @@ function AdminObject() {
     limit: typeof limit !== 'undefined' ? limit : _LIMIT
   };
   this.filter = {
+    branch_id: '',
     status: 1,
     keyword: '',
     sort_key: typeof sortKey !== 'undefined' ? sortKey : _SORT_KEY,
@@ -119,6 +120,12 @@ function AdminObject() {
     var originalFilter = this.filter; //merge filter to originalFilter
 
     this.filter = _objectSpread(_objectSpread({}, originalFilter), filter);
+    console.log("this filer set", this.filter);
+  };
+
+  this.removeSetFilterBranchId = function () {
+    delete this.filter.branch_id;
+    console.log('this.filter remove', this.filter);
   };
 }
 
@@ -797,7 +804,13 @@ $(document).delegate('#btn-create', 'click', function (e) {
     var dataArr = $('#create-data-form input, #create-data-form select').serializeArray();
     var metaseoArr = $('#metaseo-form input,#metaseo-form textarea').serializeArray();
     dataArr.forEach(function (input, index) {
-      fd.append(input.name, input.value);
+      if (input.name === 'branch_id' && input.value !== '') {
+        fd.append(input.name, input.value);
+      }
+
+      if (input.name !== 'branch_id') {
+        fd.append(input.name, input.value);
+      }
     });
 
     if ($('#create-data-form .description').length) {

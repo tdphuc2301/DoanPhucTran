@@ -32,8 +32,8 @@
 
 
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('admin.logout') }}">
-                <span class="menu-title">Quản lý liên hệ</span>
+            <a class="nav-link" href="{{ route('admin.adminUser.index') }}">
+                <span class="menu-title">Quản trị viên</span>
                 <i class="mdi mdi-account-card-details menu-icon"></i>
             </a>
         </li>

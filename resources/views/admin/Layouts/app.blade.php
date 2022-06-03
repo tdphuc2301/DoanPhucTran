@@ -16,7 +16,7 @@
     @include('Admin.Layouts.header')
     @yield('head')
 </head>
-<body class="bg-accpunt-pages">
+<body class="bg-accpunt-pages" >
 <div class="container-scroller">
 @include('Admin.Layouts.menu-top')
 <!-- partial:partials/_navbar.html -->
@@ -53,7 +53,7 @@
     </div>
 </div>
 <div class="modal" tabindex="-1" role="dialog" id="modalChangePass">
-    <div id="object-change-password"   user_id="{{Auth::user()->id ?? ''}}"
+    <div id="object-change-password"   user_id="{{Auth::user()->id ?? ''}}" 
          class="modal-dialog" >
         <div class="modal-content  bg-white">
             <div class="modal-header">
@@ -93,23 +93,16 @@
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/AmagiTech/JSLoader/amagiloader.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
 <script src="{{ asset('resources/admin/assets/vendors/js/vendor.bundle.base.js') }}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
 {{--<script src="../../resources/admin/assets/js/off-canvas.js"></script>--}}
 <script src="{{ asset('resources/admin/assets/js/hoverable-collapse.js') }}"></script>
 <script src="{{ asset('resources/admin/assets/js/misc.js?time=').time() }}"></script>
 <script src="{{ asset('resources/admin/assets/js/lodash.min.js') }}"></script>
 <script src="{{ asset('resources/admin/assets/js/todolist.js') }}"></script>
-<script src="{{ asset('resources/admin/assets/js/vue/vue.js') }}"></script>
-<script src="{{ asset('resources/admin/assets/js/vue/vee-validate.js') }}"></script>
-<script src="{{ asset('resources/admin/assets/js/vue/vi.js') }}"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
 <script src="{{ asset('resources/admin/assets/vendors/moment/moment.js')}}"></script>
 <script src="{{ asset('resources/admin/assets/vendors/daterangepicker/daterangepicker.min.js') }}"></script>
 <script src="{{ asset('resources/admin/assets/js/helper.js') }}"></script>
-<script src="{{ asset('resources/admin/assets/js/vue/vue-filter.js') }}"></script>
-<script src="{{ asset('resources/admin/assets/js/vue/components.js?time=').time() }}"></script>
 <script  src="{{ asset('js/vendor/ckeditor/ckeditor.js')}}"></script>
 <script  src="{{ asset('js/vendor/ckeditor/adapters/jquery.js')}}"></script>
 <script  src="{{ asset('vendor/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js')}}"></script>
@@ -122,6 +115,7 @@
         CKEDITOR.config.filebrowserUploadMethod = "form";
         CKEDITOR.config.filebrowserUploadUrl =
             "{{ route('api.upload.ckeditor') . '?_token=' . csrf_token() }}";
+        
     })
 
     function changePassword() {

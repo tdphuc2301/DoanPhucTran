@@ -70,7 +70,10 @@ $(document).delegate('.btn-edit', 'click', function (e) {
             $('input[name="id"]').val(data.id);
             $('input[name="name"]').val(data.name);
             $('input[name="alias"]').val(alias ? alias.alias : '');
-            $('input[name="index"]').val(data.index);
+            $('input[name="username"]').val(data.username);
+            $('input[name="email"]').val(data.email);
+            $('input[name="password"]').val(data.password);
+            $('select[name="role_id"]').selectpicker('val', data.role_id);
             $('.description').val(data.description);
             if(images){
                 $('.profile-pic').each(function(index){
@@ -99,10 +102,16 @@ $(document).delegate('#btn-create', 'click', function (e) {
     let isValid = validateFormData();
     if (isValid) {
         var fd = new FormData();
-        var dataArr = $('#create-data-form input').serializeArray();
+        var dataArr = $('#create-data-form input, #create-data-form select').serializeArray();
         var metaseoArr = $('#metaseo-form input,#metaseo-form textarea').serializeArray();
         dataArr.forEach(function (input, index) {
-            fd.append(input.name, input.value);
+            if(input.name === 'branch_id' && input.value !=='') {
+                fd.append(input.name, input.value);
+            }
+
+            if(input.name !== 'branch_id') {
+                fd.append(input.name, input.value);
+            }
         })
         if($('#create-data-form .description').length){
             fd.append('description', $('#create-data-form .description').val());

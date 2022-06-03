@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 
 class OrderService
 {
@@ -54,10 +55,14 @@ class OrderService
             }
         }
         if(!empty($data['keyword'])){
-            $filter['search'] = [
+            $filter['code'] = [
                 'operator' => 'LIKE',
                 'value' => "%". $data['keyword']. "%"
             ];
+        }
+        $user_branch_id = Auth::user()->branch_id;
+        if(isset($user_branch_id)) {
+            $filter['branch_id'] = $user_branch_id;
         }
         $searchCriteria = [
             'page' => $page,
@@ -117,6 +122,7 @@ class OrderService
             $payment_order->save();
             
         } else {
+            
             // Save order
             $order = $this->orderRepository->save([
                 'customer_id' => $data['customer_id'],
@@ -124,6 +130,7 @@ class OrderService
                 'code' => $data['code'],
                 'note' => $data['note'],
                 'total_price' => $data['total_price'],
+                'branch_id' => $data['branch_id'],
                 'index' => $data['index'] ?? config('common.default_index'),
                 'description' => $data['description'] ?? '',
                 'status' => $data['status'] ?? config('common.status.active')

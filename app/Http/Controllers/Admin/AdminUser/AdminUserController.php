@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Services\AdminUserService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AdminUserController extends Controller
@@ -47,10 +48,16 @@ class AdminUserController extends Controller
         $adminUser = $this->adminUserService->paginateAll($page, $limit, $filter, $sortKey, $sortValue);
         $roles = Role::all();
         $listRole = [];
+        $roleUser = Auth::user()->role->name;
         foreach ($roles as $role) {
             if($role->name === User::ADMIN || $role->name === User::SHIPPER) {
-                $listRole[] = $role;
+                $listRole[$role->id] = $role->name;
             }
+
+            if($roleUser === User::MANAGER && !array_key_exists($role->id,$listRole)) {
+                $listRole[$role->id] = $role->name;
+            }
+            
         }
         $result = [
             'list' => AdminUserResource::collection($adminUser->items())->toArray($request),
@@ -58,7 +65,7 @@ class AdminUserController extends Controller
             'sort_key' => $sortKey,
             'sort_value' => $sortValue,
             'branchs' => Branch::all(),
-            'role' => $listRole
+            'roles' => $listRole
         ];
         if ($request->wantsJson()) {
             return $this->responseOK(view('Admin.AdminUser.datatable', $result)->render());

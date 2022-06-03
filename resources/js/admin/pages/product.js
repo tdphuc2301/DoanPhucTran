@@ -109,7 +109,13 @@ $(document).delegate('#btn-create', 'click', function (e) {
         var dataArr = $('#create-data-form input, #create-data-form select').serializeArray();
         var metaseoArr = $('#metaseo-form input,#metaseo-form textarea').serializeArray();
         dataArr.forEach(function (input, index) {
-            fd.append(input.name, input.value);
+            if(input.name === 'branch_id' && input.value !=='') {
+                fd.append(input.name, input.value);
+            }
+
+            if(input.name !== 'branch_id') {
+                fd.append(input.name, input.value);
+            }
         })
         if($('#create-data-form .description').length){
             fd.append('description', $('#create-data-form .description').val());
