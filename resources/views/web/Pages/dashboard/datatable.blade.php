@@ -7,7 +7,7 @@
         <ul class="listproduct">
             @foreach ($list as $phone)
                 <li class=" item ajaxed __cate_42" data-index="2" data-id="153856" data-issetup="0" data-maingroup="13" data-subgroup="1491" data-type="1" data-vehicle="1" data-productcode="0131491002306" data-price="14990000.0" data-ordertypeid="2" data-pos="2">
-                    <a href='/dtdd/iphone-11?src=osp' data-s="OnlineSaving" data-site="1" data-pro="3" data-cache="True" data-sv="webtgdd-26-87" data-name="&#x110;i&#x1EC7;n tho&#x1EA1;i iPhone 11 64GB" data-id="153856" data-price="12990000.0" data-brand="iPhone (Apple)"
+                    <a href='/phone' data-s="OnlineSaving" data-site="1" data-pro="3" data-cache="True" data-sv="webtgdd-26-87" data-name="&#x110;i&#x1EC7;n tho&#x1EA1;i iPhone 11 64GB" data-id="153856" data-price="12990000.0" data-brand="iPhone (Apple)"
                        data-cate="&#x110;i&#x1EC7;n tho&#x1EA1;i" data-box="BoxCate" class="main-contain">
 
                         <div class="item-label">

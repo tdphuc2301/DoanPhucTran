@@ -185,7 +185,7 @@ class WebController extends Controller
             }
         }
 
-        $listPhone = $listPhone->with('images')->get();
+        $listPhone = $listPhone->with(['images','alias'])->get();
 
         $result = [
             'list' => WebResource::collection($listPhone)->toArray($request),

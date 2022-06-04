@@ -28,6 +28,8 @@ class WebResource extends JsonResource
             'total_rate' => $this->total_rate,
             'images' => $this->relationLoaded('images') ?
                 ImageResource::collection($this->whenLoaded('images'))->toArray($request) : [],
+            'alias' => $this->relationLoaded('alias') ?
+                ImageResource::collection($this->whenLoaded('alias'))->toArray($request) : [],
         ];
     }
 
