@@ -57,7 +57,7 @@ class InsertDataProvinces extends Command
             foreach ($listDistrict as $district) {
                 $newDistrict = [
                     'name' => $district['name'],
-                    'search' => str_replace('_', ' ', $item['codename']),
+                    'search' => str_replace('_', ' ', $district['codename']),
                     'province_code' => $item['codename'],
                     'district_code' => $district['codename'],
                 ];

@@ -94,6 +94,9 @@ class ProductService
             $product = $this->productRepository->findOne($data['id']);
             $product = $this->productRepository->update($product, $data);
         } else {
+            $array_rand_rate = [ 3.5 => 1, 4 => 2, 4.5=>3,5=>5];
+            $array_rand_total_rate = [ 100 => 1, 250 => 2, 130=>3,400=>4,450=>5];
+            
             $product = $this->productRepository->save([
                 'category_id' => $data['category_id'],
                 'branch_id' => $data['branch_id'],
@@ -107,8 +110,8 @@ class ProductService
                 'description' => $data['description'] ?? '',
                 'price' => $data['price'],
                 'sale_off_price' => $data['sale_off_price'] ?? 0,
-                'rate' => $data['rate'] ?? 0,
-                'total_rate' => $data['total_rate'] ?? 0,
+                'rate' => array_rand($array_rand_rate) ?? 0,
+                'total_rate' => array_rand($array_rand_total_rate) ?? 0,
                 'stock_quantity' => $data['stock_quantity'] ?? 0,
                 'status' => $data['status'] ?? config('common.status.active')
             ]);

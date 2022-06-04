@@ -41,6 +41,8 @@ Route::get('/search', function () {
 
 // Customer
 Route::get('/', [WebController::class,'index']);
+Route::get('/searchBranchClosestUser', [WebController::class,'searchBranchClosestUser'])->name('api.searchBranchClosestUser.get');;
+Route::get('/searchFilterField', [WebController::class,'searchFilterField'])->name('api.searchFilterField.get');;
 Route::get('test_detail_product', [WebController::class,'detailProduct']);
 Route::get('test_cart_product', [WebController::class,'cartProduct']);
 Route::get('test_checkout_product', [WebController::class,'checkoutProduct']);

@@ -141,6 +141,61 @@
                 });
             },500)
         }
+        
+        
+
+        function searchDistrictByProvince(province_code) {
+                let payload = {
+                    'province_code': province_code
+                }
+                $.ajax({
+                    type: 'GET',
+                    data: payload,
+                    url: '{{ route('api.address.get_district') }}',
+                    context: this,
+                    dataType: "json",
+                    success: function (response) {
+                        response.data.forEach(value => {
+                            console.log(value.province_code);
+                            console.log(value.name);
+                            $("#district_code").append('<option value="'+value.district_code+'">'+value.name+'</option>');
+                            $("#district_code").selectpicker("refresh");
+                        });
+                    },
+                    beforeSend: function () {
+
+                    },
+                    error: function (response) {
+                        console.log(response);
+                    },
+                });
+        }
+
+        function searchWardByDistrict(district_code) {
+            let payload = {
+                'district_code': district_code
+            }
+            $.ajax({
+                type: 'GET',
+                data: payload,
+                url: '{{ route('api.address.get_ward') }}',
+                context: this,
+                dataType: "json",
+                success: function (response) {
+                    console.log(response.data);
+                    response.data.forEach(value => {
+                        $("#ward_code").append('<option value="'+value.ward_code+'">'+value.name+'</option>');
+                        $("#ward_code").selectpicker("refresh");
+                    });
+                },
+                beforeSend: function () {
+
+                },
+                error: function (response) {
+                    console.log(response);
+                },
+            });
+        }
 
         $(document).delegate('#search_list li', 'click', function (e) {
             document.getElementById("search_address").value = $(this).text();
@@ -148,5 +203,11 @@
             document.getElementById("latitude").value = $(this).attr( "lat" );
             document.getElementById("search_list").style.display ='none';
         });
+
+        $(document).ready(function () {
+            $('select.search').selectpicker('selectAll');
+        })
+        
+
     </script>
 @endsection

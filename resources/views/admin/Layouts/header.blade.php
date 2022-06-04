@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('resources/admin/assets/vendors/mdi/css/materialdesignicons.min.css') }}">
     <link rel="stylesheet" href="{{ asset('resources/admin/assets/vendors/css/vendor.bundle.base.css') }}">
-    <link rel="stylesheet" href="{{ asset('resources/admin/assets/vendors/daterangepicker/daterangepicker.css') }}">
     <!-- endinject -->
     <!-- Plugin css for this page -->
     <!-- End plugin css for this page -->
@@ -24,4 +23,7 @@
     @yield('css')
     <link rel="stylesheet" href="{{ asset('resources/admin/assets/css/custom.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css') }}">
+    <style>
+        
+    </style>
 </head>

@@ -36,14 +36,20 @@ trait Lib
         return response()->json($this->res, $this->res['status'], []);
     }
 
-    public function responseOK($data = null, string $message = 'Thành công', $response_code = 200)
+    public function responseOK($data = null, string $message = 'Thành công', $response_code = 200,$countData = '')
     {
+        $content =  [
+            'success' => true,
+            'data' => $data,
+            'message' => $message
+        ];
+        
+        if($countData !== '') {
+            $content['countData'] = $countData;
+        }
+        
         return response()->json(
-            [
-                'success' => true,
-                'data' => $data,
-                'message' => $message
-            ],
+            $content,
             $response_code
         );
     }

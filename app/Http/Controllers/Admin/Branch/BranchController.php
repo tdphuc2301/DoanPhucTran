@@ -49,7 +49,10 @@ class BranchController extends Controller
             'list' => BranchResource::collection($branch->items())->toArray($request),
             'pagination' => PaginationResponse::getPagination($branch),
             'sort_key' => $sortKey,
-            'sort_value' => $sortValue
+            'sort_value' => $sortValue,
+            'provinces'=> Province::all(),
+            'districts'=> [],
+            'wards'=> [],
         ];
         if ($request->wantsJson()) {
             return $this->responseOK(view('Admin.Branch.datatable', $result)->render());

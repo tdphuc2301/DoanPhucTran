@@ -6,13 +6,13 @@ return [
             'height' => 212,
         ],
         'product' => [
-            'width' => 640,
-            'height' => 630,
+            'width' => 600,
+            'height' => 600,
         ],
 
         'brand' => [
-            'width' => 640,
-            'height' => 630,
+            'width' => 220,
+            'height' => 48,
         ],
         'ram' => [
             'width' => 640,

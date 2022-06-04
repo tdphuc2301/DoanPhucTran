@@ -9,12 +9,13 @@ class Ward extends Model
 {
     use HasFactory;
 
+    protected $table = 'wards';
+    
     protected $fillable = [
         'name',
         'search',
         'ward_code',
         'district_code',
-        'province_code',
         'status',
     ];
 

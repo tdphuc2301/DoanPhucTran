@@ -26,14 +26,14 @@ class AddressController extends Controller {
     }
 
     public function getDistrict(){
-        if(empty(\request()->province_id)){
+        if(empty(\request()->province_code)){
             return $this->setResponse([
                    'success' => false,
                    'message' => 'Vui lòng chọn tỉnh thành',
                ]
             );
         }
-        $districts = District::where('province_id', \request()->province_id)->get();
+        $districts = District::where('province_code', \request()->province_code)->get();
         return $this->setResponse([
                 'data' => $districts,
             ]
@@ -41,14 +41,14 @@ class AddressController extends Controller {
     }
 
     public function getWard(){
-        if(empty(\request()->district_id)){
+        if(empty(\request()->district_code)){
             return $this->setResponse([
                     'success' => false,
                     'message' => 'Vui lòng chọn quận huyện',
                 ]
             );
         }
-        $wards = Ward::where('district_id', \request()->district_id)->get();
+        $wards = Ward::where('district_code', \request()->district_code)->get();
         return $this->setResponse([
                 'data' => $wards,
             ]

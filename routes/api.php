@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Upload\UploadImageController;
+use App\Http\Controllers\Web\WebController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,3 +34,4 @@ Route::group(['namespace'=>'Api'], function (){
         Route::post('upload-image-ckeditor', [UploadImageController::class,'uploadImageCkeditor'])->name('api.upload.ckeditor');
     });
 });
+

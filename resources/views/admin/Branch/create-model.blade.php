@@ -12,9 +12,11 @@
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs mb-4" role="tablist">
                         <li role="presentation" class="nav-item"><a href="#home" class="nav-link  active"
-                                aria-controls="home" role="tab" data-toggle="tab">Thông tin chung</a></li>
+                                                                    aria-controls="home" role="tab" data-toggle="tab">Thông
+                                tin chung</a></li>
                         <li role="presentation" class="nav-item "><a href="#settings" class="nav-link"
-                                aria-controls="settings" role="tab" data-toggle="tab">SEO</a></li>
+                                                                     aria-controls="settings" role="tab"
+                                                                     data-toggle="tab">SEO</a></li>
                     </ul>
 
                     <!-- Tab panes -->
@@ -26,33 +28,33 @@
                                         <p class="m-0 font-0-9">ID</span>
                                         </p>
                                         <input name="id" placeholder="ID" readonly type="text"
-                                            class="form-control form-control-sm">
+                                               class="form-control form-control-sm">
                                     </div>
                                     <div class="form-group">
                                         <p class="m-0 font-0-9">Tên Chi nhánh<span class="text-danger">*</span>
                                         </p>
                                         <input name="name" placeholder="Tên danh mục" required type="text"
-                                            class="form-control form-control-sm">
+                                               class="form-control form-control-sm">
                                     </div>
                                     <div class="form-group">
                                         <p class="m-0 font-0-9">Đường dẫn<span class="text-danger">*</span>
                                         </p>
                                         <input name="alias" placeholder="Đường dẫn" required type="text"
-                                            class="form-control form-control-sm">
+                                               class="form-control form-control-sm">
                                     </div>
                                     <div class="form-group">
                                         <p class="m-0 font-0-9">Vị trí</p>
                                         <input name="index" type="number" value="1" min="0"
-                                            class="form-control form-control-sm">
+                                               class="form-control form-control-sm">
                                     </div>
-                                    
+
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <p class="m-0 font-0-9">Search địa chỉ<span class="text-danger">*</span>
                                         </p>
                                         <input name="search_address" placeholder="tìm kiếm" required type="text"
-                                               id="search_address" class="form-control form-control-sm" >
+                                               id="search_address" class="form-control form-control-sm">
                                         <form autocomplete="off">
                                             <div id="result"></div>
                                         </form>
@@ -61,14 +63,16 @@
                                     <div class="form-group">
                                         <p class="m-0 font-0-9">Kinh độ(Longitude)<span class="text-danger">*</span>
                                         </p>
-                                        <input id="longitude" readonly type="text" name="longitude" placeholder="Kinh độ"
+                                        <input id="longitude" readonly type="text" name="longitude"
+                                               placeholder="Kinh độ"
                                                class="form-control form-control-sm">
-                                        
+
                                     </div>
                                     <div class="form-group">
                                         <p class="m-0 font-0-9">Vĩ Độ(Latitude)<span class="text-danger">*</span>
                                         </p>
-                                        <input input id="latitude" readonly type="text" name="latitude" placeholder="Vĩ độ"
+                                        <input input id="latitude" readonly type="text" name="latitude"
+                                               placeholder="Vĩ độ"
                                                class="form-control form-control-sm">
                                     </div>
                                 </div>
@@ -99,7 +103,8 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <p class="m-0 font-0-9">Mô tả</p>
-                                        <textarea name="description" type="text" rows="6" class="form-control form-control-sm"></textarea>
+                                        <textarea name="description" type="text" rows="6"
+                                                  class="form-control form-control-sm"></textarea>
                                     </div>
                                 </div>
                             </div>

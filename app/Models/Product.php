@@ -50,6 +50,17 @@ class Product extends Model
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
+    public function rom(){
+        return $this->belongsTo(Rom::class, 'rom_id', 'id');
+    }
+
+    public function ram(){
+        return $this->belongsTo(Ram::class, 'ram_id', 'id');
+    }
+    public function brand(){
+        return $this->belongsTo(Brand::class, 'brand_id', 'id');
+    }
+
     public function getImagesByIndex(array $indexs){
         return $this->images()->whereIn('index', $indexs)->get();
     }

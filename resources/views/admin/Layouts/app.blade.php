@@ -101,7 +101,6 @@
 <script src="{{ asset('resources/admin/assets/js/todolist.js') }}"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
 <script src="{{ asset('resources/admin/assets/vendors/moment/moment.js')}}"></script>
-<script src="{{ asset('resources/admin/assets/vendors/daterangepicker/daterangepicker.min.js') }}"></script>
 <script src="{{ asset('resources/admin/assets/js/helper.js') }}"></script>
 <script  src="{{ asset('js/vendor/ckeditor/ckeditor.js')}}"></script>
 <script  src="{{ asset('js/vendor/ckeditor/adapters/jquery.js')}}"></script>
