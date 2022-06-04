@@ -235,15 +235,15 @@
                     <div class="filter-show">
                         <div class="filter-list">
                             @foreach ($brands as $brand)
-                                <a class="c-btnbox">
+                                <a class="c-btnbox brand_search" brand_id="{{$brand['id']}}">
                                     <img src="{{$brand['images'][0]['path'] ?? ''}}" width="68" height="30"
                                          alt="{{$brand['name'] ?? ''}}">
                                 </a>
                             @endforeach
                         </div>
-                        <div class="filter-button ">
+                        <div class="button-filter" style="display: none">
                             <a class="btn-filter-close">Bỏ chọn</a>
-                            <a href="#" class="btn-filter-readmore">Xem kết quả</a>
+                            <a class="btn-filter-readmore result-search-filter" >Xem kết quả</a>
                         </div>
                     </div>
                 </div>
@@ -254,14 +254,13 @@
                     <div class="filter-show">
                         <div class="filter-list ">
                             @foreach ($listPrice as $price)
-                                <a class="c-btnbox ">{{$price['name']}}</a>
+                                <a class="c-btnbox price_search" prices="{{$price['prices']}}" >{{$price['name']}}</a>
                             @endforeach
-
                         </div>
 
-                        <div class="filter-button">
+                        <div class="button-filter" style="display: none">
                             <a class="btn-filter-close">Bỏ chọn</a>
-                            <a class="btn-filter-readmore">Xem kết quả</a>
+                            <a class="btn-filter-readmore result-search-filter" >Xem kết quả</a>
                         </div>
                     </div>
                 </div>
@@ -274,12 +273,12 @@
                     <div class="filter-show">
                         <div class="filter-list">
                             @foreach ($categories as $category)
-                                <a class="c-btnbox ">{{$category['name']}}</a>
+                                <a class="c-btnbox category_search" category_id="{{$category['id']}}">{{$category['name']}}</a>
                             @endforeach
                         </div>
-                        <div class="filter-button">
+                        <div class="button-filter" style="display: none">
                             <a class="btn-filter-close">Bỏ chọn</a>
-                            <a class="btn-filter-readmore">Xem kết quả</a>
+                            <a class="btn-filter-readmore result-search-filter" >Xem kết quả</a>
                         </div>
                     </div>
                 </div>
@@ -290,14 +289,14 @@
                     </div>
 
                     <div class="filter-show">
-                        <div class="filter-list">
+                        <div class="filter-list ">
                             @foreach ($rams as $ram)
-                                <a class="c-btnbox ">{{$ram['name']}}</a>
+                                <a class="c-btnbox ram_search" ram_id="{{$ram['id']}}">{{$ram['name']}}</a>
                             @endforeach
                         </div>
-                        <div class="filter-button">
+                        <div class="button-filter" style="display: none">
                             <a class="btn-filter-close">Bỏ chọn</a>
-                            <a class="btn-filter-readmore">Xem kết quả</a>
+                            <a class="btn-filter-readmore result-search-filter" >Xem kết quả</a>
                         </div>
                     </div>
                 </div>
@@ -308,14 +307,14 @@
                     </div>
 
                     <div class="filter-show">
-                        <div class="filter-list ">
+                        <div class="filter-list">
                             @foreach ($roms as $rom)
-                                <a class="c-btnbox ">{{$rom['name']}}</a>
+                                <a class="c-btnbox rom_search" rom_id="{{$rom['id']}}">{{$rom['name']}}</a>
                             @endforeach
                         </div>
-                        <div class="filter-button">
+                        <div class="button-filter" style="display: none">
                             <a class="btn-filter-close">Bỏ chọn</a>
-                            <a class="btn-filter-readmore">Xem kết quả</a>
+                            <a class="btn-filter-readmore result-search-filter" >Xem kết quả</a>
                         </div>
                     </div>
                 </div>
@@ -324,7 +323,7 @@
         <div class="box-quicklink  block-scroll-main">
             <div class="lst-quickfilter q-manu ">
                 @foreach ($brands as $brand)
-                    <a class="box-quicklink__item bd-radius quicklink-logo">
+                    <a class="box-quicklink__item bd-radius quicklink-logo" brand_id="{{$brand['id']}}">
                         <img src="{{$brand['images'][0]['path'] ?? ''}}" width="30" class=no-text>
                     </a>
                 @endforeach
