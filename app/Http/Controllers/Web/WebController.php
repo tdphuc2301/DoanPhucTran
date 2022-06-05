@@ -10,8 +10,10 @@ use App\Http\Resources\RamResource;
 use App\Http\Resources\RomResource;
 use App\Http\Resources\WebResource;
 use App\Http\Responses\PaginationResponse;
+use App\Models\Alias;
 use App\Models\Branch;
 use App\Models\Product;
+use App\Models\Promotion;
 use App\Services\BrandService;
 use App\Services\CategoryService;
 use App\Services\RamService;
@@ -185,7 +187,7 @@ class WebController extends Controller
             }
         }
 
-        $listPhone = $listPhone->with(['images','alias'])->get();
+        $listPhone = $listPhone->with(['images', 'alias'])->get();
 
         $result = [
             'list' => WebResource::collection($listPhone)->toArray($request),
@@ -200,13 +202,31 @@ class WebController extends Controller
         return $result;
     }
 
-    public function detailProduct()
+    public function detailProduct(Request $request,$brand,$alias)
     {
-        return view('web.Pages.detail-product');
-    }
+        $idProduct = Alias::where('alias',$alias)->first(['model_id'])['model_id'];
+        $product = Product::where('id',$idProduct)->with(['rom','ram','brand','images','category','metaseo','colors'])->first();
+        setlocale(LC_MONETARY, 'en_IN');
+        
+        // Set number format money
+        $product['price'] = number_format( $product['price']);
+        $product['sale_off_price'] = number_format( $product['sale_off_price']);
 
-    public function cartProduct()
+        $listOtherProduct = Product::where('id','!=',$idProduct)->where('brand_id',$product['brand_id'])
+            ->with(['rom','ram','brand','images','category','alias'])->take(5)->get();;
+
+        return view('web.Pages.detail.index',[
+            'product' => $product,
+            'promotions'=>Promotion::all(), 
+            'listOtherProduct'=> WebResource::collection($listOtherProduct)->toArray($request),
+        ]);
+    }
+    
+
+    public function cartProduct(Request $request)
     {
+        $request = $request->all();
+        
         return view('web.Pages.cart-product');
     }
 

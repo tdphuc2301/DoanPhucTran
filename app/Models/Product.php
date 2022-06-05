@@ -45,6 +45,9 @@ class Product extends Model
     public function images(){
         return $this->morphMany(Image::class,'model');
     }
+    public function colors(){
+        return $this->belongsToMany(Color::class);
+    }
 
     public function category(){
         return $this->belongsTo(Category::class, 'category_id', 'id');

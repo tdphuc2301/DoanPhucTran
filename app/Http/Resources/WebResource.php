@@ -15,6 +15,9 @@ class WebResource extends JsonResource
      */
     public function toArray($request)
     {
+        $alias = $this->alias;
+        setlocale(LC_MONETARY, 'en_IN');
+        
         return [
             'id' => $this->id,
             'category_id' => $this->category,
@@ -22,12 +25,14 @@ class WebResource extends JsonResource
             'ram_id' => $this->ram,
             'brand_id' => $this->brand,
             'name' => $this->name,
-            'price' => $this->price,
-            'sale_off_price' => $this->sale_off_price,
+            'price' => number_format($this->price),
+            'sale_off_price' => number_format($this->sale_off_price) ,
             'rate' => $this->rate,
             'total_rate' => $this->total_rate,
             'images' => $this->relationLoaded('images') ?
                 ImageResource::collection($this->whenLoaded('images'))->toArray($request) : [],
+            'alias' => $alias->alias,
+            'percentPromotion' => round(($this->price -$this->sale_off_price)*100/$this->price,1)
         ];
     }
 

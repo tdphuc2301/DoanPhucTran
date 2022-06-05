@@ -6,6 +6,7 @@ use App\Events\ChangeMetaSeo;
 use App\Events\InsertNewRecord;
 use App\Exceptions\UploadImageException;
 use App\Http\Services\UploadImageService;
+use App\Models\Color_product;
 use App\Models\Product;
 use App\Models\Product_color;
 use App\Repositories\ProductRepository;
@@ -94,7 +95,7 @@ class ProductService
             $product = $this->productRepository->findOne($data['id']);
             $product = $this->productRepository->update($product, $data);
         } else {
-            $array_rand_rate = [ 3.5 => 1, 4 => 2, 4.5=>3,5=>5];
+            $array_rand_rate = [ 3 => 1, 4 => 2, 5=>3];
             $array_rand_total_rate = [ 100 => 1, 250 => 2, 130=>3,400=>4,450=>5];
             
             $product = $this->productRepository->save([
@@ -115,9 +116,9 @@ class ProductService
                 'stock_quantity' => $data['stock_quantity'] ?? 0,
                 'status' => $data['status'] ?? config('common.status.active')
             ]);
-            $colors = [1,2,3];
+            $colors = [1,2,3,4,5,6];
             foreach ($colors as $color) {
-                $product_color = new Product_color();
+                $product_color = new Color_product();
                 $product_color->product_id = $product->id;
                 $product_color->color_id = $color;
                 $product_color->save();

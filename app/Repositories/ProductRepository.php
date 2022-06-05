@@ -32,7 +32,7 @@ class ProductRepository extends AbstractEloquentRepository
                 },
                 'metaseo',
                 'alias',
-                'category'
+                'category',
             ]);
         });
     }
