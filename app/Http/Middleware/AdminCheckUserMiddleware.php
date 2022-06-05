@@ -26,7 +26,7 @@ class AdminCheckUserMiddleware
             if($roles->name === User::ADMIN || $roles->name === User::MANAGER) {
                 return $next($request);
             } else if($roles->name === User::SHIPPER || $roles->name === User::CUSTOMER) {
-                return redirect(route('screen_admin_login'))->with('message', 'You not perrmission');
+                return redirect(route('screen_admin_login'));
             }
         }
         

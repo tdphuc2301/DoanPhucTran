@@ -1,13 +1,30 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
+    <?php $username = Auth::user()->name ?>
     <ul class="nav">
+        @if($username === 'Manager')
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('admin.adminUser.index') }}">
+                    <span class="menu-title">Quản trị viên</span>
+                    <i class="mdi mdi-account-card-details menu-icon"></i>
+                </a>
+            </li>
+        @endif
 
+        @if($username === 'Manager')
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('admin.branch.index') }}">
+                    <span class="menu-title">Chi nhánh cửa hàng</span>
+                    <i class="mdi mdi-vector-arrange-above menu-icon"></i>
+                </a>
+            </li>
+        @endif
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('admin.logout') }}">
-                <span class="menu-title">Danh sách hóa đơn</span>
-                <i class="mdi mdi-coin menu-icon"></i>
+            <a class="nav-link" href="{{ route('admin.product.index') }}">
+                <span class="menu-title">Danh sách sản phẩm</span>
+                <i class="mdi mdi-vector-difference-ba menu-icon"></i>
             </a>
         </li>
-        
+
         <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.order.index') }}">
                 <span class="menu-title">Danh sách đơn hàng</span>
@@ -27,22 +44,6 @@
             <a class="nav-link" href="{{ route('admin.customer.index') }}">
                 <span class="menu-title">Danh sách khách hàng</span>
                 <i class="mdi mdi-human-child menu-icon"></i>
-            </a>
-        </li>
-
-
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('admin.adminUser.index') }}">
-                <span class="menu-title">Quản trị viên</span>
-                <i class="mdi mdi-account-card-details menu-icon"></i>
-            </a>
-        </li>
-
-
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('admin.logout') }}">
-                <span class="menu-title">Quản lý comment</span>
-                <i class="mdi mdi-comment-text-outline menu-icon"></i>
             </a>
         </li>
 
@@ -82,26 +83,18 @@
             </a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('admin.branch.index') }}">
-                <span class="menu-title">Chi nhánh cửa hàng</span>
-                <i class="mdi mdi-vector-arrange-above menu-icon"></i>
-            </a>
-        </li>
-
-
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('admin.product.index') }}">
-                <span class="menu-title">Sản phẩm</span>
-                <i class="mdi mdi-vector-difference-ba menu-icon"></i>
-            </a>
-        </li>
-
 
         <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.promotion.index') }}">
                 <span class="menu-title">Chương trình khuyến mãi</span>
                 <i class="mdi mdi-vector-difference-ba menu-icon"></i>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.logout') }}">
+                <span class="menu-title">Quản lý comment</span>
+                <i class="mdi mdi-comment-text-outline menu-icon"></i>
             </a>
         </li>
     </ul>

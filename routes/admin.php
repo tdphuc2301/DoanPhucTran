@@ -5,7 +5,7 @@ use App\Http\Controllers\Api\User\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['namespace'=>'Admin','middleware'=>'admin.check'], function (){
-    Route::get('/', 'DashboardController@index')->name('admin.dashboard');
+    Route::get('/', 'DashboardController@index')->name('admin.dashboard')->middleware('admin.manager.role');
     Route::get('/report', 'DashboardController@report')->name('admin.report');
     Route::get('/logout', 'DashboardController@logout')->name('admin.logout');
     Route::get('/change-password', 'DashboardController@logout')->name('admin.user.change_password');
@@ -56,11 +56,11 @@ Route::group(['namespace'=>'Admin','middleware'=>'admin.check'], function (){
 
     // Branch
     Route::group(['namespace' => 'Branch', 'prefix' => 'branch'], function () {
-        Route::get('/', 'BranchController@index')->name('admin.branch.index');
-        Route::get('/get-list', 'BranchController@getList')->name('admin.branch.get_list');
-        Route::get('/find/{id?}', 'BranchController@getById')->name('admin.branch.get_category');
-        Route::post('/create', 'BranchController@create')->name('admin.branch.create');
-        Route::put('/change-status', 'BranchController@changeStatus')->name('admin.branch.change_status');
+        Route::get('/', 'BranchController@index')->name('admin.branch.index')->middleware('admin.manager.role');;
+        Route::get('/get-list', 'BranchController@getList')->name('admin.branch.get_list')->middleware('admin.manager.role');;
+        Route::get('/find/{id?}', 'BranchController@getById')->name('admin.branch.get_category')->middleware('admin.manager.role');;
+        Route::post('/create', 'BranchController@create')->name('admin.branch.create')->middleware('admin.manager.role');;
+        Route::put('/change-status', 'BranchController@changeStatus')->name('admin.branch.change_status')->middleware('admin.manager.role');;
     });
     
 
@@ -90,11 +90,11 @@ Route::group(['namespace'=>'Admin','middleware'=>'admin.check'], function (){
 
     // Admin User
     Route::group(['namespace' => 'AdminUser', 'prefix' => 'adminUser'], function () {
-        Route::get('/', 'AdminUserController@index')->name('admin.adminUser.index');
-        Route::get('/get-list', 'AdminUserController@getList')->name('admin.adminUser.get_list');
-        Route::get('/find/{id?}', 'AdminUserController@getById')->name('admin.adminUser.get_adminUser');
-        Route::post('/create', 'AdminUserController@create')->name('admin.adminUser.create');
-        Route::put('/change-status', 'AdminUserController@changeStatus')->name('admin.adminUser.change_status');
+        Route::get('/', 'AdminUserController@index')->name('admin.adminUser.index')->middleware('admin.manager.role');;
+        Route::get('/get-list', 'AdminUserController@getList')->name('admin.adminUser.get_list')->middleware('admin.manager.role');;
+        Route::get('/find/{id?}', 'AdminUserController@getById')->name('admin.adminUser.get_adminUser')->middleware('admin.manager.role');;
+        Route::post('/create', 'AdminUserController@create')->name('admin.adminUser.create')->middleware('admin.manager.role');;
+        Route::put('/change-status', 'AdminUserController@changeStatus')->name('admin.adminUser.change_status')->middleware('admin.manager.role');;
     });
 
     Route::group(['namespace' => 'PaymentMethod', 'prefix' => 'payment-method'], function () {
