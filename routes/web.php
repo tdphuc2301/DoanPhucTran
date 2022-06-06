@@ -44,8 +44,10 @@ Route::get('/', [WebController::class,'index']);
 Route::get('/searchBranchClosestUser', [WebController::class,'searchBranchClosestUser'])->name('web.searchBranchClosestUser.get');;
 Route::get('/searchFilterField', [WebController::class,'searchFilterField'])->name('web.searchFilterField.get');;
 Route::get('phone/{brand}/{alias}', [WebController::class,'detailProduct']);
-Route::get('cart', [WebController::class,'cartProduct'])->name('web.cart.get');
-Route::get('test_checkout_product', [WebController::class,'checkoutProduct']);
+Route::get('cart', [WebController::class,'getCart'])->name('web.cart.get');
+Route::post('cart', [WebController::class,'postCart'])->name('web.cart.post');
+Route::get('checkout', [WebController::class,'getCheckout'])->name('web.checkout.get');
+Route::post('checkout', [WebController::class,'postCheckout'])->name('web.checkout.post');
 Route::get('test_success_product', [WebController::class,'successProduct']);
 
 // Shipper

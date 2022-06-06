@@ -20,6 +20,7 @@ class Order extends Model
         'code',
         'note',
         'total_price',
+        'price_promotion',
         'branch_id',
         'status'
     ];

@@ -12,8 +12,12 @@ use App\Http\Resources\WebResource;
 use App\Http\Responses\PaginationResponse;
 use App\Models\Alias;
 use App\Models\Branch;
+use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Promotion;
+use App\Repositories\CustomerRepository;
+use App\Repositories\OrderDetailRepository;
+use App\Repositories\OrderRepository;
 use App\Services\BrandService;
 use App\Services\CategoryService;
 use App\Services\RamService;
@@ -31,6 +35,9 @@ class WebController extends Controller
     protected $romService;
     protected $ramService;
     protected $brandService;
+    protected $customerRepository;
+    protected $orderRepository;
+    protected $orderDetailRepository;
 
     /**
      * @param WebService $webService
@@ -41,6 +48,9 @@ class WebController extends Controller
         CategoryService $categoryService,
         RomService      $romService,
         RamService      $ramService,
+        CustomerRepository $customerRepository,
+        OrderRepository $orderRepository,
+        OrderDetailRepository $orderDetailRepository,
         BrandService    $brandService)
     {
         $this->webService = $webService;
@@ -48,6 +58,9 @@ class WebController extends Controller
         $this->romService = $romService;
         $this->ramService = $ramService;
         $this->brandService = $brandService;
+        $this->customerRepository = $customerRepository;
+        $this->orderRepository = $orderRepository;
+        $this->orderDetailRepository = $orderDetailRepository;
     }
 
     public function index(Request $request)
@@ -223,16 +236,107 @@ class WebController extends Controller
     }
     
 
-    public function cartProduct(Request $request)
+    public function getCart(Request $request)
     {
-        $request = $request->all();
+        $quantity = 1;
+        $productCart = null;
+        if (!$request->session()->has('productCart')) {
+            $quantity = $request->quantity ;
+            $productCart = Product::where('id',$request->product_id)->with(['images'])->get();
+            $productCart = WebResource::collection($productCart)->toArray($request);
+            $request->session()->put('productCart', $productCart);
+            $request->session()->put('colorName', $request->color_id);
+        }
         
-        return view('web.Pages.cart-product');
+        if($request->session()->get('quantity') !== $request->quantity) {
+            $request->session()->put('quantity', $quantity);
+        }
+
+        $productCart[0]['sale_off_price'] = str_replace(',', '.', $productCart[0]['sale_off_price']);
+        $shipment = str_replace(',', '.', number_format(40000));
+        return view('web.Pages.cart-product',[
+            'product'=> $productCart[0],
+            'quantity'=>$quantity,
+            'color_name'=>$request->color_id,
+            'shipment' => $shipment,
+            'promotions'=>Promotion::all(),
+        ]);
     }
 
-    public function checkoutProduct()
+    public function postCart(Request $request)
     {
-        return view('web.Pages.checkout-product');
+        if($request->quantity_checkout != $request->session()->get('quantity')) {
+            $request->session()->put('quantity', $request->quantity_checkout);  
+        }
+        
+        $request->session()->put('note', $request->note);
+        $request->session()->put('total_price', $request->total_price_checkout);
+        $request->session()->put('price_promotion',  $request->price_promotion_checkout);
+        
+        return redirect()->route('web.checkout.get');
+    }
+
+    public function getCheckout(Request $request)
+    {
+        return view('web.Pages.checkout-product',[
+            'product' => $request->session()->get('productCart')[0],
+            'total_price_checkout' => $request->session()->get('total_price'),
+            'quantity' =>$request->session()->get('quantity'),
+            'price_promotion_checkout' =>$request->session()->get('price_promotion'),
+        ]);
+    }
+
+    public function postCheckout(Request $request)
+    {
+//        $request = $request->all();
+//        // create customer
+//        $customer = new Customer();
+////        $customer->name = $request=->
+//        $customer = $this->customerRepository->save([
+//            'name' => $request['name'],
+//            'address' => $request['search_address'],
+//            'long' => $request['longitude'],
+//            'lat' => $request['latitude'],
+//            'email' => $request['email'],
+//            'phone' => $request['phone'],
+//            'point' => 10,
+//            'type_id' => 4,
+//            'user_id' => null,
+//            'index' => 0,
+//            'description' => "ok",
+//            'status' => 1
+//        ]);
+//
+//        // Save order
+//        $order = $this->orderRepository->save([
+//            'customer_id' => $customer->id,
+//            'promotion_id' => $data['promotion_id'],
+//            'code' => $data['code'],
+//            'note' => $data['note'],
+//            'total_price' => $data['total_price'],
+//            'branch_id' => $data['branch_id'],
+//            'index' => $data['index'] ?? config('common.default_index'),
+//            'description' => $data['description'] ?? '',
+//            'status' => $data['status'] ?? config('common.status.active')
+//        ]);
+//
+//        // Save order detail
+//        $order_detail = $this->orderDetailRepository->save([
+//            'product_id' => $data['product_id'],
+//            'order_id' => $order->id,
+//            'quantity' => $data['quantity'],
+//            'price' => $data['price'],
+//        ]);
+//        
+        
+        
+        return view('web.Pages.checkout-product',[
+            'product' => $request->session()->get('productCart')[0],
+            'total_price_checkout' => $request->total_price_checkout,
+            'quantity' => $request->quantity_checkout,
+            'price_promotion_checkout' => $request->price_promotion_checkout,
+            'note'=>$request->note,
+        ]);
     }
 
     public function successProduct()

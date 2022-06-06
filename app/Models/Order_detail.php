@@ -19,7 +19,7 @@ class Order_detail extends Model
         'quantity',
         'price',
         'status',
-        
+        'color_name'
     ];
     protected $appends = [
         'formatted_created_at',

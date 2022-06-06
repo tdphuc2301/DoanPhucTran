@@ -179,6 +179,7 @@
                             </div>
                             <div class="block-button normal">
                                 <form method="get" action="{{route('web.cart.get')}}" >
+                                    @csrf
                                     <input type="hidden" name="color_id" >
                                     <input type="hidden" name="product_id" >
                                     <button  style="width: 100%"  type="submit" class="btn-buynow jsBuy">MUA NGAY</button>
@@ -578,6 +579,7 @@
 <script>
     $("input[name='product_id']").val('<?php echo $product['id'] ?>');
     let colorNameInit = '<?php echo $product['colors'][0]['name'] ?>';
+    $("input[name='color_id']").val(colorNameInit);
     $(document).delegate('.color_name ', 'click', function (e) {
         $('.color_name').removeClass('act');
         let color_name =$(this).attr("color_name");

@@ -20,6 +20,7 @@ class CreateOrdersTable extends Migration
             $table->string('code');
             $table->string('note');
             $table->integer('total_price');
+            $table->integer('price_promotion')->nullable();
             $table->string('search')->nullable();
             $table->integer('branch_id')->nullable(false);
             $table->tinyInteger('status')->default(1);

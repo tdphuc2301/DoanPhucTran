@@ -19,6 +19,7 @@ class CreateOrderDetailsTable extends Migration
             $table->integer('product_id')->nullable(false);
             $table->integer('quantity');
             $table->integer('price');
+            $table->string('color_name')->nullable();
             $table->timestamps();
 
             //$table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
