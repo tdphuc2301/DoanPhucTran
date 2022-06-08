@@ -27,7 +27,9 @@ class Order_detail extends Model
     ];
 
     public $timestamps = true;
-    
 
+    public function products(){
+        return $this->belongsTo(Product::class,'product_id','id');
+    }
     
 }

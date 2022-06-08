@@ -56,7 +56,6 @@ class OrderController extends Controller
             'promotions' => Promotion::all(),
             'customers'=> Customer::all(),
             'branchs' => Branch::all(),
-            'payment_methods'=> Payment_method::all(),
         ];
         if ($request->wantsJson()) {
             return $this->responseOK(view('Admin.Order.datatable', $result)->render());

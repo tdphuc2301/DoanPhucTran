@@ -21,13 +21,13 @@ class CreateCustomersTable extends Migration
             $table->string('address');
             $table->string('lat');
             $table->string('long');
-            $table->integer('point');
+            $table->integer('point')->nullable();
             $table->integer('index')->nullable()->default(1);
             $table->string('description')->nullable();
             $table->string('search')->nullable();
             $table->tinyInteger('status')->default(1);
-            $table->tinyInteger('user_id');
-            $table->integer('type_id');
+            $table->tinyInteger('user_id')->nullable();
+            $table->integer('type_id')->nullable();
             $table->timestamps();
         });
     }

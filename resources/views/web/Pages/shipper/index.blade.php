@@ -3,102 +3,268 @@
 <head>
     @include('web.Layouts.header_detail_product')
     <title>Shop cart - Bootdey.com</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Set a style for all buttons */
+        button {
+            background-color: #04AA6D;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            opacity: 0.9;
+        }
+
+        button:hover {
+            opacity: 1;
+        }
+
+        /* Float cancel and delete buttons and add an equal width */
+        .cancelbtn, .deletebtn {
+            float: left;
+            width: 50%;
+        }
+
+        /* Add a color to the cancel button */
+        .cancelbtn {
+            background-color: #ccc;
+            color: black;
+        }
+
+        /* Add a color to the delete button */
+        .deletebtn {
+            background-color: #f44336;
+        }
+
+        /* Add padding and center-align text to the container */
+        .container {
+            padding: 16px;
+            text-align: center;
+        }
+
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: #474e5d;
+            padding-top: 50px;
+        }
+
+        /* Modal Content/Box */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+        }
+
+        /* Style the horizontal ruler */
+        hr {
+            border: 1px solid #f1f1f1;
+            margin-bottom: 25px;
+        }
+
+        /* The Modal Close Button (x) */
+        .close {
+            position: absolute;
+            right: 35px;
+            top: 15px;
+            font-size: 40px;
+            font-weight: bold;
+            color: #f1f1f1;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #f44336;
+            cursor: pointer;
+        }
+
+        /* Clear floats */
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        /* Change styles for cancel button and delete button on extra small screens */
+        @media screen and (max-width: 300px) {
+            .cancelbtn, .deletebtn {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 
 <body>
 @include('web.Layouts.menu-top')
+
 <div class="container mt-5 mb-5">
     <h2 style="font-size: 30px; font-weight: 800; line-height: 36px; color: #333333; margin: 0; text-align: center;">
         List Phone for shipper
     </h2>
+    <?php $base = env('APP_URL'); ?>
     <div class="d-flex justify-content-center row">
-        <div class="col-md-10">
-            <div class="row p-2 bg-white border rounded">
-                <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="https://i.imgur.com/QpjAiHq.jpg"></div>
-                <div class="col-md-6 mt-1">
-                    <h5>Quant olap shirts</h5>
-                    <div class="d-flex flex-row">
-                        <div class="ratings mr-2"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div><span>310</span>
+        @foreach($orders as $order)
+            <div class="col-md-10">
+                <div class="row p-2 bg-white border rounded">
+                    <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image"
+                                                    src="{{$base.'/'.$order['orderDetails'][0]['images']}}"></div>
+                    <div class="col-md-6 mt-1">
+                        <h5>{{$order['orderDetails'][0]['name']}}</h5>
+                        <div class="d-flex flex-row">
+                            <div class="ratings mr-2">Số lương:
+                                <strong>{{$order['orderDetails'][0]['quantity']}}</strong></div>
+                        </div>
+                        <div class="ratings mr-2"><span>Địa chỉ: {{$order['customers']['address']}}</span></div>
+                        <p class="text-justify text-truncate para mb-0">Tên khách hàng: {{$order['customers']['name']}}
+                            <br><br>
                     </div>
-                    <div class="mt-1 mb-1 spec-1"><span>100% cotton</span><span class="dot"></span><span>Light weight</span><span class="dot"></span><span>Best finish<br></span></div>
-                    <div class="mt-1 mb-1 spec-1"><span>Unique design</span><span class="dot"></span><span>For men</span><span class="dot"></span><span>Casual<br></span></div>
-                    <p class="text-justify text-truncate para mb-0">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.<br><br></p>
-                </div>
-                <div class="align-items-center align-content-center col-md-3 border-left mt-1">
-                    <div class="d-flex flex-row align-items-center">
-                        <h4 class="mr-1">$13.99</h4><span class="strike-text">$20.99</span>
+                    <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+                        <div class="d-flex flex-row align-items-center">
+                            <h4 class="mr-1">{{$order['orderDetails'][0]['sale_off_price']}}</h4><span
+                                    class="strike-text">{{$order['orderDetails'][0]['price']}}</span>
+                        </div>
+                        <h6 class="text-success">Fee shipping: {{$shipment}}</h6>
+                        <div class="d-flex flex-column mt-4">
+                            <button class="btn btn-primary btn-sm" type="button">Details</button>
+                            <button class="btn btn-outline-primary btn-sm mt-2" type="button"
+                                    id="showPopup"
+                                    product_id="{{$order['orderDetails'][0]['product_id']}}"
+                                    order_code="{{$order['code']}}"
+                                    onclick="showModelConfirmOrder()">Confirm order
+                            </button>
+                        </div>
                     </div>
-                    <h6 class="text-success">Free shipping</h6>
-                    <div class="d-flex flex-column mt-4"><button class="btn btn-primary btn-sm" type="button">Details</button><button class="btn btn-outline-primary btn-sm mt-2" type="button">Confirm order</button></div>
-                </div>
-            </div>
-            <div class="row p-2 bg-white border rounded mt-2">
-                <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="https://i.imgur.com/JvPeqEF.jpg"></div>
-                <div class="col-md-6 mt-1">
-                    <h5>Quant trident shirts</h5>
-                    <div class="d-flex flex-row">
-                        <div class="ratings mr-2"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div><span>310</span>
-                    </div>
-                    <div class="mt-1 mb-1 spec-1"><span>100% cotton</span><span class="dot"></span><span>Light weight</span><span class="dot"></span><span>Best finish<br></span></div>
-                    <div class="mt-1 mb-1 spec-1"><span>Unique design</span><span class="dot"></span><span>For men</span><span class="dot"></span><span>Casual<br></span></div>
-                    <p class="text-justify text-truncate para mb-0">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.<br><br></p>
-                </div>
-                <div class="align-items-center align-content-center col-md-3 border-left mt-1">
-                    <div class="d-flex flex-row align-items-center">
-                        <h4 class="mr-1">$14.99</h4><span class="strike-text">$20.99</span>
-                    </div>
-                    <h6 class="text-success">Free shipping</h6>
-                    <div class="d-flex flex-column mt-4"><button class="btn btn-primary btn-sm" type="button">Details</button><button class="btn btn-outline-primary btn-sm mt-2" type="button">Confirm order</button></div>
                 </div>
             </div>
-            <div class="row p-2 bg-white border rounded mt-2">
-                <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="https://i.imgur.com/Bf4dIaN.jpg"></div>
-                <div class="col-md-6 mt-1">
-                    <h5>Quant ruybi shirts</h5>
-                    <div class="d-flex flex-row">
-                        <div class="ratings mr-2"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div><span>123</span>
+        @endforeach
+        <div id="id01" class="modal">
+            <span onclick="document.getElementById('id01').style.display='none'" class="close"
+                  title="Close Modal">×</span>
+            <form class="modal-content" action="/action_page.php">
+                <div class="container">
+                    <h1> Xác nhận đơn hàng có mã <span ><strong id="code"></strong></span> </h1>
+                    <p>Đơn hàng đã giao đến khách hàng chưa ?</p>
+
+                    <div class="clearfix">
+                        <button type="button" onclick="document.getElementById('id01').style.display='none'"
+                                class="cancelbtn">Chưa
+                        </button>
+                        <button type="button" onclick="updateStatusOrder()"
+                                class="deletebtn">Đã đến
+                        </button>
                     </div>
-                    <div class="mt-1 mb-1 spec-1"><span>100% cotton</span><span class="dot"></span><span>Light weight</span><span class="dot"></span><span>Best finish<br></span></div>
-                    <div class="mt-1 mb-1 spec-1"><span>Unique design</span><span class="dot"></span><span>For men</span><span class="dot"></span><span>Casual<br></span></div>
-                    <p class="text-justify text-truncate para mb-0">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.<br><br></p>
                 </div>
-                <div class="align-items-center align-content-center col-md-3 border-left mt-1">
-                    <div class="d-flex flex-row align-items-center">
-                        <h4 class="mr-1">$13.99</h4><span class="strike-text">$20.99</span>
-                    </div>
-                    <h6 class="text-success">Free shipping</h6>
-                    <div class="d-flex flex-column mt-4"><button class="btn btn-primary btn-sm" type="button">Details</button><button class="btn btn-outline-primary btn-sm mt-2" type="button">Confirm order</button></div>
-                </div>
-            </div>
-            <div class="row p-2 bg-white border rounded mt-2">
-                <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="https://i.imgur.com/HO8e9b8.jpg"></div>
-                <div class="col-md-6 mt-1">
-                    <h5>Quant tinor shirts</h5>
-                    <div class="d-flex flex-row">
-                        <div class="ratings mr-2"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div><span>110</span>
-                    </div>
-                    <div class="mt-1 mb-1 spec-1"><span>100% cotton</span><span class="dot"></span><span>Light weight</span><span class="dot"></span><span>Best finish<br></span></div>
-                    <div class="mt-1 mb-1 spec-1"><span>Unique design</span><span class="dot"></span><span>For men</span><span class="dot"></span><span>Casual<br></span></div>
-                    <p class="text-justify text-truncate para mb-0">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.<br><br></p>
-                </div>
-                <div class="align-items-center align-content-center col-md-3 border-left mt-1">
-                    <div class="d-flex flex-row align-items-center">
-                        <h4 class="mr-1">$15.99</h4><span class="strike-text">$21.99</span>
-                    </div>
-                    <h6 class="text-success">Free shipping</h6>
-                    <div class="d-flex flex-column mt-4"><button class="btn btn-primary btn-sm" type="button">Details</button><button class="btn btn-outline-primary btn-sm mt-2" type="button">Confirm order</button></div>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>
 
 <style type="text/css">
-    body{background:#eee}.ratings i{font-size: 16px;color: red}.strike-text{color: red;text-decoration: line-through}.product-image{width: 100%}.dot{height: 7px;width: 7px;margin-left: 6px;margin-right: 6px;margin-top: 3px;background-color: blue;border-radius: 50%;display: inline-block}.spec-1{color: #938787;font-size: 15px}h5{font-weight: 400}.para{font-size: 16px}
-    </style>
+    body {
+        background: #eee
+    }
 
+    .ratings i {
+        font-size: 16px;
+        color: red
+    }
+
+    .strike-text {
+        color: red;
+        text-decoration: line-through
+    }
+
+    .product-image {
+        width: 100%
+    }
+
+    .dot {
+        height: 7px;
+        width: 7px;
+        margin-left: 6px;
+        margin-right: 6px;
+        margin-top: 3px;
+        background-color: blue;
+        border-radius: 50%;
+        display: inline-block
+    }
+
+    .spec-1 {
+        color: #938787;
+        font-size: 15px
+    }
+
+    h5 {
+        font-weight: 400
+    }
+
+    .para {
+        font-size: 16px
+    }
+</style>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/AmagiTech/JSLoader/amagiloader.js"></script>
 <script type="text/javascript">
+    var modal = document.getElementById('id01');
 
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    let code_order ='';
+
+    function showModelConfirmOrder() {
+        document.getElementById('id01').style.display = 'block';
+    }
+
+    $(document).delegate('#showPopup', 'click', function (e) {
+           $('#code').html($(this).attr("order_code"));
+        code_order = $(this).attr("order_code");
+    });
+
+    function cancelConfirmOrder() {
+        document.getElementById('id01').style.display = 'none';
+    }
+
+    function updateStatusOrder(id) {
+
+        $.ajax({
+            type: 'get',
+            data: {code_order : code_order},
+            url: '/updateOrder',
+            context: this,
+            dataType: "json",
+            async: true,
+            success: function (response) {
+                AmagiLoader.hide();
+            },
+            beforeSend: function () {
+                AmagiLoader.show();
+            },
+            error: function (response) {
+                console.log(response);
+            },
+        });
+    }
 </script>
 </body>
 </html>

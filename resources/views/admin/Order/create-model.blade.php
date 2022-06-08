@@ -77,18 +77,7 @@
                                                 @endforeach
                                             </select>
                                     </div>
-
-                                    <div class="form-group">
-                                        <p class="m-0 font-0-9">Chọn Phương thức thanh toán<span
-                                                    class="text-danger">*</span>
-                                            <select class="search promotion show-tick" name="type_payment_method"
-                                                    data-live-search="true">
-                                                <option value="">Vui lòng chọn</option>
-                                                @foreach ($payment_methods as $payment_method)
-                                                    <option value="{{ $payment_method['id'] }}">{{ $payment_method['name'] }}</option>
-                                                @endforeach
-                                            </select>
-                                    </div>
+                                    
 
                                     <div class="form-group">
                                         <p class="m-0 font-0-9">Gía cả(price)<span class="text-danger">*</span>

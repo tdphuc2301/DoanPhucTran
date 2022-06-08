@@ -148,7 +148,6 @@ class OrderService
             $payment_order = $this->paymentRepository->save([
                 'payment_code' => $this->generateRandomString(),
                 'order_id' => $order->id,
-                'payment_method_id' => (int)$data['type_payment_method'],
                 'paid' => $data['paid'],
             ]);
             

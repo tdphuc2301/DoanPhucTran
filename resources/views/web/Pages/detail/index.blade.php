@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi-VN">
-@include('web.Layouts.header_detail_product')
+@include('web.Layouts.header')
 
 <body>
 @include('web.Layouts.banner-media')

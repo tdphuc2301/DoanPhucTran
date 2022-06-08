@@ -24,6 +24,7 @@ class WebResource extends JsonResource
             'rom_id' => $this->rom,
             'ram_id' => $this->ram,
             'brand_id' => $this->brand,
+            'branch_id' => $this->branch_id,
             'name' => $this->name,
             'price' => number_format($this->price),
             'sale_off_price' => number_format($this->sale_off_price) ,

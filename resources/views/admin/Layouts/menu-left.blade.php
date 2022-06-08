@@ -31,14 +31,7 @@
                 <i class="mdi mdi-numeric-2-box-multiple-outline menu-icon"></i>
             </a>
         </li>
-
-
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('admin.payment_method.index') }}">
-                <span class="menu-title">Hình thức thanh toán</span>
-                <i class="mdi  mdi-crosshairs-gps menu-icon"></i>
-            </a>
-        </li>
+            
 
         <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.customer.index') }}">

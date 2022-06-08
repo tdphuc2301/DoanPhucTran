@@ -1,14 +1,5 @@
-<!DOCTYPE html>
-<html lang="vi-VN">
-
-@include('web.Layouts.header')
-<head>
-    <style>
-    </style>
-</head>
-<body>
-@include('web.Layouts.banner-media')
-@include('web.Layouts.menu-top')
+@extends('web.Layouts.app')
+@section('content')
 <script type="text/javascript">
     (function () {
         var z = "";
@@ -390,7 +381,7 @@
     </div>
 
 </section>
-@include('web.Layouts.footer')
+@endsection
 <script src="//cdn.tgdd.vn/mwgcart/mwgcore/js/bundle/globalTGDD_V2.min.v202205040400.js"
         type="text/javascript"></script>
 <script defer="defer" async="async"

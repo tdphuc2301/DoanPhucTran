@@ -135,6 +135,7 @@
                 <input type="hidden" name="price_promotion_checkout">
                 <input type="hidden" name="total_price_checkout">
                 <input type="hidden" name="product_id">
+                <input type="hidden" name="promotion_id">
                 <textarea class="form-control mb-3" name="note"  rows="5"></textarea>
                 <button class="btn btn-primary btn-block" href="#">Proceed to Checkout</button>
             </form>
@@ -287,7 +288,7 @@
     let currentQuantity = $("input[name='quantity']").val();
     let totalPrice = parseInt(price_product) * currentQuantity + parseInt(shipment);
     $("#total_price").html(totalPrice.toLocaleString('it-IT', {style: 'currency', currency: 'VND'}));
-    $("#quantity").html($("input[name='quantity']").val());
+    $("#quantity").html(currentQuantity);
 
     $(document).ready(function () {
         $("input[name='quantity']").change(function () {
@@ -325,6 +326,7 @@
     $("input[name='total_price_checkout']").val(totalPrice);
     $("input[name='price_promotion_checkout']").val(0);
     $("input[name='product_id']").val('{{$product['id']}}');
+    $("input[name='promotion_id']").val('{{$promotions[0]['id']}}');
     
 
     // $(document).delegate('.promotion', 'click', function (e) {

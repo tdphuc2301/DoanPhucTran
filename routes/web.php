@@ -48,10 +48,12 @@ Route::get('cart', [WebController::class,'getCart'])->name('web.cart.get');
 Route::post('cart', [WebController::class,'postCart'])->name('web.cart.post');
 Route::get('checkout', [WebController::class,'getCheckout'])->name('web.checkout.get');
 Route::post('checkout', [WebController::class,'postCheckout'])->name('web.checkout.post');
-Route::get('test_success_product', [WebController::class,'successProduct']);
+Route::get('success', [WebController::class,'successProduct']);
 
 // Shipper
-Route::get('test_list_product_for_shipper', [WebController::class,'shipper_product']);
+Route::get('shipper_transfer_order', [WebController::class,'shipper_product']);
 
+// Api update
 
+Route::get('updateOrder', [WebController::class,'updateOrderPaid']);
 
