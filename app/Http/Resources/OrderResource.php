@@ -19,7 +19,8 @@ class OrderResource extends JsonResource
         $promotion = $this->promotions ;
         $customer = $this->customers ;
         $orderDetail = $this->orderDetails ;
-        $paid = $this->paids[0]->paid ;
+        $paid = $this->paids[0]->paid;
+        $product = $this->products;
         return [
             'id' => $this->id,
             'code' => $this->code,
@@ -46,7 +47,10 @@ class OrderResource extends JsonResource
             $stringPaid = 'Thanh toán thất bại';
         } else if($paid == 3) {
             $stringPaid = 'Thanh toán thành công';
+        } else if($paid == 4) {
+            $stringPaid = 'Hủy đơn hàng';
         }
+        
         return $stringPaid;
     }
 }

@@ -39,8 +39,8 @@ Route::get('/search', function () {
 });
 
 
-// Customer
-Route::get('/', [WebController::class,'index']);
+
+Route::get('/', [WebController::class,'index'])->name('dashboard');
 Route::get('/searchBranchClosestUser', [WebController::class,'searchBranchClosestUser'])->name('web.searchBranchClosestUser.get');;
 Route::get('/searchFilterField', [WebController::class,'searchFilterField'])->name('web.searchFilterField.get');;
 Route::get('phone/{brand}/{alias}', [WebController::class,'detailProduct']);
@@ -51,9 +51,20 @@ Route::post('checkout', [WebController::class,'postCheckout'])->name('web.checko
 Route::get('success', [WebController::class,'successProduct']);
 
 // Shipper
-Route::get('shipper_transfer_order', [WebController::class,'shipper_product']);
+Route::get('shipper_transfer_order', [WebController::class,'shipper_product'])->name('order_for_shipper');
 
 // Api update
 
 Route::get('updateOrder', [WebController::class,'updateOrderPaid']);
 
+
+Route::get('login', [WebController::class,'getLogin'])->name('login_web_get')->middleware('check.login');
+Route::post('login', [WebController::class,'postLogin'])->name('login_web_post');
+Route::get('logout', [WebController::class,'getLogout'])->name('logout_web_get');
+
+Route::get('register', [WebController::class,'getRegister'])->name('register_web_get');
+Route::post('register', [WebController::class,'postRegister'])->name('register_web_post');
+
+
+Route::get('searchOrder', [WebController::class,'searchOrder'])->name('search_order');
+Route::get('history', [WebController::class,'historyOrder'])->name('history_order');

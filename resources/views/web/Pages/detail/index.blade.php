@@ -1,14 +1,5 @@
-<!DOCTYPE html>
-<html lang="vi-VN">
-@include('web.Layouts.header')
-
-<body>
-@include('web.Layouts.banner-media')
-@include('web.Layouts.menu-top')
-
-<div class="bg-ellipse"></div>
-<div class="locationbox__overlay"></div>
-
+@extends('web.Layouts.app')
+@section('content')
 <?php $baseUrl = env('APP_URL') ?>
 <section data-id="235838" data-cate-id="42" class="detail ">
     <ul class="breadcrumb">
@@ -548,8 +539,6 @@
                             </div>
 
                         </div>
-
-
                     </form>
                 </div>
 
@@ -573,9 +562,8 @@
 
 </section>
 
-
-@include('web.Layouts.footer')
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+@endsection
+@section('script')
 <script>
     $("input[name='product_id']").val('<?php echo $product['id'] ?>');
     let colorNameInit = '<?php echo $product['colors'][0]['name'] ?>';
@@ -598,6 +586,4 @@
 <script defer="defer" async="async"
         src="//cdn.tgdd.vn/mwgcart/mwgcore/js/bundle/detailTGDD.min.v202205130230.js"></script>
 
-</body>
-
-</html>
+@endsection

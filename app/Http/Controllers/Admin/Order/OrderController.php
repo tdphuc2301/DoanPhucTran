@@ -10,6 +10,8 @@ use App\Http\Resources\OrderResource;
 use App\Http\Responses\PaginationResponse;
 use App\Models\Branch;
 use App\Models\Customer;
+use App\Models\Order;
+use App\Models\Payment;
 use App\Models\Payment_method;
 use App\Models\Product;
 use App\Models\Promotion;
@@ -17,6 +19,7 @@ use App\Services\OrderService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Nette\Utils\DateTime;
 
 class OrderController extends Controller
 {
@@ -46,6 +49,11 @@ class OrderController extends Controller
         $filter['status'] = $filter['status'] ?? config('common.status.active');
         $sortKey = !empty($filter['sort_key']) ? $filter['sort_key'] : config('pagination.sort_default.key');
         $sortValue = $filter['sort_value'] ?? config('pagination.sort_default.value');
+        $listCustomer = Customer::all();
+        foreach ($listCustomer as $customer) {
+            $this->checkExpressOrder($customer['id']);
+        }
+       
         $order = $this->OrderService->paginateAll($page, $limit, $filter, $sortKey, $sortValue);
         $result = [
             'list' => OrderResource::collection($order->items())->toArray($request),
@@ -99,5 +107,26 @@ class OrderController extends Controller
         } catch (\Exception $e) {
             return $this->responseError(Response::HTTP_INTERNAL_SERVER_ERROR, $e);
         }
+    }
+
+    function checkExpressOrder($customer_id): string
+    {
+        $listOrderCustomer = Order::where('customer_id', $customer_id)->get();
+        foreach($listOrderCustomer as $order) {
+            $dateOrder = new DateTime($order->created_at);
+            $dateOrder->modify('+4 hour');
+
+            $now = new DateTime("now");
+            if($dateOrder < $now) {
+                $paid = $order->paids;
+                if($paid[0]->paid == 1 ) {
+                    $payment = Payment::find($paid[0]->id);
+                    $payment->paid = 4;
+                    $payment->save();
+                }
+            }
+
+        }
+        return true;
     }
 }

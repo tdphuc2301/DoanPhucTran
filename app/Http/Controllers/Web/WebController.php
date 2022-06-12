@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\Lib;
 use App\Http\Resources\BrandResource;
 use App\Http\Resources\CategoryResource;
+use App\Http\Resources\OrderResource;
 use App\Http\Resources\RamResource;
 use App\Http\Resources\RomResource;
 use App\Http\Resources\WebResource;
@@ -24,11 +25,16 @@ use App\Repositories\OrderRepository;
 use App\Repositories\PaymentRepository;
 use App\Services\BrandService;
 use App\Services\CategoryService;
+use App\Services\OrderService;
 use App\Services\RamService;
 use App\Services\RomService;
 use App\Services\WebService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Nette\Utils\DateTime;
 
 
 class WebController extends Controller
@@ -44,6 +50,7 @@ class WebController extends Controller
     protected $orderRepository;
     protected $orderDetailRepository;
     protected $paymentRepository;
+    protected $orderService;
 
     /**
      * @param WebService $webService
@@ -58,6 +65,7 @@ class WebController extends Controller
         OrderRepository       $orderRepository,
         OrderDetailRepository $orderDetailRepository,
         PaymentRepository     $paymentRepository,
+        OrderService          $orderService,
         BrandService          $brandService)
     {
         $this->webService = $webService;
@@ -69,6 +77,7 @@ class WebController extends Controller
         $this->orderRepository = $orderRepository;
         $this->orderDetailRepository = $orderDetailRepository;
         $this->paymentRepository = $paymentRepository;
+        $this->orderService = $orderService;
     }
 
     public function index(Request $request)
@@ -129,8 +138,8 @@ class WebController extends Controller
             'listPrice' => $listPrice,
             'sort_key' => $sortKey,
             'sort_value' => $sortValue,
-            'isDetail'=> false,
-            'isDashboard'=> true
+            'isDetail' => false,
+            'isDashboard' => true
         ];
 
 
@@ -242,8 +251,8 @@ class WebController extends Controller
             'product' => $product,
             'promotions' => Promotion::all(),
             'listOtherProduct' => WebResource::collection($listOtherProduct)->toArray($request),
-            'isDetail'=> true,
-            'isDashboard'=> false
+            'isDetail' => true,
+            'isDashboard' => false
         ]);
     }
 
@@ -257,6 +266,8 @@ class WebController extends Controller
             $quantity = $request->session()->get('quantity') ?? $quantity;
             $productCart = Product::where('id', $request->product_id)->with(['images'])->get();
             $productCart = WebResource::collection($productCart)->toArray($request)[0];
+            $dateOrder = new DateTime('now');
+            $productCart['express_order'] = $dateOrder->modify('+4 hour')->format('H:i d/m/Y ');
             $request->session()->put('productCart', $productCart);
             $request->session()->put('colorName', $request->color_id);
         }
@@ -266,6 +277,7 @@ class WebController extends Controller
         }
 
         $productCart['sale_off_price'] = str_replace(',', '.', $productCart['sale_off_price']);
+        
         $shipment = str_replace(',', '.', number_format(40000));
         return view('web.Pages.cart-product', [
             'product' => $productCart,
@@ -273,6 +285,8 @@ class WebController extends Controller
             'color_name' => $request->color_id,
             'shipment' => $shipment,
             'promotions' => Promotion::all(),
+            'isDetail' => false,
+            'isDashboard' => false
         ]);
     }
 
@@ -291,30 +305,94 @@ class WebController extends Controller
 
     public function getCheckout(Request $request)
     {
+        $customer = null;
+        if (Auth::check()) {
+            $customer = Customer::where('user_id', Auth::user()->id)->first();
+        }
+
         return view('web.Pages.checkout-product', [
             'product' => $request->session()->get('productCart'),
             'total_price_checkout' => $request->session()->get('total_price'),
             'quantity' => $request->session()->get('quantity'),
             'price_promotion_checkout' => $request->session()->get('price_promotion'),
+            'isDetail' => false,
+            'isDashboard' => false,
+            'customer' => $customer
         ]);
+    }
+
+    public function getBranchClosetCustomer($point1)
+    {
+        // TO DO
+        $list_branch_value_km = [];
+
+        $listBranch = Branch::all();
+        foreach ($listBranch as $value) {
+            $point2 = [
+                $value->long,
+                $value->lat,
+
+            ];
+            $canKm = $this->getDistanceBetweenTwoPoints($point1, $point2);
+            $list_branch_value_km[$value->id] = $canKm;
+        }
+
+        asort($list_branch_value_km);
+        
+        return array_keys($list_branch_value_km);
     }
 
     public function postCheckout(Request $request)
     {
-        // create customer
-        $customer = $this->customerRepository->save([
-            'name' => $request->firstName . ' ' . $request->lastName,
-            'address' => $request->search_address,
-            'long' => $request->longitude,
-            'lat' => $request->latitude,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'point' => 10,
-            'type_id' => 4,
-            'user_id' => null,
-            'index' => 0,
-            'status' => 1
-        ]);
+
+        $point1 = [
+            $request->longitude,
+            $request->latitude
+        ];
+
+        $product_id = $request->session()->get('productCart')['id'];
+
+
+        // Get list branch closet customer
+        $list_brach_id_closet_customer = $this->getBranchClosetCustomer($point1);
+        $branch_closet_customer = null;
+        foreach ($list_brach_id_closet_customer as $branch_id) {
+            $product = Product::where([
+                'branch_id' => $branch_id,
+                'search' => $request->session()->get('productCart')['id']
+            ])->first();
+            if ($product) {
+                $request->session()->put('productCart', $product);
+                $product_id = $product['id'];
+                $branch_closet_customer = $branch_id;
+                break;
+            }
+        }
+
+        // Save branch_id
+        if (Auth::check()) {
+            $user = Auth::user();
+            $user_customer = User::find($user->id);
+            $user_customer->branch_id = $branch_closet_customer;
+            $user_customer->save();
+            $customer = Customer::where('user_id', $user_customer->id)->first();
+        } else {
+
+            // create customer
+            $customer = $this->customerRepository->save([
+                'name' => $request->name,
+                'address' => $request->search_address,
+                'long' => $request->longitude,
+                'lat' => $request->latitude,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'point' => 10,
+                'type_id' => 4,
+                'user_id' => null,
+                'index' => 0,
+                'status' => 1
+            ]);
+        }
 
         // Save order
         $order = $this->orderRepository->save([
@@ -329,7 +407,6 @@ class WebController extends Controller
             'price_promotion' => $request->session()->get('price_promotion'),
         ]);
         $price = str_replace(',', '', $request->session()->get('productCart')['sale_off_price']);
-        $product_id = $request->session()->get('productCart')['id'];
 
         // Save order detail
         $order_detail = $this->orderDetailRepository->save([
@@ -355,7 +432,7 @@ class WebController extends Controller
             'paid' => $paid,
         ]);
 
-        $shipment =number_format(40000);
+        $shipment = number_format(40000);
 
         return view('web.Pages.success_product', [
             'order_code' => $order->code,
@@ -364,36 +441,159 @@ class WebController extends Controller
             'quantity' => $request->session()->get('quantity'),
             'price_promotion' => $request->session()->get('price_promotion'),
             'total_price' => $request->session()->get('total_price'),
-            'address' => $request->search_address
+            'address' => $request->search_address,
+            'express_order' => $request->session()->get('productCart')['express_order'],
+            'isDetail' => false,
+            'isDashboard' => true
         ]);
     }
 
     public function shipper_product()
     {
-        $user = User::find(4);
-        $orders = Order::where('branch_id', $user->branch_id)->with(['customers','promotions','orderDetails','paids'])->get();
+        $user = Auth::user();
+        $orders = Order::where('branch_id', $user->branch_id)->with(['customers', 'promotions', 'orderDetails', 'paids'])->get();
         foreach ($orders as $order) {
-            $product = Product::where('id',$order['orderDetails'][0]['product_id'])->with('images')->get();
+            $product = Product::where('id', $order['orderDetails'][0]['product_id'])->with('images')->get();
             $order['orderDetails'][0]['name'] = $product[0]->name;
             $order['orderDetails'][0]['price'] = $product[0]->price;
             $order['orderDetails'][0]['sale_off_price'] = $product[0]->sale_off_price;
             $order['orderDetails'][0]['images'] = $product[0]['images'][0]['path'];
         }
-        return view('web.Pages.shipper.index',[
+        return view('web.Pages.shipper.index', [
             'orders' => $orders,
-            'shipment'=>number_format(40000)
+            'shipment' => number_format(40000),
+            'isDetail' => false,
+            'isDashboard' => false
         ]);
     }
 
     public function updateOrderPaid(Request $request)
     {
-        $order = Order::where('code',$request->code_order)->first();
-        $payment = Payment::where('order_id',$order->id)->first();
-        $payment->paid =3;
+        $order = Order::where('code', $request->code_order)->first();
+        $payment = Payment::where('order_id', $order->id)->first();
+        $payment->paid = 3;
         $payment->save();
         return 1;
     }
-    
+
+    public function getLogin(Request $request)
+    {
+        $request->session()->put('url_back', url()->previous());
+
+        return view('web.Pages.login');
+    }
+
+    public function postLogin(Request $request)
+    {
+        $this->validateLogin($request);
+        $credentials = request(['username', 'password']);
+        $user = User::where('username', $request->username)->first();
+        if (!$user) {
+            return redirect(route('login_web_get'))->with("message", "Username is wrong!");
+        } else {
+            if (!Hash::check($request->password, $user->password, [])) {
+                return redirect(route('login_web_get'))->with('message', 'Passwword is wrong!');
+            } else {
+                $roles = $user->role;
+                if ($roles->name === User::CUSTOMER) {
+                    Auth::attempt($credentials);
+                    return redirect($request->session()->get('url_back'));
+                } else if ($roles->name === User::SHIPPER) {
+                    return redirect(route('order_for_shipper'));
+                }
+            }
+        }
+
+        return redirect(route('login_web_get'));
+    }
+
+
+    public function getRegister(Request $request)
+    {
+
+        return view('web.Pages.register');
+    }
+
+    public function postRegister(Request $request)
+    {
+        $user = new User();
+        $user->name = $request->name;
+        $user->role_id = 4;
+        $user->username = $request->username;
+        $user->password = Hash::make($request->password);
+        $user->email = $request->email;
+        $user->status = 1;
+        $user->save();
+
+        $customer = $this->customerRepository->save([
+            'name' => $request->name,
+            'address' => $request->search_address,
+            'long' => $request->longitude,
+            'lat' => $request->latitude,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'point' => 10,
+            'type_id' => 4,
+            'user_id' => $user->id,
+            'index' => 0,
+            'status' => 1
+        ]);
+
+
+        $credentials = request(['username', 'password']);
+        Auth::attempt($credentials);
+
+        return redirect(route('dashboard'));
+    }
+
+    public function getLogout()
+    {
+        Auth::logout();
+        return back();
+    }
+
+    public function searchOrder()
+    {
+        return view('web.Pages.history_search-order', [
+            'isDetail' => false,
+            'isDashboard' => true
+        ]);
+    }
+
+    public function historyOrder(Request $request)
+    {
+        if (Auth::check()) {
+            $user = Auth::user();
+            $customer = Customer::where('user_id', $user->id)->first();
+            $this->checkExpressOrder($customer['id']);
+            $orders = Order::where([
+                'status' => 1,
+                'customer_id' => $customer['id'],
+            ])->with(['customers', 'promotions', 'orderDetails', 'paids'])->get();
+            foreach ($orders as $order) {
+                $product = Product::where('id', $order['orderDetails'][0]['product_id'])->with('images')->get();
+                $order['orderDetails'][0]['name'] = $product[0]->name;
+                $order['orderDetails'][0]['price'] = $product[0]->price;
+                $order['orderDetails'][0]['sale_off_price'] = $product[0]->sale_off_price;
+                $order['orderDetails'][0]['images'] = $product[0]['images'][0]['path'];
+                $order['paids'][0]['message'] = $this->convertMessage($order['paids'][0]['paid']);
+                $order['paids'][0]['showClass'] = $this->convertToShowClass($order['paids'][0]['paid']);
+            }
+            return view('web.Pages.history-order', [
+                'orders' => $orders,
+                'isDetail' => false,
+                'isDashboard' => true
+            ]);
+        } else {
+            return view('web.Pages.history_search-order',
+                [
+                    'isDetail' => false,
+                    'isDashboard' => true
+                ]);
+        }
+    }
+
+
     public function getDistanceBetweenTwoPoints($point1, $point2)
     {
         // array of lat-long i.e  $point1 = [lat,long]
@@ -422,4 +622,67 @@ class WebController extends Controller
         return $randomString;
     }
 
+    public function validateLogin($request)
+    {
+        $request->validate([
+            'username' => 'required',
+            'password' => 'required',
+        ]);
+    }
+
+    public function convertMessage(int $paid)
+    {
+        switch ($paid) {
+            case 1:
+                return 'Đang giao hàng';
+            case 2:
+                return 'Thanh toán thất bại';
+            case 3:
+                return 'Đã nhận hàng và thanh toán';
+            case 4:
+                return 'Hủy đơn hàng';
+            default:
+                return '';
+        }
+    }
+
+    function convertToShowClass(int $paid): string
+    {
+        switch ($paid) {
+            case 1:
+                return 'label-info';
+            case 2:
+                return 'label-warning';
+            case 3:
+                return 'label-success';
+            case 4:
+                return 'label-danger';
+            default:
+                return '';
+
+
+        }
+    }
+    
+    function checkExpressOrder($customer_id): string
+    {
+        $listOrderCustomer = Order::where('customer_id', $customer_id)->get();
+        foreach($listOrderCustomer as $order) {
+            $dateOrder = new DateTime($order->created_at);
+            $dateOrder->modify('+4 hour');
+
+            $now = new DateTime("now");
+            if($dateOrder < $now) {
+                $paid = $order->paids;
+                if($paid[0]->paid == 1 ) {
+                    $payment = Payment::find($paid[0]->id);
+                    $payment->paid = 4;
+                    $payment->save();
+                }
+            }
+            
+        }
+        return true;
+    }
+    
 }

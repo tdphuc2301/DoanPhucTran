@@ -103,6 +103,7 @@
                                             <option value="1">Chưa thanh toán</option>
                                             <option value="2">Thanh toán thất bại</option>
                                             <option value="3">Thanh toán thành công</option>
+                                            <option value="4">Hủy đơn hàng</option>
                                         </select>
                                     </div>
                                     

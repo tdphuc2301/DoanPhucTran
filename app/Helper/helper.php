@@ -264,9 +264,11 @@ function showClassStatusPaid(int $status): string
         case 1:
             return 'bg-primary';
         case 2:
-            return 'bg-danger';
+            return 'bg-warning';
         case 3:
             return 'bg-success';
+        case 4:
+            return 'bg-danger';
         default:
             return '';
     }

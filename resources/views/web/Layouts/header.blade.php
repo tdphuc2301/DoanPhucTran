@@ -39,6 +39,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css"></script>
     <link rel="stylesheet" href="{{ asset('resources/web/assets/css/detail-product.css') }}">
+        
     @endif
     @yield('head')
 </head>

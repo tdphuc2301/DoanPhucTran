@@ -1,4 +1,4 @@
-<header class="header  " data-sub="0">
+<header class="header" data-sub="0">
     <div class="header__top" style="height:60px">
         <div>
             <a href="/" class="header__logo">
@@ -16,7 +16,7 @@
                 </button>
                 <div id="search-result"></div>
             </form>
-            <a href="/lich-su-mua-hang" class="name-order">
+            <a href="{{route('history_order')}}" class="name-order">
                 Lịch sử đơn hàng
             </a>
             <a href="/cart" class="header__cart menu-info">
@@ -26,19 +26,20 @@
                 </div>
                 <span>Giỏ hàng</span>
             </a>
-            <div class="header__listtop">
-                <div class="divitem">
-                    <a href="/tin-tuc">24h<br>Công nghệ</a>
-                </div>
-                <div class="bordercol"></div>
-                <div class="divitem">
-                    <a href="/hoi-dap">Hỏi Đáp</a>
-                </div>
-                <div class="bordercol"></div>
-                <div class="divitem">
-                    <a href="/game-app">Game App</a>
-                </div>
+          
+            @if(Auth::user() === null)
+            <div>
+                    <a class="name-order" style="width:50%;height:40px;text-align:center;line-height:30px;font-size:14px;font-weight: bold" href="{{route('login_web_get')}}">Login</a>
             </div>
+            @endif
+            @if(Auth::user() !== null)
+            <div >
+                <a class="name-order" style="width:50%;height:40px;text-align:center;line-height:30px;font-size:14px;font-weight: bold" href="#">{{Auth::user()->name ?? ''}}</a>
+            </div>
+            <div >
+                <a class="name-order" style="width:50%;height:40px;text-align:center;line-height:30px;font-size:14px;font-weight: bold" href="{{route('logout_web_get')}}">Logout</a>
+            </div>
+            @endif
         </div>
     </div>
 </header>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <title>Success product</title>
-    @include('web.Layouts.header_detail_product')
+    @include('web.Layouts.header')
     @include('web.Layouts.banner-media')
     @include('web.Layouts.menu-top')
 <body style="margin: 0 !important; padding: 0 !important; background-color: #eeeeee;" bgcolor="#eeeeee">
@@ -100,7 +100,7 @@
                                         <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:300px;">
                                             <tr>
                                                 <td align="left" valign="top" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px;">
-                                                    <p style="font-weight: 800;">Delivery Address</p>
+                                                    <p style="font-weight: 800;">Địa chỉ</p>
                                                     <p>{{$address}}</p>
 
                                                 </td>
@@ -111,8 +111,8 @@
                                         <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:300px;">
                                             <tr>
                                                 <td align="left" valign="top" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px;">
-                                                    <p style="font-weight: 800;">Estimated Delivery Date</p>
-                                                    <p>January 1st, 2016</p>
+                                                    <p style="font-weight: 800;">Thời gian giao hàng đến nơi</p>
+                                                    <p>{{$express_order}}</p>
                                                 </td>
                                             </tr>
                                         </table>
