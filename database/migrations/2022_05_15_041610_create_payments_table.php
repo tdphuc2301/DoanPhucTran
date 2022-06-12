@@ -17,7 +17,6 @@ class CreatePaymentsTable extends Migration
             $table->id();
             $table->string('payment_code')->nullable(false)->nullable(false);
             $table->string('order_id')->nullable(false)->nullable(false);
-            $table->integer('payment_method_id')->nullable(false)->nullable(false);
             $table->integer('paid');
             $table->tinyInteger('status')->default(1);
             $table->timestamps();

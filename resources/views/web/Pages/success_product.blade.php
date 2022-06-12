@@ -50,7 +50,7 @@
                                                 Đã mua món hàng ({{$quantity}})
                                             </td>
                                             <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
-                                                {{$price}}
+                                                {{$price}} vnđ
                                             </td>
                                         </tr>
                                         <tr>
@@ -58,7 +58,7 @@
                                                 Shipping + Handling
                                             </td>
                                             <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;">
-                                                {{$shipment}}
+                                                {{$shipment}} vnđ
                                             </td>
                                         </tr>
                                         <tr>
@@ -66,7 +66,7 @@
                                                 Khuyến mãi
                                             </td>
                                             <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;">
-                                                {{$price_promotion}}
+                                                {{$price_promotion}} vnđ
                                             </td>
                                         </tr>
                                     </table>
@@ -80,7 +80,7 @@
                                                 TOTAL
                                             </td>
                                             <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px; border-top: 3px solid #eeeeee; border-bottom: 3px solid #eeeeee;">
-                                                {{$total_price}}
+                                                {{$total_price}} vnđ
                                             </td>
                                         </tr>
                                     </table>

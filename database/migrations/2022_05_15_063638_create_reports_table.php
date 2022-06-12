@@ -15,7 +15,8 @@ class CreateReportsTable extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
-            $table->integer('total_price')->nullable(false);
+            $table->bigInteger('total_price')->nullable(false);
+            $table->bigInteger('total_promotion')->nullable(false);
             $table->integer('total_order')->nullable(false);
             $table->date('date_created')->nullable(false);
             $table->integer('branch_id')->nullable(false);

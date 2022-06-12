@@ -301,7 +301,7 @@
         <div class="box-quicklink  block-scroll-main">
             <div class="lst-quickfilter q-manu ">
                 @foreach ($brands as $brand)
-                    <a  class="box-quicklink__item bd-radius quicklink-logo" brand_id="{{$brand['id']}}">
+                    <a class="box-quicklink__item bd-radius quicklink-logo" brand_id="{{$brand['id']}}">
                         <img src="{{$brand['images'][0]['path'] ?? ''}}" width="30" class=no-text>
                     </a>
                 @endforeach

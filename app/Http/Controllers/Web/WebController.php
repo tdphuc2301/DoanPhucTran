@@ -240,7 +240,6 @@ class WebController extends Controller
     {
         $idProduct = Alias::where('alias', $alias)->first(['model_id'])['model_id'];
         $product = Product::where('id', $idProduct)->with(['rom', 'ram', 'brand', 'images', 'category', 'metaseo', 'colors'])->first();
-        setlocale(LC_MONETARY, 'en_IN');
 
         // Set number format money
         $product['price'] = number_format($product['price']);
@@ -261,6 +260,9 @@ class WebController extends Controller
 
     public function getCart(Request $request)
     {
+        if(!$request->has('product_id')) {
+            return redirect()->route('dashboard');
+        }
         $quantity = 1;
         $productCart = $request->session()->get('productCart');
         if (!$productCart) {
@@ -293,6 +295,8 @@ class WebController extends Controller
 
     public function postCart(Request $request)
     {
+        
+        
         if ($request->quantity_checkout != $request->session()->get('quantity')) {
             $request->session()->put('quantity', $request->quantity_checkout);
         }
@@ -313,6 +317,10 @@ class WebController extends Controller
 
     public function getCheckout(Request $request)
     {
+        if(!$request->session()->get('productCart')) {
+            return redirect()->route('dashboard');
+        }
+        
         $customer = null;
         if (Auth::check()) {
             $customer = Customer::where('user_id', Auth::user()->id)->first();
@@ -445,12 +453,13 @@ class WebController extends Controller
         
         $now = new DateTime('now');
         $now->format('Y-m-d');
-        $report = Report::where('date_created',$now)->first();
+        $report = Report::whereDate('date_created',$now)->first();
         if($report === null) {
             $report = new Report();
             $report->total_price = $request->session()->get('total_price');
             $report->total_order = 1;
             $report->date_created = $now;
+            $report->branch_id = $request->session()->get('productCart')['branch_id'];
             $report->save();
         } else {
             $report->total_price += $request->session()->get('total_price');
@@ -458,18 +467,28 @@ class WebController extends Controller
             $report->save();
         }
 
+        
+        $dateOrder = new DateTime('now');
+        $express_order = $dateOrder->modify('+4 hour')->format('H:i d/m/Y ');
+        $quantity = $request->session()->get('quantity');
+        $price_promotion = number_format($request->session()->get('price_promotion'));
+        $total_price = number_format($request->session()->get('total_price'));
+
+        $request->session()->flush();
+        
         return view('web.Pages.success_product', [
             'order_code' => $order->code,
-            'price' => $price,
-            'shipment' => $shipment,
-            'quantity' => $request->session()->get('quantity'),
-            'price_promotion' => $request->session()->get('price_promotion'),
-            'total_price' => $request->session()->get('total_price'),
+            'price' => number_format($price),
+            'shipment' => number_format($shipment),
+            'quantity' => $quantity,
+            'price_promotion' => $price_promotion,
+            'total_price' => $total_price,
             'address' => $request->search_address,
-            'express_order' => $request->session()->get('productCart')['express_order'],
+            'express_order' => $express_order,
             'isDetail' => false,
             'isDashboard' => true
         ]);
+        
     }
 
     public function shipper_product()

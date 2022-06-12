@@ -566,7 +566,7 @@
 @section('script')
 <script>
     $("input[name='product_id']").val('<?php echo $product['id'] ?>');
-    let colorNameInit = '<?php echo $product['colors'][0]['name'] ?>';
+    let colorNameInit = '<?php echo $product['colors'][0]['name'] ?? '' ?>';
     $("input[name='color_id']").val(colorNameInit);
     $(document).delegate('.color_name ', 'click', function (e) {
         $('.color_name').removeClass('act');
