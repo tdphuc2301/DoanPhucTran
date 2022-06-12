@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Model;
 class Report extends Model
 {
     use HasFactory;
-    use SlugNameTrait;
     use FormatDateTrait;
 
     protected $fillable = [

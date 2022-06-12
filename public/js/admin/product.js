@@ -180,7 +180,7 @@ function closeCreateModal() {
 }
 
 function clearCreateData() {
-  $('#create-data-form input,#create-data-form textarea,#metaseo-form input,#metaseo-form textarea').each(function (index) {
+  $('#create-data-form input,#create-data-form textarea, #create-data-form select,#metaseo-form input,#metaseo-form textarea').each(function (index) {
     var inputEml = $(this);
 
     if (!inputEml.attr('hidden')) {
@@ -768,6 +768,10 @@ $(document).delegate('.btn-edit', 'click', function (e) {
       $('input[name="sale_off_price"]').val(data.sale_off_price);
       $('input[name="stock_quantity"]').val(data.stock_quantity);
       $('select[name="category_id"]').selectpicker('val', category ? category.id : '');
+      $('select[name="ram_id"]').selectpicker('val', data.ram_id ? data.ram_id : '');
+      $('select[name="rom_id"]').selectpicker('val', data.rom_id ? data.rom_id : '');
+      $('select[name="branch_id"]').selectpicker('val', data.branch_id ? data.branch_id : '');
+      $('select[name="brand_id"]').selectpicker('val', data.brand_id ? data.brand_id : '');
       $('.description').val(data.description);
 
       if (images) {

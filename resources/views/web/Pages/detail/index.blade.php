@@ -4,18 +4,18 @@
 <section data-id="235838" data-cate-id="42" class="detail ">
     <ul class="breadcrumb">
         <li>
-            <a href="#">{{$product['brand']['name']}}</a>
+            <a href="#">{{$product['brand']['name'] ?? ''}}</a>
             <meta property="position" content="1">
         </li>
         <li>
             <span>›</span>
-            <a href="#">Điện thoại {{$product['brand']['name']}}</a>
+            <a href="#">Điện thoại {{$product['brand']['name'] ?? ''}}</a>
             <meta property="position" content="2">
         </li>
     </ul>
 
 
-    <h1>{{$product['name']}}</h1>
+    <h1>{{$product['name'] ?? ''}}</h1>
 
 
     <div class="box02">
@@ -29,7 +29,7 @@
                     <i class="four-point icondetail-star-dark"></i>
                     <i class="five-point icondetail-star-dark"></i>
                 </p>
-                <p class="detail-rate-total">{{$product['total_rate']}}<span> đánh giá</span></p>
+                <p class="detail-rate-total">{{$product['total_rate'] ?? ''}}<span> đánh giá</span></p>
             </div>
         </div>
         <div class="box02__right">

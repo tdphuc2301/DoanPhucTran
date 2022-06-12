@@ -18,6 +18,7 @@ use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Product;
 use App\Models\Promotion;
+use App\Models\Report;
 use App\Models\User;
 use App\Repositories\CustomerRepository;
 use App\Repositories\OrderDetailRepository;
@@ -441,6 +442,21 @@ class WebController extends Controller
         ]);
 
         $shipment = number_format(WebController::FREESHIP);
+        
+        $now = new DateTime('now');
+        $now->format('Y-m-d');
+        $report = Report::where('date_created',$now)->first();
+        if($report === null) {
+            $report = new Report();
+            $report->total_price = $request->session()->get('total_price');
+            $report->total_order = 1;
+            $report->date_created = $now;
+            $report->save();
+        } else {
+            $report->total_price += $request->session()->get('total_price');
+            $report->total_order += 1;
+            $report->save();
+        }
 
         return view('web.Pages.success_product', [
             'order_code' => $order->code,

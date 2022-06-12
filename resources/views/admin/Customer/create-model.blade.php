@@ -13,8 +13,7 @@
                     <ul class="nav nav-tabs mb-4" role="tablist">
                         <li role="presentation" class="nav-item"><a href="#home" class="nav-link  active"
                                                                     aria-controls="home" role="tab" data-toggle="tab">Thông tin chung</a></li>
-                        <li role="presentation" class="nav-item "><a href="#settings" class="nav-link"
-                                                                     aria-controls="settings" role="tab" data-toggle="tab">SEO</a></li>
+                        
                     </ul>
 
                     <!-- Tab panes -->
@@ -122,28 +121,6 @@
                                         <p class="m-0 font-0-9">Description
                                         </p>
                                         <textarea class="description" name="description"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div role="tabpanel" class="tab-pane" id="settings">
-                            <div class="row" id="metaseo-form">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <p class="m-0 font-0-9">Title</p>
-                                        <input name="title" type="text" class="form-control form-control-sm">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <p class="m-0 font-0-9">Keyword</p>
-                                        <input name="keyword" type="text" class="form-control form-control-sm">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <p class="m-0 font-0-9">Mô tả</p>
-                                        <textarea name="description" type="text" rows="6" class="form-control form-control-sm"></textarea>
                                     </div>
                                 </div>
                             </div>

@@ -180,7 +180,7 @@ function closeCreateModal() {
 }
 
 function clearCreateData() {
-  $('#create-data-form input,#create-data-form textarea,#metaseo-form input,#metaseo-form textarea').each(function (index) {
+  $('#create-data-form input,#create-data-form textarea, #create-data-form select,#metaseo-form input,#metaseo-form textarea').each(function (index) {
     var inputEml = $(this);
 
     if (!inputEml.attr('hidden')) {

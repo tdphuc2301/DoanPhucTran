@@ -18,7 +18,7 @@ class CreateOrdersTable extends Migration
             $table->integer('customer_id')->nullable(false);
             $table->integer('promotion_id')->nullable(false);
             $table->string('code');
-            $table->string('note');
+            $table->string('note')->nullable();
             $table->integer('total_price');
             $table->integer('price_promotion')->nullable();
             $table->string('search')->nullable();
