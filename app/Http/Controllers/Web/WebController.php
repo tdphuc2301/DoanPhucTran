@@ -51,6 +51,7 @@ class WebController extends Controller
     protected $orderDetailRepository;
     protected $paymentRepository;
     protected $orderService;
+    const FREESHIP = 40000;
 
     /**
      * @param WebService $webService
@@ -262,7 +263,6 @@ class WebController extends Controller
         $quantity = 1;
         $productCart = $request->session()->get('productCart');
         if (!$productCart) {
-
             $quantity = $request->session()->get('quantity') ?? $quantity;
             $productCart = Product::where('id', $request->product_id)->with(['images'])->get();
             $productCart = WebResource::collection($productCart)->toArray($request)[0];
@@ -272,13 +272,13 @@ class WebController extends Controller
             $request->session()->put('colorName', $request->color_id);
         }
 
-        if ($request->session()->get('quantity') !== $request->quantity) {
+        if ( $request->quantity != $request->session()->get('quantity')) {
             $request->session()->put('quantity', $quantity);
         }
 
         $productCart['sale_off_price'] = str_replace(',', '.', $productCart['sale_off_price']);
         
-        $shipment = str_replace(',', '.', number_format(40000));
+        $shipment = str_replace(',', '.', number_format(WebController::FREESHIP));
         return view('web.Pages.cart-product', [
             'product' => $productCart,
             'quantity' => $quantity,
@@ -296,9 +296,16 @@ class WebController extends Controller
             $request->session()->put('quantity', $request->quantity_checkout);
         }
 
+        if ($request->total_price_checkout != $request->session()->get('total_price')) {
+            $request->session()->put('total_price', $request->total_price_checkout);
+
+        }
+
+        if ($request->price_promotion_checkout != $request->session()->get('price_promotion')) {
+            $request->session()->put('price_promotion', $request->price_promotion_checkout);
+        }
+        
         $request->session()->put('note', $request->note);
-        $request->session()->put('total_price', $request->total_price_checkout);
-        $request->session()->put('price_promotion', $request->price_promotion_checkout);
         $request->session()->put('promotion_id', $request->promotion_id);
         return redirect()->route('web.checkout.get');
     }
@@ -313,11 +320,12 @@ class WebController extends Controller
         return view('web.Pages.checkout-product', [
             'product' => $request->session()->get('productCart'),
             'total_price_checkout' => $request->session()->get('total_price'),
-            'quantity' => $request->session()->get('quantity'),
-            'price_promotion_checkout' => $request->session()->get('price_promotion'),
+            'quantity' => number_format($request->session()->get('quantity')),
+            'price_promotion_checkout' => number_format($request->session()->get('price_promotion')),
             'isDetail' => false,
             'isDashboard' => false,
-            'customer' => $customer
+            'customer' => $customer,
+            'shipment' => number_format(WebController::FREESHIP)
         ]);
     }
 
@@ -432,7 +440,7 @@ class WebController extends Controller
             'paid' => $paid,
         ]);
 
-        $shipment = number_format(40000);
+        $shipment = number_format(WebController::FREESHIP);
 
         return view('web.Pages.success_product', [
             'order_code' => $order->code,
@@ -461,7 +469,7 @@ class WebController extends Controller
         }
         return view('web.Pages.shipper.index', [
             'orders' => $orders,
-            'shipment' => number_format(40000),
+            'shipment' => number_format(WebController::FREESHIP),
             'isDetail' => false,
             'isDashboard' => false
         ]);

@@ -121,7 +121,7 @@
                         style="text-decoration: underline;">{{$product['sale_off_price']}} vnđ</strong></h4>
             <h4 class="h6  text-left ">Phí vận chuyển:<strong style="text-decoration: underline;"> {{$shipment}}
                     vnđ </strong></h4>
-            <h4 class="h6  text-left">Giảm giá: <strong id="promotion" style="text-decoration: underline;">0</strong> vnđ
+            <h4 class="h6  text-left">Giảm giá: <strong id="promotion" style="text-decoration: underline;">0</strong>
             </h4>
             <h4 class="h6  text-left">Số lượng: <strong id="quantity" style="text-decoration: underline;">0</strong>
             </h4>
@@ -287,17 +287,54 @@
     
     let price_product = '<?php echo str_replace('.', '', $product['sale_off_price']); ?>';
     let shipment = '<?php echo str_replace('.', '', $shipment); ?>';
-    let currentQuantity = $("input[name='quantity']").val();
-    let totalPrice = parseInt(price_product) * currentQuantity + parseInt(shipment);
+    let currentQuantity = $("input[name='quantity']").val()
+    let totalPrice = 0;
+
+    // promotion value
+    let  promotion_value_old = {{$promotions[0]['value']}};
+    let  promotion_id_old = 1;
+    let  type_promotion_id_old = 1;
+    
+    if (type_promotion_id_old === 1) {
+        totalPrice = parseInt(price_product) * currentQuantity + parseInt(shipment) - promotion_value_old;
+    } else {
+        totalPrice = parseInt(price_product) * currentQuantity + parseInt(shipment) - promotion_value_old * price_product / 100;
+    }
     $("#total_price").html(totalPrice.toLocaleString('it-IT', {style: 'currency', currency: 'VND'}));
     $("#quantity").html(currentQuantity);
+
+    $("input[name='quantity_checkout']").val(currentQuantity);
+    $("input[name='total_price_checkout']").val(totalPrice);
+    $("input[name='product_id']").val('{{$product['id']}}');
+    $("input[name='promotion_id']").val('{{$promotions[0]['id']}}');
+    if (type_promotion_id_old === 1) {
+        $("input[name='price_promotion_checkout']").val(promotion_value_old);
+    } else if (type_promotion_id_old === 2) {
+        $("input[name='price_promotion_checkout']").val(promotion_value_old * price_product / 100);
+    }
+    
+    // set promotion html 
+    $("#promotion").html(promotion_value_old.toLocaleString('it-IT', {style: 'currency', currency: 'VND'}));
 
     $(document).ready(function () {
         $("input[name='quantity']").change(function () {
             $("#quantity").html($(this).val());
             currentQuantity = $(this).val();
-            totalPrice = parseInt(price_product) * currentQuantity + parseInt(shipment);
+            console.log("currentQuantity,",currentQuantity);
+            $("input[name='quantity_checkout']").val(currentQuantity);
+            if (type_promotion_id_old == 1) {
+                totalPrice =  parseInt(price_product) * currentQuantity + parseInt(shipment) - promotion_value_old;
+                console.log("promotion_value_old", typeof(promotion_value_old))
+                $("#promotion").html(promotion_value_old.toLocaleString('it-IT', {style: 'currency', currency: 'VND'}))
+                
+            } else if (type_promotion_id_old == 2) {
+                totalPrice =  parseInt(price_product) * currentQuantity + parseInt(shipment) - promotion_value_old * price_product * currentQuantity / 100  ;
+                $("#promotion").html((promotion_value_old * price_product * currentQuantity / 100).toLocaleString('it-IT', {style: 'currency', currency: 'VND'}))
+            }
+            
+            $("input[name='total_price_checkout']").val(totalPrice);
             $("#total_price").html(totalPrice.toLocaleString('it-IT', {style: 'currency', currency: 'VND'}));
+            
         });
     })
 
@@ -312,69 +349,106 @@
         currentQuantity++;
         $("input[name='quantity']").val(currentQuantity);
         $("#quantity").html(currentQuantity);
-        totalPrice = parseInt(price_product) * currentQuantity + parseInt(shipment);
+        $("input[name='quantity_checkout']").val(currentQuantity);
+        if (type_promotion_id_old === 1) {
+            totalPrice = parseInt(price_product) * currentQuantity + parseInt(shipment) - promotion_value_old;
+            $("#promotion").html(promotion_value_old.toLocaleString('it-IT', {style: 'currency', currency: 'VND'}))
+        } else {
+            totalPrice = parseInt(price_product) * currentQuantity + parseInt(shipment) - promotion_value_old * price_product * currentQuantity / 100;
+            $("#promotion").html((promotion_value_old * price_product * currentQuantity / 100).toLocaleString('it-IT', {style: 'currency', currency: 'VND'}))
+        }
         $("#total_price").html(totalPrice.toLocaleString('it-IT', {style: 'currency', currency: 'VND'}));
+        $("input[name='total_price_checkout']").val(totalPrice);
     }
 
     function decrementQuantity() {
         currentQuantity--;
         $("input[name='quantity']").val(currentQuantity);
         $("#quantity").html(currentQuantity);
-        totalPrice = parseInt(price_product) * currentQuantity + parseInt(shipment);
+        $("input[name='quantity_checkout']").val(currentQuantity);
+        if (type_promotion_id_old === 1) {
+            totalPrice = parseInt(price_product) * currentQuantity + parseInt(shipment) - promotion_value_old;
+            $("#promotion").html(promotion_value_old.toLocaleString('it-IT', {style: 'currency', currency: 'VND'}))
+        } else {
+            totalPrice = parseInt(price_product) * currentQuantity + parseInt(shipment) - promotion_value_old * price_product * currentQuantity / 100;
+            $("#promotion").html((promotion_value_old * price_product * currentQuantity / 100).toLocaleString('it-IT', {style: 'currency', currency: 'VND'}))
+        }
         $("#total_price").html(totalPrice.toLocaleString('it-IT', {style: 'currency', currency: 'VND'}));
+        $("input[name='total_price_checkout']").val(totalPrice);
     }
-
-    $("input[name='quantity_checkout']").val(currentQuantity);
-    $("input[name='total_price_checkout']").val(totalPrice);
-    $("input[name='price_promotion_checkout']").val(0);
-    $("input[name='product_id']").val('{{$product['id']}}');
-    $("input[name='promotion_id']").val('{{$promotions[0]['id']}}');
     
 
-    // $(document).delegate('.promotion', 'click', function (e) {
-    //     $('.promotion').removeClass('act');
-    //     promotion.value.new = $(this).attr("promotion_value");
-    //     promotion.type_promotion_id = $(this).attr("type_promotion_id");
-    //     promotion.id.new = $(this).attr("promotion_id");
-    //     if (promotion.value.new !== promotion.value.old) {
-    //         $(this).addClass('act');
-    //         promotion.value.old = promotion.value.new;
-    //         if (promotion.id.new === 1) {
-    //             $("#promotion").html(promotion.value.new)
-    //             promotion = parseInt(price_product) * currentQuantity + parseInt(shipment);
-    //             $("#total_price").html(totalPrice.toLocaleString('it-IT', {style: 'currency', currency: 'VND'}));
-    //             console.log('3');
-    //
-    //         } else if (promotion.id.new === 2) {
-    //             $("#promotion").html(promotion.value.new * price_product / 100);
-    //             promotion = parseInt(price_product) * currentQuantity + parseInt(shipment);
-    //             $("#total_price").html(totalPrice.toLocaleString('it-IT', {style: 'currency', currency: 'VND'}));
-    //             console.log('4')
-    //         } else {
-    //             $("#promotion").html(promotion.value.new * price_product / 100);
-    //             promotion = parseInt(price_product) * currentQuantity + parseInt(shipment);
-    //             $("#total_price").html(totalPrice.toLocaleString('it-IT', {style: 'currency', currency: 'VND'}));
-    //            
-    //         }
-    //     } else {
-    //        
-    //         $("#promotion").html(0);
-    //         if (promotion.id.new === 1) {
-    //             promotion = parseInt(price_product) * currentQuantity + parseInt(shipment);
-    //             $("#total_price").html(totalPrice.toLocaleString('it-IT', {style: 'currency', currency: 'VND'}));
-    //             console.log('3')
-    //         } else if (promotion.id.new === 2) {
-    //             promotion = parseInt(price_product) * currentQuantity + parseInt(shipment);
-    //             $("#total_price").html(totalPrice.toLocaleString('it-IT', {style: 'currency', currency: 'VND'}));
-    //             console.log('4')
-    //         }
-    //        
-    //     }
-    // })
-    
-    // if(promotion.id.new === 1) {
-    //    
-    // }
+    $(document).delegate('.promotion', 'click', function (e) {
+        $('.promotion').removeClass('act');
+        let promotion_value = $(this).attr("promotion_value");
+        let type_promotion_id = $(this).attr("type_promotion_id");
+        let promotion_id_new  = $(this).attr("promotion_id");
+        console.log('promotion_id_old',promotion_id_old);
+        console.log('promotion_id_new',promotion_id_new);
+        console.log('result',promotion_id_old != promotion_id_new);
+        
+        if (promotion_id_old == 0) {
+            $(this).addClass('act');
+            if (type_promotion_id == 1) {
+                $("#promotion").html(promotion_value)
+                totalPrice = parseInt(price_product) * currentQuantity + parseInt(shipment) - promotion_value;
+                $("#total_price").html(totalPrice.toLocaleString('it-IT', {style: 'currency', currency: 'VND'}));
+                $("input[name='price_promotion_checkout']").val(promotion_value);
+                console.log('7');
+
+            } else if (type_promotion_id == 2) {
+                $("#promotion").html(promotion_value * price_product / 100);
+                totalPrice = parseInt(price_product) * currentQuantity + parseInt(shipment) - promotion_value * price_product / 100;
+                $("#total_price").html(totalPrice.toLocaleString('it-IT', {style: 'currency', currency: 'VND'}));
+                $("input[name='price_promotion_checkout']").val(promotion_value * price_product / 100);
+                console.log('8')
+            }
+            
+            promotion_value_old = promotion_value;
+            type_promotion_id_old = type_promotion_id;
+            promotion_id_old = promotion_id_new;
+            $("input[name='promotion_id']").val(promotion_id_new);
+        } else if (promotion_id_old != promotion_id_new) {
+            $(this).addClass('act');
+            if (type_promotion_id == 1) {
+                $("#promotion").html(promotion_value)
+                totalPrice = parseInt(price_product) * currentQuantity + parseInt(shipment) - promotion_value;
+                $("#total_price").html(totalPrice.toLocaleString('it-IT', {style: 'currency', currency: 'VND'}));
+                $("input[name='price_promotion_checkout']").val(promotion_value);
+                console.log('3');
+            } else if (type_promotion_id == 2) {
+                $("#promotion").html(promotion_value * price_product * currentQuantity / 100);
+                totalPrice = parseInt(price_product) * currentQuantity + parseInt(shipment) - promotion_value * price_product * currentQuantity / 100;
+                $("#total_price").html(totalPrice.toLocaleString('it-IT', {style: 'currency', currency: 'VND'}));
+                $("input[name='price_promotion_checkout']").val(promotion_value * price_product / 100);
+                console.log('4')
+            }
+            promotion_value_old = promotion_value;
+            type_promotion_id_old = type_promotion_id;
+            promotion_id_old = promotion_id_new;
+            $("input[name='promotion_id']").val(promotion_id_new);
+        } else {
+            $("#promotion").html(0);
+            if (type_promotion_id_old == 1) {
+                console.log("promotion_value", promotion_value)
+                totalPrice = totalPrice + parseInt(promotion_value);
+                console.log("totalPrice", totalPrice)
+                $("#total_price").html(totalPrice.toLocaleString('it-IT', {style: 'currency', currency: 'VND'}));
+                
+                console.log('5')
+            } else if(type_promotion_id_old == 2) {
+                totalPrice = totalPrice + parseInt(promotion_value) * price_product / 100;
+                $("#total_price").html(totalPrice.toLocaleString('it-IT', {style: 'currency', currency: 'VND'}));
+                console.log('6')
+            }
+            promotion_value_old = 0;
+            type_promotion_id_old = 0;
+            promotion_id_old = 0;
+            $("input[name='price_promotion_checkout']").val(0);
+            $("input[name='promotion_id']").val(null);
+        }
+        $("input[name='total_price_checkout']").val(totalPrice);
+    })
     
 </script>
 </body>
