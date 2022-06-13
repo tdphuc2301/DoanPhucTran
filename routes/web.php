@@ -41,7 +41,7 @@ Route::get('/search', function () {
 
 
 Route::get('/', [WebController::class,'index'])->name('dashboard');
-Route::get('/phones/{brand}', [WebController::class,'index'])->name('dashboard');
+//Route::get('/phones/{brand}', [WebController::class,'index'])->name('dashboard');
 Route::get('/searchBranchClosestUser', [WebController::class,'searchBranchClosestUser'])->name('web.searchBranchClosestUser.get');;
 Route::get('/searchFilterField', [WebController::class,'searchFilterField'])->name('web.searchFilterField.get');;
 Route::get('phone/{brand}/{alias}', [WebController::class,'detailProduct']);
