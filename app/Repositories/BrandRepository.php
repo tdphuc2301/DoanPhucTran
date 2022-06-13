@@ -47,6 +47,7 @@ class BrandRepository extends AbstractEloquentRepository
                     'images' => function ($q) {
                         $q->orderBy('index', 'ASC');
                     },
+                    'alias'
                 ]);
             }
         );

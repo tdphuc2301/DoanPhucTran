@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin\Category;
 
 use App\Http\Controllers\Traits\Lib;
-use App\Http\Requests\Category\ChangeAdminUserStatusRequest;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Category\CreateAdminUserRequest;
+use App\Http\Requests\Category\ChangeCategoryStatusRequest;
+use App\Http\Requests\Category\CreateCategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Http\Responses\PaginationResponse;
 use App\Services\CategoryService;
@@ -63,7 +63,7 @@ class CategoryController extends Controller
         return $this->responseOK();
     }
 
-    public function create(CreateAdminUserRequest $request)
+    public function create(CreateCategoryRequest $request)
     {
         try {
             return DB::transaction(function () use ($request) {
@@ -78,7 +78,7 @@ class CategoryController extends Controller
         }
     }
 
-    public function changeStatus(ChangeAdminUserStatusRequest $request){
+    public function changeStatus(ChangeCategoryStatusRequest $request){
         try {
             return DB::transaction(function () use ($request) {
                 $category = $this->categoryService->changeStatus($request->id, $request->boolean('status'));

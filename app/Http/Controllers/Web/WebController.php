@@ -13,6 +13,7 @@ use App\Http\Resources\WebResource;
 use App\Http\Responses\PaginationResponse;
 use App\Models\Alias;
 use App\Models\Branch;
+use App\Models\Brand;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Payment;
@@ -152,6 +153,71 @@ class WebController extends Controller
         return $result;
 
     }
+
+//    public function brandPhone(Request $request,$brand)
+//    {
+//        $brand_id = Alias::where('alias', $brand)->first(['model_id'])['model_id'];;
+//
+//        $limit = $request->input('limit', config('pagination.limit'));
+//        $page = $request->input('page', config('pagination.start_page'));
+//        $filter = $request->input('filter', []);
+//        $filter = is_array($filter) ? $filter : (array)json_decode($filter);
+//        $filter['status'] = $filter['status'] ?? config('common.status.active');
+//        $filter['brand_id'] = $brand_id;
+//        $sortKey = !empty($filter['sort_key']) ? $filter['sort_key'] : config('pagination.sort_default.key');
+//        $sortValue = $filter['sort_value'] ?? config('pagination.sort_default.value');
+//        $categories = $this->categoryService->getAllCategories();
+//        $roms = $this->romService->getAllRom();
+//        $rams = $this->ramService->getAllRam();
+//        $brands = $this->brandService->paginateAll($page, $limit, $filter, $sortKey, $sortValue);
+//        $listPhone = $this->webService->paginateAll($page, $limit, $filter, $sortKey, $sortValue);
+//        $listPrice = [
+//            0 => [
+//                'prices' => '0-2',
+//                'name' => " Dưới 2t"
+//            ],
+//            1 => [
+//                'prices' => '2-5',
+//                'name' => " Từ 2t đến 5t"
+//            ],
+//            2 => [
+//                'prices' => '5-7',
+//                'name' => " Từ 5t đến 7t"
+//            ],
+//            3 => [
+//                'prices' => '7-13',
+//                'name' => " Từ 7t đến 13t"
+//            ],
+//            4 => [
+//                'prices' => '13-20',
+//                'name' => " Từ 13t đến 20t"
+//            ],
+//            5 => [
+//                'prices' => '20',
+//                'name' => " 20t trở lên"
+//            ],
+//
+//        ];
+//        $result = [
+//            'list' => WebResource::collection($listPhone->items())->toArray($request),
+//            'categories' => CategoryResource::collection($categories)->toArray($request),
+//            'roms' => RomResource::collection($roms)->toArray($request),
+//            'rams' => RamResource::collection($rams)->toArray($request),
+//            'brands' => BrandResource::collection($brands->items())->toArray($request),
+//            'listPrice' => $listPrice,
+//            'sort_key' => $sortKey,
+//            'sort_value' => $sortValue,
+//            'isDetail' => false,
+//            'isDashboard' => true
+//        ];
+//
+//
+//        if ($request->wantsJson()) {
+//            return $this->responseOK(view('web.Pages.dashboard.datatable', $result)->render(), 'Thành công', 200, count($listPhone));
+//        }
+//
+//        return $result;
+//    }
 
     public function searchBranchClosestUser(Request $request)
     {

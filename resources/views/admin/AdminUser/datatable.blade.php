@@ -25,7 +25,7 @@
                     <td>
                         <img src="{{ !empty($item['images'][0]['path']) ? asset($item['images'][0]['path']) : asset(config('image.default_image')) }}">
                     </td>
-                    <td> {{ $item['role'] }}</td>
+                    <td> {{ $item['role'] ?? '' }}</td>
 
                     <td>
                         <label class="badge text-white {{ showClassStatus($item['status']) }}">
