@@ -545,7 +545,7 @@ class WebController extends Controller
         return view('web.Pages.success_product', [
             'order_code' => $order->code,
             'price' => number_format($price),
-            'shipment' => number_format($shipment),
+            'shipment' => $shipment,
             'quantity' => $quantity,
             'price_promotion' => $price_promotion,
             'total_price' => $total_price,
