@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    @include('web.Layouts.header_detail_product')
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css"></script>
     <title>Shop cart - Bootdey.com</title>
     <style>
         body {
@@ -112,7 +113,6 @@
 </head>
 
 <body>
-@include('web.Layouts.menu-top')
 
 <div class="container mt-5 mb-5">
     <h2 style="font-size: 30px; font-weight: 800; line-height: 36px; color: #333333; margin: 0; text-align: center;">
@@ -125,28 +125,31 @@
                 <div class="row p-2 bg-white border rounded">
                     <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image"
                                                     src="{{$base.'/'.$order['orderDetails'][0]['images']}}"></div>
-                    <div class="col-md-6 mt-1">
-                        <h5>{{$order['orderDetails'][0]['name']}}</h5>
-                        <div class="d-flex flex-row">
-                            <div class="ratings mr-2">Số lương:
-                                <strong>{{$order['orderDetails'][0]['quantity']}}</strong></div>
+                    <div class="col-md-6 mt-1 text-left" >
+                        <div>Tên sản phẩm: <strong><span style="font-size:20px;font-weight:bold">{{$order['orderDetails'][0]['name']}}</span></strong></div>
+                        <div class="">
+                            <div class="">Số lượng:
+                                <strong>{{$order['orderDetails'][0]['quantity']}}</strong>
+                            </div>
+                            <p class="text-justify text-truncate para mb-0">Tên khách hàng: <strong>{{$order['customers']['name']}}</strong></p>
+
+                              <p>Địa chỉ:  <strong>{{$order['customers']['address']}} </strong></p>
+                            <p>Địa chỉ:  <strong>{{$order['customers']['phone']}} </strong></p>
                         </div>
-                        <div class="ratings mr-2"><span>Địa chỉ: {{$order['customers']['address']}}</span></div>
-                        <p class="text-justify text-truncate para mb-0">Tên khách hàng: {{$order['customers']['name']}}
-                            <br><br>
+                        
                     </div>
                     <div class="align-items-center align-content-center col-md-3 border-left mt-1">
                         <div class="d-flex flex-row align-items-center">
-                            <h4 class="mr-1">{{$order['orderDetails'][0]['sale_off_price']}}</h4><span
-                                    class="strike-text">{{$order['orderDetails'][0]['price']}}</span>
+                            <h4 class="mr-1">{{$order['orderDetails'][0]['sale_off_price']}} vnđ</h4><span
+                                    class="strike-text">{{$order['orderDetails'][0]['price']}} vnđ</span>
                         </div>
-                        <h6 class="text-success">Fee shipping: {{$shipment}}</h6>
+                        <h6 class="text-success">Fee shipping: {{$shipment}} vnđ</h6>
                         <div class="d-flex flex-column mt-4">
-                            <button class="btn btn-primary btn-sm" type="button">Details</button>
-                            <button class="btn btn-outline-primary btn-sm mt-2" type="button"
-                                    id="showPopup"
+                            <button class="btn btn-primary btn-sm isDelivery" type="button"  delivery="{{$order['status_delivered']}}" >Đã nhận hàng</button>
+                            <button class="btn btn-outline-primary btn-sm mt-2 showPopup" type="button"
                                     product_id="{{$order['orderDetails'][0]['product_id']}}"
                                     order_code="{{$order['code']}}"
+                                    delivery="{{$order['status_delivered']}}"
                                     onclick="showModelConfirmOrder()">Confirm order
                             </button>
                         </div>
@@ -167,7 +170,7 @@
                                 class="cancelbtn">Chưa
                         </button>
                         <button type="button" onclick="updateStatusOrder()"
-                                class="deletebtn">Đã đến
+                                class="deletebtn">Đã Nhận
                         </button>
                     </div>
                 </div>
@@ -222,6 +225,20 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/AmagiTech/JSLoader/amagiloader.js"></script>
 <script type="text/javascript">
+    $(document).ready(function(){
+        $('.isDelivery').each(function(){
+            console.log($(this).attr('delivery'))
+             if($(this).attr('delivery') != 3) {
+                 $(this).css('display', 'none');
+             }
+        });
+        $('.showPopup').each(function(){
+            console.log($(this).attr('delivery'))
+            if($(this).attr('delivery') == 3) {
+                $(this).css('display', 'none');
+            }
+        });
+    });
     var modal = document.getElementById('id01');
 
     // When the user clicks anywhere outside of the modal, close it
@@ -236,7 +253,7 @@
         document.getElementById('id01').style.display = 'block';
     }
 
-    $(document).delegate('#showPopup', 'click', function (e) {
+    $(document).delegate('.showPopup', 'click', function (e) {
            $('#code').html($(this).attr("order_code"));
         code_order = $(this).attr("order_code");
     });
@@ -265,6 +282,9 @@
             },
         });
     }
+    
 </script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

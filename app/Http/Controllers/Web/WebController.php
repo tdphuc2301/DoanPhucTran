@@ -560,12 +560,14 @@ class WebController extends Controller
     public function shipper_product()
     {
         $user = Auth::user();
-        $orders = Order::where('branch_id', $user->branch_id)->with(['customers', 'promotions', 'orderDetails', 'paids'])->get();
+        $now = new DateTime('now');
+        $now->format('Y-m-d');
+        $orders = Order::where('branch_id', $user->branch_id)->whereDate('created_at',$now)->with(['customers', 'promotions', 'orderDetails', 'paids'])->get();
         foreach ($orders as $order) {
             $product = Product::where('id', $order['orderDetails'][0]['product_id'])->with('images')->get();
             $order['orderDetails'][0]['name'] = $product[0]->name;
-            $order['orderDetails'][0]['price'] = $product[0]->price;
-            $order['orderDetails'][0]['sale_off_price'] = $product[0]->sale_off_price;
+            $order['orderDetails'][0]['price'] = number_format($product[0]->price);
+            $order['orderDetails'][0]['sale_off_price'] = number_format($product[0]->sale_off_price);
             $order['orderDetails'][0]['images'] = $product[0]['images'][0]['path'];
         }
         return view('web.Pages.shipper.index', [
@@ -661,6 +663,39 @@ class WebController extends Controller
         return back();
     }
 
+    public function getLoginShipper(Request $request)
+    {
+
+        return view('web.Pages.shipper.login', [
+            'isDetail' => false,
+            'isDashboard' => true
+        ]);
+    }
+
+    public function postLoginShipper(Request $request)
+    {
+        $this->validateLogin($request);
+        $credentials = request(['username', 'password']);
+        $user = User::where('username', $request->username)->first();
+        if (!$user) {
+            return redirect(route('login_shipper_get'))->with("message", "Username bị sai!");
+        } else {
+            if (!Hash::check($request->password, $user->password, [])) {
+                return redirect(route('login_shipper_get'))->with('message', 'Mật khẩu bị sai!');
+            } else {
+                $roles = $user->role;
+                if ($roles->name === User::SHIPPER) {
+                    Auth::attempt($credentials);
+                    return redirect(route('order_for_shipper'));
+                } else if ($roles->name === User::CUSTOMER) {
+                    return redirect(route('login_shipper_get'))->with('message', 'Bạn không có quyền!');
+                }
+            }
+        }
+
+        return redirect(route('login_web_get'));
+    }
+    
     public function searchOrder()
     {
         return view('web.Pages.history_search-order', [

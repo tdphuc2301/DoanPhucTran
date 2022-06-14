@@ -52,7 +52,10 @@ Route::post('checkout', [WebController::class,'postCheckout'])->name('web.checko
 Route::get('success', [WebController::class,'successProduct']);
 
 // Shipper
-Route::get('shipper_transfer_order', [WebController::class,'shipper_product'])->name('order_for_shipper');
+Route::get('shipper/login', [WebController::class,'getLoginShipper'])->name('login_shipper_get');
+Route::post('shipper/login', [WebController::class,'postLoginShipper'])->name('login_shipper_post');
+Route::get('shipper/logout', [WebController::class,'getLogoutShipper'])->name('logout_shipper_get')->middleware('check.shipper');
+Route::get('shipper_transfer_order', [WebController::class,'shipper_product'])->name('order_for_shipper')->middleware('check.shipper');
 
 // Api update
 
