@@ -581,10 +581,9 @@ class WebController extends Controller
     public function updateOrderPaid(Request $request)
     {
         $order = Order::where('code', $request->code_order)->first();
-        $payment = Payment::where('order_id', $order->id)->first();
-        $payment->paid = 3;
-        $payment->save();
-        return 1;
+        $order->status_delivered = 3;
+        $order->save();
+        return true;
     }
 
     public function getLogin(Request $request)
