@@ -31,6 +31,8 @@ class OrderResource extends JsonResource
             'total_price' => $this->total_price,
             'paid' => $this->toConvertPaid($paid),
             'paid_key' => $paid,
+            'status_delivered' =>$this->status_delivered,
+            'status_delivered_key'=>$this->toConvertDelivery($this->status_delivered),
             'status' => $this->status,
             'status_label' => config("common.status_label.$this->status"),
             'formatted_created_at' => $this->formatted_created_at ?? Carbon::parse($this->created_at)->format(config('common.date_format')),
@@ -51,6 +53,24 @@ class OrderResource extends JsonResource
             $stringPaid = 'Hủy đơn hàng';
         }
         
+        return $stringPaid;
+    }
+
+    public function toConvertDelivery($paid)
+    {
+        $stringPaid ='';
+        if($paid == 1) {
+            $stringPaid =  "Chuẩn bị hàng";
+        } else if($paid == 2) {
+            $stringPaid = 'Đang giao hàng';
+        } else if($paid == 3) {
+            $stringPaid = 'Đã nhận hàng';
+        } else if($paid == 4) {
+            $stringPaid = 'Giao hàng thất bại';
+        } else {
+            $stringPaid = 'Hủy đơn hàng';
+        }
+
         return $stringPaid;
     }
 }

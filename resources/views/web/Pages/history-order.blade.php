@@ -38,7 +38,7 @@
                     <div class="col-md-11">
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="pull-right"><label class="label {{$order['paids'][0]['showClass']}}">{{$order['paids'][0]['message']}}</label></div>
+                                <div class="pull-right"><label class="label {{$order['paids'][0]['showClass']}}">Trạng thái thanh toán: {{$order['paids'][0]['message']}}</label></div>
                                 <span>Mã đơn hàng: <strong>{{$order['code']}}</strong> <br/> Tên sản phẩm: <strong>{{$order['orderDetails'][0]['name']}}</strong></span> <br/>
                                 Quantity : <strong> {{$order['orderDetails'][0]['quantity']}}</strong><br/> Tổng tiền: <strong>{{number_format($order['total_price'])}} vnđ</strong> <br/>
                                 <a data-placement="top" class="btn btn-success btn-xs glyphicon glyphicon-ok" href="#"
@@ -47,6 +47,7 @@
                                    title="Danger"></a>
                                 <a data-placement="top" class="btn btn-info btn-xs glyphicon glyphicon-usd" href="#"
                                    title="Danger"></a>
+                                <div style="margin-top: 10px;" ><label class="label {{$order['showClassDelivery']}}">Trạng thái shipper: {{$order['messageDelivery']}}</label></div>
                             </div>
                             <div class="col-md-12">Đơn hàng được đặt lúc : <strong>{{$order['formatted_created_at']}}</strong></div>
                         </div>

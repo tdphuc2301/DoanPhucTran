@@ -133,7 +133,8 @@ class OrderService
                 'branch_id' => $data['branch_id'],
                 'index' => $data['index'] ?? config('common.default_index'),
                 'description' => $data['description'] ?? '',
-                'status' => $data['status'] ?? config('common.status.active')
+                'status' => $data['status'] ?? config('common.status.active'),
+                'status_delivered' => $data['status_delivered'],
             ]);
 
             // Save order detail

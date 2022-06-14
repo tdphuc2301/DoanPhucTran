@@ -687,6 +687,8 @@ class WebController extends Controller
                 $order['orderDetails'][0]['images'] = $product[0]['images'][0]['path'];
                 $order['paids'][0]['message'] = $this->convertMessage($order['paids'][0]['paid']);
                 $order['paids'][0]['showClass'] = $this->convertToShowClass($order['paids'][0]['paid']);
+                $order['messageDelivery'] = $this->convertMessageDelivery($order['status_delivered']);
+                $order['showClassDelivery']= $this->convertToShowClassDeliverry($order['status_delivered']);
             }
             return view('web.Pages.history-order', [
                 'orders' => $orders,
@@ -743,11 +745,11 @@ class WebController extends Controller
     {
         switch ($paid) {
             case 1:
-                return 'Đang giao hàng';
+                return 'Chưa thanh toán';
             case 2:
                 return 'Thanh toán thất bại';
             case 3:
-                return 'Đã nhận hàng và thanh toán';
+                return 'Đã thanh toán';
             case 4:
                 return 'Hủy đơn hàng';
             default:
@@ -768,6 +770,44 @@ class WebController extends Controller
                 return 'label-danger';
             default:
                 return '';
+
+
+        }
+    }
+
+    public function convertMessageDelivery(int $paid): string
+    {
+        switch ($paid) {
+            case 1:
+                return 'Chuẩn bị hàng';
+            case 2:
+                return 'Đang giao hàng';
+            case 3:
+                return 'Đã nhận hàng';
+            case 4:
+                return 'Giao hàng thất bại';
+            case 5:
+                return 'Hủy đơn hàng';
+            default:
+                return 'Giao hàng thất bại';
+        }
+    }
+
+    function convertToShowClassDeliverry(int $paid): string
+    {
+        switch ($paid) {
+            case 1:
+                return 'label-info';
+            case 2:
+                return 'label-warning';
+            case 3:
+                return 'label-success';
+            case 4:
+                return 'label-danger';
+            case 5:
+                return 'label-danger';
+            default:
+                return 'label-danger';
 
 
         }

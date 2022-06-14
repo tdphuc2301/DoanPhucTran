@@ -100,10 +100,25 @@
                                         </p>
                                         <select class="search promotion show-tick" name="paid"
                                                 data-live-search="true">
+                                            <option value="">Vui lòng chọn</option>
                                             <option value="1">Chưa thanh toán</option>
                                             <option value="2">Thanh toán thất bại</option>
                                             <option value="3">Thanh toán thành công</option>
                                             <option value="4">Hủy đơn hàng</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <p class="m-0 font-0-9">Trình trạng shipper<span class="text-danger">*</span>
+                                        </p>
+                                        <select class="search promotion show-tick" name="status_delivered"
+                                                data-live-search="true">
+                                            <option value="">Vui lòng chọn</option>
+                                            <option value="1">Lấy hàng trong kho</option>
+                                            <option value="2">Đang giao hàng</option>
+                                            <option value="3">Đã giao hàng</option>
+                                            <option value="4">Giao hàng Thất bại</option>
+                                            <option value="5">Hủy đơn hàng</option>
                                         </select>
                                     </div>
                                     

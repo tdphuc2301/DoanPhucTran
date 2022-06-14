@@ -110,7 +110,7 @@ Route::group(['namespace'=>'Admin','middleware'=>'admin.check'], function (){
         Route::get('/get-list', 'CustomerController@getList')->name('admin.customer.get_list');
         Route::get('/find/{id?}', 'CustomerController@getById')->name('admin.customer.get_customer');
         Route::post('/create', 'CustomerController@create')->name('admin.customer.create');
-        Route::post('/change-status', 'CustomerController@update')->name('admin.customer.change_status');
+        Route::put('/change-status', 'CustomerController@changeStatus')->name('admin.customer.change_status');
     });
 
     Route::group(['namespace' => 'Promotion', 'prefix' => 'promotion'], function () {

@@ -22,7 +22,8 @@ class Order extends Model
         'total_price',
         'price_promotion',
         'branch_id',
-        'status'
+        'status',
+        'status_delivered'
     ];
 
     protected $appends = [

@@ -14,8 +14,10 @@
                                                     :class="showClassSort('discount')"></i></th>
         <th @click="sort('sub_total')">Tổng tiền(VNĐ)<i class="fas fa-sort float-right"
                                                       :class="showClassSort('sub_total')"></i></th>
-        <th @click="sort('total_price')">Trạng thái thanh toán(VNĐ) <i class="fas fa-sort float-right"
-                                                             :class="showClassSort('total_price')"></i>
+        <th @click="sort('total_price')">Trạng thái thanh toán <i class="fas fa-sort float-right"
+            ></i>
+        </th>
+        <th @click="sort('total_price')">Trạng thái shipment <i class="fas fa-sort float-right"></i>
         </th>
         <th @click="sort('create_at')"> Ngày tạo<i class="fas fa-sort float-right"
                                                    :class="showClassSort('create_at')"></i>
@@ -37,6 +39,9 @@
                     <td> {{ $item['total_price'] }}</td>
                     <td> <label class="badge text-white {{ showClassStatusPaid($item['paid_key']) }}">
                             {{ $item['paid'] }}
+                        </label></td>
+                    <td> <label class="badge text-white {{ showShipmentStatusPaid($item['status_delivered']) }}">
+                            {{ $item['status_delivered_key'] }}
                         </label></td>
                     <td> {{ $item['formatted_created_at'] }}</td>
                     <td>

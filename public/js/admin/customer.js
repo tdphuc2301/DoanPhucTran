@@ -757,6 +757,7 @@ $(document).delegate('.btn-edit', 'click', function (e) {
     var alias = data.alias;
     var metaseo = data.metaseo;
     var images = data.images;
+    console.log(data);
 
     if (data) {
       $('input[name="id"]').val(data.id);
@@ -770,6 +771,7 @@ $(document).delegate('.btn-edit', 'click', function (e) {
       $('input[name="password"]').val(data.user.password);
       $('input[name="phone"]').val(data.phone);
       $('input[name="point"]').val(data.point);
+      $('select[name="type_id"]').selectpicker('val', data.type_id);
       $('.description').val(data.description);
 
       if (images) {

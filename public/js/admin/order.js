@@ -762,8 +762,8 @@ $(document).delegate('.btn-edit', 'click', function (e) {
       $('select[name="customer_id"]').selectpicker('val', data.customer_id);
       $('select[name="product_id"]').selectpicker('val', data.order_details[0].product_id);
       $('select[name="promotion_id"]').selectpicker('val', data.promotion_id);
-      $('select[name="type_payment_method"]').selectpicker('val', data.paids[0].payment_method_id);
       $('select[name="paid"]').selectpicker('val', data.paids[0].paid);
+      $('select[name="status_delivered"]').selectpicker('val', data.status_delivered);
       $('input[name="price"]').val(data.order_details[0].price);
       $('input[name="quantity"]').val(data.order_details[0].quantity);
       $('input[name="total_price"]').val(data.total_price);

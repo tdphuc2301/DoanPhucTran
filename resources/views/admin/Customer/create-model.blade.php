@@ -95,7 +95,7 @@
 
                                     <div class="form-group">
                                         <p class="m-0 font-0-9">Thứ hạng người dùng<span class="text-danger">*</span></p>
-                                        <select id="type_id" class="search select-search show-tick" name="type_id"
+                                        <select id="type_id" class="search " name="type_id"
                                                 data-live-search="true">
                                             @foreach ($type_customers as $type_customer)
                                                 <option value="{{ $type_customer['id'] }}">{{ $type_customer['name'] }}</option>

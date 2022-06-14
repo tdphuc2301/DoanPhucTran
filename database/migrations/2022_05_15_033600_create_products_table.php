@@ -21,10 +21,10 @@ class CreateProductsTable extends Migration
             $table->integer('ram_id')->nullable(false);
             $table->integer('brand_id')->nullable(false);
             $table->string('name')->nullable(false);
-            $table->string('code');
-            $table->string('index');
-            $table->string('short_description');
-            $table->string('description');
+            $table->string('code')->nullable();
+            $table->string('index')->nullable();
+            $table->string('short_description')->nullable();
+            $table->string('description')->nullable();
             $table->string('search');
             $table->integer('price');
             $table->integer('sale_off_price');

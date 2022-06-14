@@ -273,3 +273,21 @@ function showClassStatusPaid(int $status): string
             return '';
     }
 }
+
+function showShipmentStatusPaid(int $status): string
+{
+    switch ($status) {
+        case 1:
+            return 'bg-primary';
+        case 2:
+            return 'bg-warning';
+        case 3:
+            return 'bg-success';
+        case 4:
+            return 'bg-danger';
+        case 5:
+            return 'bg-danger';
+        default:
+            return '';
+    }
+}
