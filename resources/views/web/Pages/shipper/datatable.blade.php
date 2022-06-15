@@ -15,13 +15,13 @@
                             <p class="text-justify text-truncate para mb-0">Tên khách hàng: <strong>{{$order['customers']['name']}}</strong></p>
 
                             <p>Địa chỉ:  <strong>{{$order['customers']['address']}} </strong></p>
-                            <p>Địa chỉ:  <strong>{{$order['customers']['phone']}} </strong></p>
+                            <p>Số điện thoại:  <strong>{{$order['customers']['phone']}} </strong></p>
                         </div>
 
                     </div>
                     <div class="align-items-center align-content-center col-md-3 border-left mt-1">
                         <h2 style="font-weight: bold">Tổng tiền : <br/></h2>
-                        <h2 style="font-weight: bold;text-decoration: underline">{{$order['total_price']}} vnđ <br/></h2>
+                        <h2 style="font-weight: bold;text-decoration: underline">{{number_format($order['total_price'])}} vnđ <br/></h2>
                         <div class="d-flex flex-column mt-4">
                             <button class="btn btn-primary btn-sm isDelivery" type="button"  delivery="{{$order['status_delivered']}}" >Đã nhận hàng</button>
                             <button class="btn btn-outline-primary btn-sm mt-2 showPopup" type="button"

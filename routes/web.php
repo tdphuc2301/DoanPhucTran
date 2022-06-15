@@ -71,4 +71,4 @@ Route::post('register', [WebController::class,'postRegister'])->name('register_w
 
 
 Route::get('searchOrder', [WebController::class,'searchOrder'])->name('search_order');
-Route::get('history', [WebController::class,'historyOrder'])->name('history_order');
+Route::get('history', [WebController::class,'historyOrder'])->name('history_order')->middleware('check.login.web');

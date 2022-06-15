@@ -5,6 +5,7 @@ namespace App\Http;
 use App\Http\Middleware\AdminCheckUserMiddleware;
 use App\Http\Middleware\CheckIsShipper;
 use App\Http\Middleware\CheckLogin;
+use App\Http\Middleware\CheckLoginWeb;
 use App\Http\Middleware\CheckRoleManager;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -72,5 +73,7 @@ class Kernel extends HttpKernel
         'admin.manager.role' => CheckRoleManager::class,
         'check.login' => CheckLogin::class,
         'check.shipper' => CheckIsShipper::class,
+        'check.login.web' => CheckLoginWeb::class,
+        
     ];
 }

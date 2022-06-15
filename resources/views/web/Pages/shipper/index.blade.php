@@ -120,7 +120,7 @@
     </h2>
     <?php $base = env('APP_URL'); ?>
     <div class="d-flex justify-content-center row">
-        <div id="datatable">
+        <div id="datatable"  class="d-flex justify-content-center row">
             @include('web.Pages.shipper.datatable', [
                 'orders' => $orders,
             ])
