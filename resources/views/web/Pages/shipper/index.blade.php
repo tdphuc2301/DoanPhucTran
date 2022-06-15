@@ -120,43 +120,11 @@
     </h2>
     <?php $base = env('APP_URL'); ?>
     <div class="d-flex justify-content-center row">
-        @foreach($orders as $order)
-            <div class="col-md-10">
-                <div class="row p-2 bg-white border rounded">
-                    <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image"
-                                                    src="{{$base.'/'.$order['orderDetails'][0]['images']}}"></div>
-                    <div class="col-md-6 mt-1 text-left" >
-                        <div>Tên sản phẩm: <strong><span style="font-size:20px;font-weight:bold">{{$order['orderDetails'][0]['name']}}</span></strong></div>
-                        <div class="">
-                            <div class="">Số lượng:
-                                <strong>{{$order['orderDetails'][0]['quantity']}}</strong>
-                            </div>
-                            <p class="text-justify text-truncate para mb-0">Tên khách hàng: <strong>{{$order['customers']['name']}}</strong></p>
-
-                              <p>Địa chỉ:  <strong>{{$order['customers']['address']}} </strong></p>
-                            <p>Địa chỉ:  <strong>{{$order['customers']['phone']}} </strong></p>
-                        </div>
-                        
-                    </div>
-                    <div class="align-items-center align-content-center col-md-3 border-left mt-1">
-                        <div class="d-flex flex-row align-items-center">
-                            <h4 class="mr-1">{{$order['orderDetails'][0]['sale_off_price']}} vnđ</h4><span
-                                    class="strike-text">{{$order['orderDetails'][0]['price']}} vnđ</span>
-                        </div>
-                        <h6 class="text-success">Fee shipping: {{$shipment}} vnđ</h6>
-                        <div class="d-flex flex-column mt-4">
-                            <button class="btn btn-primary btn-sm isDelivery" type="button"  delivery="{{$order['status_delivered']}}" >Đã nhận hàng</button>
-                            <button class="btn btn-outline-primary btn-sm mt-2 showPopup" type="button"
-                                    product_id="{{$order['orderDetails'][0]['product_id']}}"
-                                    order_code="{{$order['code']}}"
-                                    delivery="{{$order['status_delivered']}}"
-                                    onclick="showModelConfirmOrder()">Confirm order
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endforeach
+        <div id="datatable">
+            @include('web.Pages.shipper.datatable', [
+                'orders' => $orders,
+            ])
+        </div>
         <div id="id01" class="modal">
             <span onclick="document.getElementById('id01').style.display='none'" class="close"
                   title="Close Modal">×</span>
@@ -226,11 +194,14 @@
 <script src="https://cdn.jsdelivr.net/gh/AmagiTech/JSLoader/amagiloader.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
+        showButton();
+    });
+    function showButton() {
         $('.isDelivery').each(function(){
             console.log($(this).attr('delivery'))
-             if($(this).attr('delivery') != 3) {
-                 $(this).css('display', 'none');
-             }
+            if($(this).attr('delivery') != 3) {
+                $(this).css('display', 'none');
+            }
         });
         $('.showPopup').each(function(){
             console.log($(this).attr('delivery'))
@@ -238,7 +209,7 @@
                 $(this).css('display', 'none');
             }
         });
-    });
+    }
     var modal = document.getElementById('id01');
 
     // When the user clicks anywhere outside of the modal, close it
@@ -272,7 +243,11 @@
             dataType: "json",
             async: true,
             success: function (response) {
+                $(datatable).html(response.data);
+                showButton();
+                document.getElementById('id01').style.display = 'none';
                 AmagiLoader.hide();
+                
             },
             beforeSend: function () {
                 AmagiLoader.show();

@@ -19,7 +19,7 @@ class CheckIsShipper
     public function handle(Request $request, Closure $next)
     {
         if(!Auth::check()) {
-            return redirect(route('screen_admin_login'));
+            return redirect(route('login_shipper_get'));
         } else {
             $user = Auth::user();
             $roles = $user->role;
@@ -27,7 +27,7 @@ class CheckIsShipper
                 return $next($request);
             }
             else if($roles->name === User::CUSTOMER) {
-                return redirect(route('screen_admin_login'))->with('message', 'Bạn không có quyền!');
+                return redirect(route('login_shipper_get'))->with('message', 'Bạn không có quyền!');
             }
         }
         return $next($request);

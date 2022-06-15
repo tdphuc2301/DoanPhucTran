@@ -583,7 +583,21 @@ class WebController extends Controller
         $order = Order::where('code', $request->code_order)->first();
         $order->status_delivered = 3;
         $order->save();
-        return true;
+        $user = Auth::user();
+        $now = new DateTime('now');
+        $now->format('Y-m-d');
+        $orders = Order::where('branch_id', $user->branch_id)->whereDate('created_at',$now)->with(['customers', 'promotions', 'orderDetails', 'paids'])->get();
+        foreach ($orders as $order) {
+            $product = Product::where('id', $order['orderDetails'][0]['product_id'])->with('images')->get();
+            $order['orderDetails'][0]['name'] = $product[0]->name;
+            $order['orderDetails'][0]['price'] = number_format($product[0]->price);
+            $order['orderDetails'][0]['sale_off_price'] = number_format($product[0]->sale_off_price);
+            $order['orderDetails'][0]['images'] = $product[0]['images'][0]['path'];
+        }
+        if ($request->wantsJson()) {
+            return $this->responseOK(view('web.Pages.shipper.datatable', ['orders'=>$orders])->render(), 'Thành công', 200, count($orders));
+        }
+        return $orders;
     }
 
     public function getLogin(Request $request)
