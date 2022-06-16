@@ -311,46 +311,46 @@
 </div>
 <section id="categoryPage" data-id="42" data-name="&#x110;i&#x1EC7;n tho&#x1EA1;i" data-template="cate">
 
-    <div class="box-sort ">
-        <p class="sort-total"><b class="result-search-filters"></b> điện thoại <strong class="manu-sort"></strong></p>
-        <div class="box-checkbox extend  ">
-            <a id="myBtn" data-type="fast" class="c-checkitem fastdeli">
-                <span class="tick-checkbox"></span>
-                <i class="thunder-icon">
-                    <img src="//cdn.tgdd.vn/mwgcart/mwgcore/ContentMwg/images/icon-thunder.png"/>
-                </i>
-                <p>Giao nhanh</p>
-            </a>
-            <a href="javascript:;" data-href="" data-type="sp2020" class="c-checkitem ">
-                <span class="tick-checkbox"></span>
-                <p>Giảm giá</p>
-            </a>
-            <a href="javascript:;" data-href="-tra-gop-0-phan-tram" data-type="installment0" class="c-checkitem ">
-                <span class="tick-checkbox"></span>
-                <p>Góp 0%</p>
-            </a>
-            <a href="javascript:;" data-href="" data-type="monopoly" class="c-checkitem">
-                <span class="tick-checkbox"></span>
-                <p>Độc quyền</p>
-            </a>
-            <a href="javascript:;" data-href="-moi-ra-mat" data-type="new" data-prop="0" data-newv2="False"
-               class="c-checkitem ">
-                <span class="tick-checkbox"></span>
-                <p>M&#x1EDB;i</p>
-            </a>
+{{--    <div class="box-sort ">--}}
+{{--        <p class="sort-total"><b class="result-search-filters"></b> điện thoại <strong class="manu-sort"></strong></p>--}}
+{{--        <div class="box-checkbox extend  ">--}}
+{{--            <a id="myBtn" data-type="fast" class="c-checkitem fastdeli">--}}
+{{--                <span class="tick-checkbox"></span>--}}
+{{--                <i class="thunder-icon">--}}
+{{--                    <img src="//cdn.tgdd.vn/mwgcart/mwgcore/ContentMwg/images/icon-thunder.png"/>--}}
+{{--                </i>--}}
+{{--                <p>Giao nhanh</p>--}}
+{{--            </a>--}}
+{{--            <a href="javascript:;" data-href="" data-type="sp2020" class="c-checkitem ">--}}
+{{--                <span class="tick-checkbox"></span>--}}
+{{--                <p>Giảm giá</p>--}}
+{{--            </a>--}}
+{{--            <a href="javascript:;" data-href="-tra-gop-0-phan-tram" data-type="installment0" class="c-checkitem ">--}}
+{{--                <span class="tick-checkbox"></span>--}}
+{{--                <p>Góp 0%</p>--}}
+{{--            </a>--}}
+{{--            <a href="javascript:;" data-href="" data-type="monopoly" class="c-checkitem">--}}
+{{--                <span class="tick-checkbox"></span>--}}
+{{--                <p>Độc quyền</p>--}}
+{{--            </a>--}}
+{{--            <a href="javascript:;" data-href="-moi-ra-mat" data-type="new" data-prop="0" data-newv2="False"--}}
+{{--               class="c-checkitem ">--}}
+{{--                <span class="tick-checkbox"></span>--}}
+{{--                <p>M&#x1EDB;i</p>--}}
+{{--            </a>--}}
 
-        </div>
-        <div class="sort-select ">
-            <p class="click-sort">Xếp theo: <span class="sort-show">N&#x1ED5;i b&#x1EAD;t</span></p>
-            <div class="sort-select-main sort ">
-                <p><a href="javascript:;" class="check" data-id="9"><i></i>Nổi bật</a></p>
-                <p><a href="javascript:;" class="" data-id="5"><i></i>% Giảm</a></p>
-                <p><a href="javascript:;" class="" data-id="3"><i></i>Giá cao đến thấp</a></p>
-                <p><a href="javascript:;" class="" data-id="2"><i></i>Giá thấp đến cao</a></p>
+{{--        </div>--}}
+{{--        <div class="sort-select ">--}}
+{{--            <p class="click-sort">Xếp theo: <span class="sort-show">N&#x1ED5;i b&#x1EAD;t</span></p>--}}
+{{--            <div class="sort-select-main sort ">--}}
+{{--                <p><a href="javascript:;" class="check" data-id="9"><i></i>Nổi bật</a></p>--}}
+{{--                <p><a href="javascript:;" class="" data-id="5"><i></i>% Giảm</a></p>--}}
+{{--                <p><a href="javascript:;" class="" data-id="3"><i></i>Giá cao đến thấp</a></p>--}}
+{{--                <p><a href="javascript:;" class="" data-id="2"><i></i>Giá thấp đến cao</a></p>--}}
 
-            </div>
-        </div>
-    </div>
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
     <div class="clearfix"></div>
     <div class="container-productbox">
         <div id="preloader">
