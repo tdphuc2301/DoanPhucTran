@@ -31,7 +31,7 @@
                     </label>
                 </td>
                 <td class="text-center text-nowrap">
-                    <button data-id={{ $item['id'] }} title="Chỉnh sửa" v-tooltip
+                    <button data-id="{{ $item['id'] }}" title="Chỉnh sửa" v-tooltip
                     class="btn-edit btn btn-sm btn-outline-warning">
                     <i class="fas fa-pen"></i>
                     </button>

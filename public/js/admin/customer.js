@@ -767,8 +767,8 @@ $(document).delegate('.btn-edit', 'click', function (e) {
       $('input[name="longitude"]').val(data["long"]);
       $('input[name="latitude"]').val(data.lat);
       $('input[name="email"]').val(data.email);
-      $('input[name="username"]').val(data.user.username);
-      $('input[name="password"]').val(data.user.password);
+      $('input[name="username"]').val(data.user !== null ? data.user.username : '');
+      $('input[name="password"]').val(data.user !== null ? data.user.password : '');
       $('input[name="phone"]').val(data.phone);
       $('input[name="point"]').val(data.point);
       $('select[name="type_id"]').selectpicker('val', data.type_id);
