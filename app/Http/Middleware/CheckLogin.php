@@ -20,7 +20,7 @@ class CheckLogin
         if(!Auth::check()) {
             return $next($request);
         } else {
-            return back();
+            return redirect(route('dashboard'));
         }
     }
 }

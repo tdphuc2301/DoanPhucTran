@@ -150,5 +150,14 @@
             document.getElementById("latitude").value = $(this).attr( "lat" );
             document.getElementById("search_list").style.display ='none';
         });
+
+        $(document).delegate('input[name="isEditPassword"]', 'change', function (e) {
+            if($(this).is(":checked")) {
+                $('input[name="password"]').prop("disabled", false);
+            } else {
+                $('input[name="password"]').prop("disabled", true);
+            }
+           
+        });
     </script>
 @endsection

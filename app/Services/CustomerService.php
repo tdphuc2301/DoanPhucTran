@@ -108,6 +108,13 @@ class CustomerService
             $data['long'] = $data['longitude'];
             $data['lat'] = $data['latitude'];
             $customer = $this->customerRepository->update($customer, $data);
+            
+            $user = User::find($customer['user_id']);
+            $user->name = $data['name'];
+            $user->username = $data['username'];
+            $user->email = $data['email'];
+            $user->password = Hash::make($data['password']);
+            $user->save();
         } else {
             $user = new User();
             $user->name = $data['name'];

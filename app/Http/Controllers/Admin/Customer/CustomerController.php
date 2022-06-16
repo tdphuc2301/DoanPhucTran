@@ -60,6 +60,7 @@ class CustomerController extends Controller
     {
         if($id){
             $customer = $this->customerService->findCustomer($id);
+            $customer['isEditPassword'] = false;
             return $this->responseOK($customer);
         }
         return $this->responseOK();

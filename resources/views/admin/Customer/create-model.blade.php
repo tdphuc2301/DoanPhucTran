@@ -109,9 +109,9 @@
                                                class="form-control form-control-sm">
                                     </div>
                                     <div class="form-group">
-                                        <p class="m-0 font-0-9">Password<span class="text-danger">*</span>
+                                        <p class="m-0 font-0-9">Password <input name="isEditPassword" type="hidden"><span class="text-danger">*</span>
                                         </p>
-                                        <input name="password" placeholder="password" required type="text"
+                                        <input name="password"   type="password"
                                                class="form-control form-control-sm">
                                     </div>
                                 </div>

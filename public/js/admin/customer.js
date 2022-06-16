@@ -719,6 +719,8 @@ $(document).delegate('#create-data-form input[name="name"]', 'keyup', function (
 }); // open modal to create data
 
 $(document).delegate('.btn-open-create-modal', 'click', function (e) {
+  $('input[name="isEditPassword"]').prop("type", "hidden");
+  $('input[name="password"]').prop("disabled", false);
   removedImages = [];
   (0,_common_helper_js__WEBPACK_IMPORTED_MODULE_0__.removeAllErrorMessage)();
   (0,_create_data_js__WEBPACK_IMPORTED_MODULE_1__.clearCreateData)();
@@ -773,6 +775,8 @@ $(document).delegate('.btn-edit', 'click', function (e) {
       $('input[name="point"]').val(data.point);
       $('select[name="type_id"]').selectpicker('val', data.type_id);
       $('.description').val(data.description);
+      $('input[name="isEditPassword"]').prop("type", "checkbox");
+      $('input[name="password"]').prop("disabled", true);
 
       if (images) {
         $('.profile-pic').each(function (index) {
