@@ -151,17 +151,7 @@
                         <div class="show-total-main">
                             <a href="javascript:;" class="close-popup-total"><i class="iconcate-closess"></i>Đóng</a>
 
-                            <div class="show-total-item clearfix warpper-manu-inside arranged">
-                                <p class="show-total-txt">Hãng</p>
-                                <div class="filter-list ">
-                                    @foreach ($brands as $brand)
-                                        <a class="c-btnbox brand_search" brand_id="{{$brand['id']}}">
-                                            <img src="{{$brand['images'][0]['path'] ?? ''}}" width="95" height="25"
-                                                 alt="{{$brand['name'] ?? ''}}">
-                                        </a>
-                                    @endforeach
-                                </div>
-                            </div>
+                            
                             <div class="filter-border"></div>
                             <div class="show-total-item ">
                                 <p class="show-total-txt">Giá</p>
@@ -206,25 +196,7 @@
                     </div>
                 </div>
                 
-                <div class="filter-item block-manu ">
-                    <div class="filter-item__title jsTitle">
-                        <div class="arrow-filter"></div>
-                        <span>Hãng</span></div>
-                    <div class="filter-show">
-                        <div class="filter-list">
-                            @foreach ($brands as $brand)
-                                <a class="c-btnbox brand_search" brand_id="{{$brand['id']}}">
-                                    <img src="{{$brand['images'][0]['path'] ?? ''}}" width="68" height="30"
-                                         alt="{{$brand['name'] ?? ''}}">
-                                </a>
-                            @endforeach
-                        </div>
-                        <div class="button-filter" style="display: none">
-                            <a class="btn-filter-close">Bỏ chọn</a>
-                            <a class="btn-filter-readmore result-search-filter" >Xem kết quả</a>
-                        </div>
-                    </div>
-                </div>
+                
                 <div class="filter-item warpper-price-outside">
                     <div class="filter-item__title jsTitle">
                         <div class="arrow-filter"></div>
@@ -298,15 +270,6 @@
                 </div>
             </div>
         </div>
-        <div class="box-quicklink  block-scroll-main">
-            <div class="lst-quickfilter q-manu ">
-                @foreach ($brands as $brand)
-                    <a class="box-quicklink__item bd-radius quicklink-logo" brand_id="{{$brand['id']}}">
-                        <img src="{{$brand['images'][0]['path'] ?? ''}}" width="30" class=no-text>
-                    </a>
-                @endforeach
-            </div>
-        </div>
     </section>
 </div>
 <section id="categoryPage" data-id="42" data-name="&#x110;i&#x1EC7;n tho&#x1EA1;i" data-template="cate">
@@ -358,15 +321,11 @@
         </div>
 
         <div id="datatable">
-            @include('web.Pages.dashboard.datatable', [
+            @include('web.Pages.brand.datatable', [
                 'list' => $list,
-                'sort_key' => $sort_key,
-                'sort_value' => $sort_value,
             ])
         </div>
-
     </div>
-
 </section>
 @endsection
 @section('script')
@@ -536,7 +495,7 @@
     });
 
     let filter = {
-        brand : [],
+        brand : [{{$getBrand['id']}}],
         price : [],
         ram : [],
         rom : [],

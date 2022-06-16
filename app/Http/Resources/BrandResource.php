@@ -23,7 +23,8 @@ class BrandResource extends JsonResource
             'formatted_created_at' => $this->formatted_created_at ?? Carbon::parse($this->created_at)->format(config('common.date_format')),
             'formatted_updated_at' => $this->formatted_updated_at ?? Carbon::parse($this->updated_at)->format(config('common.date_format')),
             'images' => $this->relationLoaded('images') ? 
-            ImageResource::collection($this->whenLoaded('images'))->toArray($request) : []
+            ImageResource::collection($this->whenLoaded('images'))->toArray($request) : [],
+            'alias' => $this->alias,
         ];
     }
 }

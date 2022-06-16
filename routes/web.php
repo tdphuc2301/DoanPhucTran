@@ -41,7 +41,8 @@ Route::get('/search', function () {
 
 
 Route::get('/', [WebController::class,'index'])->name('dashboard');
-//Route::get('/phones/{brand}', [WebController::class,'index'])->name('dashboard');
+Route::get('/phones/{brand}', [WebController::class,'brandPhone'])->name('brand');
+Route::get('/searchHistoryOrderByPhone', [WebController::class,'searchHistoryOrderByPhone'])->name('web.searchPhone.get');
 Route::get('/searchBranchClosestUser', [WebController::class,'searchBranchClosestUser'])->name('web.searchBranchClosestUser.get');;
 Route::get('/searchFilterField', [WebController::class,'searchFilterField'])->name('web.searchFilterField.get');;
 Route::get('phone/{brand}/{alias}', [WebController::class,'detailProduct']);
@@ -71,4 +72,4 @@ Route::post('register', [WebController::class,'postRegister'])->name('register_w
 
 
 Route::get('searchOrder', [WebController::class,'searchOrder'])->name('search_order');
-Route::get('history', [WebController::class,'historyOrder'])->name('history_order')->middleware('check.login.web');
+Route::get('history', [WebController::class,'historyOrder'])->name('history_order');

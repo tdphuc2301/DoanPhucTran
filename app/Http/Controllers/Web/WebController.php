@@ -154,70 +154,71 @@ class WebController extends Controller
 
     }
 
-//    public function brandPhone(Request $request,$brand)
-//    {
-//        $brand_id = Alias::where('alias', $brand)->first(['model_id'])['model_id'];;
-//
-//        $limit = $request->input('limit', config('pagination.limit'));
-//        $page = $request->input('page', config('pagination.start_page'));
-//        $filter = $request->input('filter', []);
-//        $filter = is_array($filter) ? $filter : (array)json_decode($filter);
-//        $filter['status'] = $filter['status'] ?? config('common.status.active');
-//        $filter['brand_id'] = $brand_id;
-//        $sortKey = !empty($filter['sort_key']) ? $filter['sort_key'] : config('pagination.sort_default.key');
-//        $sortValue = $filter['sort_value'] ?? config('pagination.sort_default.value');
-//        $categories = $this->categoryService->getAllCategories();
-//        $roms = $this->romService->getAllRom();
-//        $rams = $this->ramService->getAllRam();
-//        $brands = $this->brandService->paginateAll($page, $limit, $filter, $sortKey, $sortValue);
-//        $listPhone = $this->webService->paginateAll($page, $limit, $filter, $sortKey, $sortValue);
-//        $listPrice = [
-//            0 => [
-//                'prices' => '0-2',
-//                'name' => " Dưới 2t"
-//            ],
-//            1 => [
-//                'prices' => '2-5',
-//                'name' => " Từ 2t đến 5t"
-//            ],
-//            2 => [
-//                'prices' => '5-7',
-//                'name' => " Từ 5t đến 7t"
-//            ],
-//            3 => [
-//                'prices' => '7-13',
-//                'name' => " Từ 7t đến 13t"
-//            ],
-//            4 => [
-//                'prices' => '13-20',
-//                'name' => " Từ 13t đến 20t"
-//            ],
-//            5 => [
-//                'prices' => '20',
-//                'name' => " 20t trở lên"
-//            ],
-//
-//        ];
-//        $result = [
-//            'list' => WebResource::collection($listPhone->items())->toArray($request),
-//            'categories' => CategoryResource::collection($categories)->toArray($request),
-//            'roms' => RomResource::collection($roms)->toArray($request),
-//            'rams' => RamResource::collection($rams)->toArray($request),
-//            'brands' => BrandResource::collection($brands->items())->toArray($request),
-//            'listPrice' => $listPrice,
-//            'sort_key' => $sortKey,
-//            'sort_value' => $sortValue,
-//            'isDetail' => false,
-//            'isDashboard' => true
-//        ];
-//
-//
-//        if ($request->wantsJson()) {
-//            return $this->responseOK(view('web.Pages.dashboard.datatable', $result)->render(), 'Thành công', 200, count($listPhone));
-//        }
-//
-//        return $result;
-//    }
+    public function brandPhone(Request $request,$brand)
+    {
+        $brand_id = Alias::where('alias', $brand)->first(['model_id'])['model_id'];;
+        $getBrand = Brand::where('id', $brand_id)->first();
+        $limit = $request->input('limit', config('pagination.limit'));
+        $page = $request->input('page', config('pagination.start_page'));
+        $filter = $request->input('filter', []);
+        $filter = is_array($filter) ? $filter : (array)json_decode($filter);
+        $filter['status'] = $filter['status'] ?? config('common.status.active');
+        $filter['brand_id'] = $brand_id;
+        $sortKey = !empty($filter['sort_key']) ? $filter['sort_key'] : config('pagination.sort_default.key');
+        $sortValue = $filter['sort_value'] ?? config('pagination.sort_default.value');
+        $categories = $this->categoryService->getAllCategories();
+        $roms = $this->romService->getAllRom();
+        $rams = $this->ramService->getAllRam();
+        $brands = $this->brandService->paginateAll($page, $limit, $filter, $sortKey, $sortValue);
+        $listPhone = $this->webService->paginateAll($page, $limit, $filter, $sortKey, $sortValue);
+        $listPrice = [
+            0 => [
+                'prices' => '0-2',
+                'name' => " Dưới 2t"
+            ],
+            1 => [
+                'prices' => '2-5',
+                'name' => " Từ 2t đến 5t"
+            ],
+            2 => [
+                'prices' => '5-7',
+                'name' => " Từ 5t đến 7t"
+            ],
+            3 => [
+                'prices' => '7-13',
+                'name' => " Từ 7t đến 13t"
+            ],
+            4 => [
+                'prices' => '13-20',
+                'name' => " Từ 13t đến 20t"
+            ],
+            5 => [
+                'prices' => '20',
+                'name' => " 20t trở lên"
+            ],
+
+        ];
+        $result = [
+            'list' => WebResource::collection($listPhone->items())->toArray($request),
+            'categories' => CategoryResource::collection($categories)->toArray($request),
+            'roms' => RomResource::collection($roms)->toArray($request),
+            'rams' => RamResource::collection($rams)->toArray($request),
+            'brands' => BrandResource::collection($brands->items())->toArray($request),
+            'listPrice' => $listPrice,
+            'sort_key' => $sortKey,
+            'sort_value' => $sortValue,
+            'isDetail' => false,
+            'isDashboard' => true,
+            'getBrand' => $getBrand
+        ];
+
+
+        if ($request->wantsJson()) {
+            return $this->responseOK(view('web.Pages.dashboard.datatable', $result)->render(), 'Thành công', 200, count($listPhone));
+        }
+
+        return view('web.Pages.brand.index', $result);
+    }
 
     public function searchBranchClosestUser(Request $request)
     {
@@ -301,6 +302,8 @@ class WebController extends Controller
         }
         return $result;
     }
+    
+    
 
     public function detailProduct(Request $request, $brand, $alias)
     {
@@ -744,11 +747,36 @@ class WebController extends Controller
                 'isDashboard' => true
             ]);
         } else {
-            return view('web.Pages.history_search-order',
+            return view('web.Pages.history.index',
                 [
                     'isDetail' => false,
-                    'isDashboard' => true
+                    'isDashboard' => true,
+                    'list' => []
                 ]);
+        }
+    }
+
+    public function searchHistoryOrderByPhone(Request $request)
+    {
+            $customer = Customer::where('phone', $request['phone'])->first();
+            $this->checkExpressOrder($customer['id']);
+            $orders = Order::where([
+                'status' => 1,
+                'customer_id' => $customer['id'],
+            ])->with(['customers', 'promotions', 'orderDetails', 'paids'])->get();
+            foreach ($orders as $order) {
+                $product = Product::where('id', $order['orderDetails'][0]['product_id'])->with('images')->get();
+                $order['orderDetails'][0]['name'] = $product[0]->name;
+                $order['orderDetails'][0]['price'] = $product[0]->price;
+                $order['orderDetails'][0]['sale_off_price'] = $product[0]->sale_off_price;
+                $order['orderDetails'][0]['images'] = $product[0]['images'][0]['path'];
+                $order['paids'][0]['message'] = $this->convertMessage($order['paids'][0]['paid']);
+                $order['paids'][0]['showClass'] = $this->convertToShowClass($order['paids'][0]['paid']);
+                $order['messageDelivery'] = $this->convertMessageDelivery($order['status_delivered']);
+                $order['showClassDelivery']= $this->convertToShowClassDeliverry($order['status_delivered']);
+            }
+        if ($request->wantsJson()) {
+            return $this->responseOK(view('web.Pages.history.datatable', ['orders' => $orders] )->render(), 'Thành công', 200, count($orders));
         }
     }
 

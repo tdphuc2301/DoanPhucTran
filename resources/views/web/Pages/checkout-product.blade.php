@@ -22,6 +22,69 @@
         #result ul li:hover {
             background: #eee;
         }
+
+        .system_message {
+            position: fixed;
+            right: 15px;
+            top: 15px;
+            transition: all 0.3s;
+            -webkit-transition: all 0.3s;
+            -moz-transition: all 0.3s;
+            -o-transition: all 0.3s;
+            transform: translate(115%, 0);
+            -webkit-transform: translate(115%, 0);
+            -moz-transform: translate(115%, 0);
+            -o-transform: translate(115%, 0);
+            width: 270px;
+            padding: 10px 15px;
+            z-index: 9999;
+            border-radius: 3px;
+            color: #fff;
+        }
+
+        .system_message.show {
+            transform: translate(0%, 0);
+            -webkit-transform: translate(0%, 0);
+            -moz-transform: translate(0%, 0);
+            -o-transform: translate(0%, 0);
+        }
+
+        .system_message.info {
+            background: #5ecafb;
+            border: 1px solid #3eb5ea;
+        }
+
+        .system_message.success {
+            background: #02984d;
+            border: 1px solid #0b7540;
+        }
+
+        .system_message.danger {
+            background: #e65449;
+            border: 1px solid #d64d42;
+        }
+
+        .system_message.warning {
+            background: #ffbb56;
+            border: 1px solid #d8922b;
+        }
+
+        .system_confirm {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .system_confirm.show {
+            opacity: 1;
+            visibility: visible;
+        }
     </style>
 </head>
 <body>
@@ -31,6 +94,9 @@
 
 <!-- DEMO HTML -->
 <div class="container" style="margin: 0 auto; width: 1140px;background-color: #f1f1f1">
+    <div class="system_message">
+        <div class="title">Cập nhật thành công</div>
+    </div>
     <div class="py-5 text-center">
 
         <h2 style="font-size:30px;font-weight:bold">Thanh toán</h2>
@@ -155,8 +221,8 @@
                         // Execute the payment
                         onAuthorize: function (data, actions) {
                             return actions.payment.execute().then(function () {
-                                // Show a confirmation message to the buyer
-                                window.alert('Thank you for your purchase!');
+                                showNotification("Thanh toán thành công",'success');
+                                AmagiLoader.show();
                                  isPaypal = true;
                                 $("input[name='paymentMethod']").val('paypal');
                                 $('#submit').click();
@@ -193,9 +259,11 @@
         integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
         crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/AmagiTech/JSLoader/amagiloader.js"></script>
 <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 <script>
     $("#submit").click(function() {
+        AmagiLoader.show();
         $("input[name='paymentMethod']").val('COD');
         if(isPaypal) {
             $("input[name='paymentMethod']").val('paypal');
@@ -259,6 +327,19 @@
                 },
             });
         }, 500)
+    }
+
+    function showNotification(message, type, time, icon) {
+        icon = icon == null ? '' : icon;
+        type = type == null ? 'info' : type;
+        time = time == null ? 3000 : time;
+        $('.system_message').addClass('show').addClass(type);
+        $('.system_message').find('.title').html(message);
+        setTimeout(function () {
+            $('.system_message').removeClass('show').removeClass(type);
+            $('.system_message')
+        }, time)
+
     }
 
     $(document).delegate('#search_list li', 'click', function (e) {

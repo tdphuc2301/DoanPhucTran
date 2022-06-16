@@ -5,8 +5,75 @@
     @include('web.Layouts.header')
     @include('web.Layouts.banner-media')
     @include('web.Layouts.menu-top')
-<body style="margin: 0 !important; padding: 0 !important; background-color: #eeeeee;" bgcolor="#eeeeee">
+    <style>
+        .system_message {
+            position: fixed;
+            right: 15px;
+            top: 15px;
+            transition: all 0.3s;
+            -webkit-transition: all 0.3s;
+            -moz-transition: all 0.3s;
+            -o-transition: all 0.3s;
+            transform: translate(115%, 0);
+            -webkit-transform: translate(115%, 0);
+            -moz-transform: translate(115%, 0);
+            -o-transform: translate(115%, 0);
+            width: 270px;
+            padding: 10px 15px;
+            z-index: 9999;
+            border-radius: 3px;
+            color: #fff;
+        }
 
+        .system_message.show {
+            transform: translate(0%, 0);
+            -webkit-transform: translate(0%, 0);
+            -moz-transform: translate(0%, 0);
+            -o-transform: translate(0%, 0);
+        }
+
+        .system_message.info {
+            background: #5ecafb;
+            border: 1px solid #3eb5ea;
+        }
+
+        .system_message.success {
+            background: #02984d;
+            border: 1px solid #0b7540;
+        }
+
+        .system_message.danger {
+            background: #e65449;
+            border: 1px solid #d64d42;
+        }
+
+        .system_message.warning {
+            background: #ffbb56;
+            border: 1px solid #d8922b;
+        }
+
+        .system_confirm {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .system_confirm.show {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+</head>
+<body style="margin: 0 !important; padding: 0 !important; background-color: #eeeeee;" bgcolor="#eeeeee">
+<div class="system_message">
+    <div class="title">Cập nhật thành công</div>
+</div>
 <div style="display: none; font-size: 1px; color: #fefefe; line-height: 1px; font-family: Open Sans, Helvetica, Arial, sans-serif; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;">
     For what reason would it be advisable for me to think about business content? That might be little bit risky to have crew member like them.
 </div>
@@ -28,18 +95,11 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding-top: 10px;">
-                                    <p style="font-size: 16px; font-weight: 400; line-height: 24px; color: #777777;">
-                                        Mọng bạn được hanh phúc khi mua món đồ này
-                                    </p>
-                                </td>
-                            </tr>
-                            <tr>
                                 <td align="left" style="padding-top: 20px;">
                                     <table cellspacing="0" cellpadding="0" border="0" width="100%">
                                         <tr>
                                             <td width="75%" align="left" bgcolor="#eeeeee" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;">
-                                                Order Confirmation #
+                                                Mã đơn hàng
                                             </td>
                                             <td width="25%" align="left" bgcolor="#eeeeee" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;">
                                                 {{$order_code}}
@@ -128,7 +188,7 @@
                             <tr>
                                 <td align="center" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding-top: 25px;">
                                     <h2 style="font-size: 24px; font-weight: 800; line-height: 30px; color: #ffffff; margin: 0;">
-                                        Get 30% off your next order.
+                                        Giảm 30% cho đơn hàng tiếp theo
                                     </h2>
                                 </td>
                             </tr>
@@ -137,36 +197,10 @@
                                     <table border="0" cellspacing="0" cellpadding="0">
                                         <tr>
                                             <td align="center" style="border-radius: 5px;" bgcolor="#66b3b7">
-                                                <a href="#" target="_blank" style="font-size: 18px; font-family: Open Sans, Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; border-radius: 5px; background-color: #F44336; padding: 15px 30px; border: 1px solid #F44336; display: block;">Shop Again</a>
+                                                <a href="{{route('dashboard')}}" target="_blank" style="font-size: 18px; font-family: Open Sans, Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; border-radius: 5px; background-color: #F44336; padding: 15px 30px; border: 1px solid #F44336; display: block;">Mua tiếp</a>
                                             </td>
                                         </tr>
                                     </table>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td align="center" style="padding: 35px; background-color: #ffffff;" bgcolor="#ffffff">
-                        <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;">
-                            <tr>
-                                <td align="center">
-                                    <img src="logo-footer.png" width="37" height="37" style="display: block; border: 0px;"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td align="center" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 24px; padding: 5px 0 10px 0;">
-                                    <p style="font-size: 14px; font-weight: 800; line-height: 18px; color: #333333;">
-                                        675 Parko Avenue<br>
-                                        LA, CA 02232
-                                    </p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 24px;">
-                                    <p style="font-size: 14px; font-weight: 400; line-height: 20px; color: #777777;">
-                                        If you didn't create an account using this email address, please ignore this email or <a href="#" target="_blank" style="color: #777777;">unsusbscribe</a>.
-                                    </p>
                                 </td>
                             </tr>
                         </table>
@@ -176,5 +210,23 @@
         </td>
     </tr>
 </table>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    function showNotification(message, type, time, icon) {
+        icon = icon == null ? '' : icon;
+        type = type == null ? 'info' : type;
+        time = time == null ? 3000 : time;
+        $('.system_message').addClass('show').addClass(type);
+        $('.system_message').find('.title').html(message);
+        setTimeout(function () {
+            $('.system_message').removeClass('show').removeClass(type);
+            $('.system_message')
+        }, time)
+
+    }
+
+    showNotification("Tạo đơn hàng thành công",'success');
+</script>
+
 </body>
 </html>
