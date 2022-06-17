@@ -491,6 +491,7 @@ class WebController extends Controller
             'index' => 1,
             'status' => 1,
             'price_promotion' => $request->session()->get('price_promotion'),
+            'status_delivered' => 1
         ]);
         $price = str_replace(',', '', $request->session()->get('productCart')['sale_off_price']);
 
@@ -722,7 +723,7 @@ class WebController extends Controller
 
     public function historyOrder(Request $request)
     {
-        if (Auth::check()) {
+        if (Auth::check() && Auth::user()->role_id === 4) {
             $user = Auth::user();
             $customer = Customer::where('user_id', $user->id)->first();
             $this->checkExpressOrder($customer['id']);
