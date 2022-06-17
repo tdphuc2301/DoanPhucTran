@@ -3352,7 +3352,7 @@ textarea {
 .header__top>div {
     align-items: center;
     display: flex;
-    justify-content: space-between
+    justify-content: flex-start;
 }
 
 .header__main {
@@ -3402,7 +3402,7 @@ textarea {
 
 .header__search {
     position: relative;
-    width: 34%;
+    width: 25%;
     border-radius: 4px;
     background-color: #fff
 }

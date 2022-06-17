@@ -334,12 +334,36 @@ class WebController extends Controller
         }
         $quantity = 1;
         $productCart = $request->session()->get('productCart');
+        $dateCreatedOrder = new DateTime("now");
+        $dateCreatedOrder->modify('+4 hour');
+        $dateCreatedOrder->format('Y-m-d H:i:s');
+
+        // 8h
+        $closeTimeBranch =  new DateTime("tomorrow");
+        $closeTimeBranch->modify('-4 hour');
+        $closeTimeBranch->format('Y-m-d H:i:s');
+
+        // 8h
+        $eightHoursTomorrow =  new DateTime("tomorrow");
+        $eightHoursTomorrow->modify('+8 hour');
+        $eightHoursTomorrow->format('Y-m-d  H:i:s');
+
+        if($dateCreatedOrder  >  $closeTimeBranch &&   $dateCreatedOrder  <  $eightHoursTomorrow) {
+            $datetime = new DateTime('tomorrow');
+            $datetime->modify('+8 hour');
+            $datetime->format('Y-m-d  H:i:s');
+            $create_at = $datetime;
+        } else {
+            $create_at = new DateTime("now");
+        }
+
+        $request->session()->put('expressOrder', $create_at);
+        $orderTimeExpressClone = clone $request->session()->get('expressOrder');
         if (!$productCart) {
             $quantity = $request->session()->get('quantity') ?? $quantity;
             $productCart = Product::where('id', $request->product_id)->with(['images'])->get();
             $productCart = WebResource::collection($productCart)->toArray($request)[0];
-            $dateOrder = new DateTime('now');
-            $productCart['express_order'] = $dateOrder->modify('+4 hour')->format('H:i d/m/Y ');
+            $productCart['express_order'] = $orderTimeExpressClone->modify('+4 hour')->format('H:i d/m/Y ');
             $request->session()->put('productCart', $productCart);
             $request->session()->put('colorName', $request->color_id);
         }
@@ -479,7 +503,7 @@ class WebController extends Controller
                 'status' => 1
             ]);
         }
-
+        
         // Save order
         $order = $this->orderRepository->save([
             'customer_id' => $customer->id,
@@ -491,7 +515,10 @@ class WebController extends Controller
             'index' => 1,
             'status' => 1,
             'price_promotion' => $request->session()->get('price_promotion'),
-            'status_delivered' => 1
+            'status_delivered' => 1,
+            'created_at' => $request->session()->get('expressOrder'),
+            'updated_at' => $request->session()->get('expressOrder'),
+            
         ]);
         $price = str_replace(',', '', $request->session()->get('productCart')['sale_off_price']);
 
@@ -501,7 +528,7 @@ class WebController extends Controller
             'order_id' => $order->id,
             'quantity' => $request->session()->get('quantity'),
             'price' => (integer)$price,
-            'color_name' => $request->session()->get('colorName')
+            'color_name' => $request->session()->get('colorName'),
         ]);
 
         // Save payment
@@ -523,23 +550,23 @@ class WebController extends Controller
         
         $now = new DateTime('now');
         $now->format('Y-m-d');
-        $report = Report::whereDate('date_created',$now)->first();
+        $report = Report::where('branch_id',$request->session()->get('productCart')['branch_id'])->whereDate('date_created',$now)->first();
         if($report === null) {
             $report = new Report();
             $report->total_price = $request->session()->get('total_price');
             $report->total_order = 1;
             $report->date_created = $now;
             $report->branch_id = $request->session()->get('productCart')['branch_id'];
+            $report->total_promotion = $request->session()->get('price_promotion');
             $report->save();
         } else {
             $report->total_price += $request->session()->get('total_price');
             $report->total_order += 1;
+            $report->total_promotion += $request->session()->get('price_promotion');
             $report->save();
         }
-
         
-        $dateOrder = new DateTime('now');
-        $express_order = $dateOrder->modify('+4 hour')->format('H:i d/m/Y ');
+        $express_order =$request->session()->get('expressOrder')->modify('+4 hour')->format('H:i d/m/Y');
         $quantity = $request->session()->get('quantity');
         $price_promotion = number_format($request->session()->get('price_promotion'));
         $total_price = number_format($request->session()->get('total_price'));

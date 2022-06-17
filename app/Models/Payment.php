@@ -24,8 +24,10 @@ class Payment extends Model
         'status'
     ];
 
-    protected $casts = [
-        'created_at' => 'datetime:Y-m-d h:i:s',
-        'updated_at' => 'datetime:Y-m-d h:i:s',
+    protected $appends = [
+        'formatted_created_at',
+        'formatted_updated_at',
     ];
+
+    public $timestamps = true;
 }

@@ -5,10 +5,10 @@
                 <i class="iconnewglobal-logo"></i>
             </a>
 
-            <a href="javascript:void(0)" class="header__address" onclick="OpenLocation()">
-                Xem giá, tồn kho tại:
-                <span data-province="3" data-district="2087" data-ward="27098">5555QL, P.Linh Xu&#xE2;n, TP.Th&#x1EE7; &#x110;&#x1EE9;c (G&#x1ED3;m Q2, Q9, Q.T&#x110;), H&#x1ED3; Ch&#xED; Minh</span>
-            </a>
+{{--            <a href="javascript:void(0)" class="header__address" onclick="OpenLocation()">--}}
+{{--                Xem giá, tồn kho tại:--}}
+{{--                <span data-province="3" data-district="2087" data-ward="27098">5555QL, P.Linh Xu&#xE2;n, TP.Th&#x1EE7; &#x110;&#x1EE9;c (G&#x1ED3;m Q2, Q9, Q.T&#x110;), H&#x1ED3; Ch&#xED; Minh</span>--}}
+{{--            </a>--}}
             <form action="/tim-kiem" onsubmit="return suggestSearch(event);" class="header__search">
                 <input id="skw" type="text" class="input-search" onkeyup="suggestSearch(event);" placeholder="Bạn tìm gì..." name="key" autocomplete="off" maxlength="100">
                 <button type="submit">
@@ -29,15 +29,15 @@
           
             @if(Auth::user() === null)
             <div>
-                    <a class="name-order" style="width:50%;height:40px;text-align:center;line-height:30px;font-size:14px;font-weight: bold" href="{{route('login_web_get')}}">Login</a>
+                    <a class="name-order" style="width:100%;height:40px;line-height:30px;font-size:14px;font-weight: bold;padding-right: 20px;" href="{{route('login_web_get')}}">Đăng nhập</a>
             </div>
             @endif
             @if(Auth::user() !== null)
-            <div >
-                <a class="name-order" style="width:50%;height:40px;text-align:center;line-height:30px;font-size:14px;font-weight: bold" href="#">{{Auth::user()->name ?? ''}}</a>
+            <div style="margin-right: 10px">
+                <a class="name-order" style="width:100%;height:40px;line-height:30px;font-size:14px;font-weight: bold;padding-right: 20px;" href="#">{{Auth::user()->name ?? ''}}</a>
             </div>
             <div >
-                <a class="name-order" style="width:50%;height:40px;text-align:center;line-height:30px;font-size:14px;font-weight: bold" href="{{route('logout_web_get')}}">Logout</a>
+                <a class="name-order" style="width:100%;height:40px;line-height:30px;font-size:14px;font-weight: bold;padding-right: 20px;" href="{{route('logout_web_get')}}">Thoát</a>
             </div>
             @endif
         </div>

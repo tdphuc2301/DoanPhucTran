@@ -29,16 +29,16 @@
                             <span class="percent">-{{$phone['percentPromotion']}}%</span>
                         </div>
                         <strong class="price">{{$phone['sale_off_price']}}</strong>
-                        <div class="item-rating">
-                            <p>
-                                <i class=" icon-star"></i>
-                                <i class="icon-star"></i>
-                                <i class="icon-star"></i>
-                                <i class="icon-star"></i>
-                                <i class="icon-star-dark"></i>
-                            </p>
-                            <p class="item-rating-total">{{$phone['total_rate']}}</p>
-                        </div>
+{{--                        <div class="item-rating">--}}
+{{--                            <p>--}}
+{{--                                <i class=" icon-star"></i>--}}
+{{--                                <i class="icon-star"></i>--}}
+{{--                                <i class="icon-star"></i>--}}
+{{--                                <i class="icon-star"></i>--}}
+{{--                                <i class="icon-star-dark"></i>--}}
+{{--                            </p>--}}
+{{--                            <p class="item-rating-total">{{$phone['total_rate']}}</p>--}}
+{{--                        </div>--}}
 
                     </a>
                     <div class="item-bottom">
