@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['namespace'=>'Admin','middleware'=>'admin.check'], function (){
     Route::get('/', 'DashboardController@index')->name('admin.dashboard')->middleware('admin.manager.role');
-    Route::get('/report', 'DashboardController@report')->name('admin.report');
+    Route::get('/searchReport', 'DashboardController@searchReport')->name('admin.searchReport');
     Route::get('/logout', 'DashboardController@logout')->name('admin.logout');
     Route::get('/change-password', 'DashboardController@logout')->name('admin.user.change_password');
 

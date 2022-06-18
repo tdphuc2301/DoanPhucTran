@@ -536,10 +536,10 @@ class WebController extends Controller
             $paid = 1;
         } else if ($request->paymentMethod === 'paypal') {
             $paid = 3;
-            $product = Product::find($product_id);
-            $product->stock_quantity = $product->stock_quantity - $request->session()->get('quantity');
-            $product->save();
         }
+        $product = Product::find($product_id);
+        $product->stock_quantity = $product->stock_quantity - $request->session()->get('quantity');
+        $product->save();
         $payment_order = $this->paymentRepository->save([
             'payment_code' => $this->generateRandomString(),
             'order_id' => $order->id,
