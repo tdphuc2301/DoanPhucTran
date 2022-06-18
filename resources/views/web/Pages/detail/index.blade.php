@@ -21,16 +21,16 @@
     <div class="box02">
         <div class="box02__left">
 
-            <div class="detail-rate">
-                <p>
-                    <i class="one-point icondetail-star"></i>
-                    <i class="two-point icondetail-star"></i>
-                    <i class="three-point icondetail-star"></i>
-                    <i class="four-point icondetail-star-dark"></i>
-                    <i class="five-point icondetail-star-dark"></i>
-                </p>
-                <p class="detail-rate-total">{{$product['total_rate'] ?? ''}}<span> đánh giá</span></p>
-            </div>
+{{--            <div class="detail-rate">--}}
+{{--                <p>--}}
+{{--                    <i class="one-point icondetail-star"></i>--}}
+{{--                    <i class="two-point icondetail-star"></i>--}}
+{{--                    <i class="three-point icondetail-star"></i>--}}
+{{--                    <i class="four-point icondetail-star-dark"></i>--}}
+{{--                    <i class="five-point icondetail-star-dark"></i>--}}
+{{--                </p>--}}
+{{--                <p class="detail-rate-total">{{$product['total_rate'] ?? ''}}<span> đánh giá</span></p>--}}
+{{--            </div>--}}
         </div>
         <div class="box02__right">
             <i class="icondetail-sosanh"></i> So sánh
