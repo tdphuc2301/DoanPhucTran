@@ -34,6 +34,7 @@ use App\Services\WebService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Nette\Utils\DateTime;
@@ -222,7 +223,7 @@ class WebController extends Controller
 
     public function searchBranchClosestUser(Request $request)
     {
-        // TO DO 
+        // TO DO
         $allowToResult = true;
 
         $listBranch = Branch::all();
@@ -302,8 +303,8 @@ class WebController extends Controller
         }
         return $result;
     }
-    
-    
+
+
 
     public function detailProduct(Request $request, $brand, $alias)
     {
@@ -373,7 +374,7 @@ class WebController extends Controller
         }
 
         $productCart['sale_off_price'] = str_replace(',', '.', $productCart['sale_off_price']);
-        
+
         $shipment = str_replace(',', '.', number_format(WebController::FREESHIP));
         return view('web.Pages.cart-product', [
             'product' => $productCart,
@@ -388,8 +389,8 @@ class WebController extends Controller
 
     public function postCart(Request $request)
     {
-        
-        
+
+
         if ($request->quantity_checkout != $request->session()->get('quantity')) {
             $request->session()->put('quantity', $request->quantity_checkout);
         }
@@ -402,7 +403,7 @@ class WebController extends Controller
         if ($request->price_promotion_checkout != $request->session()->get('price_promotion')) {
             $request->session()->put('price_promotion', $request->price_promotion_checkout);
         }
-        
+
         $request->session()->put('note', $request->note);
         $request->session()->put('promotion_id', $request->promotion_id);
         return redirect()->route('web.checkout.get');
@@ -413,7 +414,7 @@ class WebController extends Controller
         if(!$request->session()->get('productCart')) {
             return redirect()->route('dashboard');
         }
-        
+
         $customer = null;
         if (Auth::check()) {
             $customer = Customer::where('user_id', Auth::user()->id)->first();
@@ -431,12 +432,15 @@ class WebController extends Controller
         ]);
     }
 
-    public function getBranchClosetCustomer($point1)
+    public function getBranchClosetCustomer($point1, $product_id)
     {
         // TO DO
         $list_branch_value_km = [];
 
-        $listBranch = Branch::all();
+        $listBranch = DB::table('branchs')
+        ->join('product_branchs', 'branchs.id', '=', 'product_branchs.branch_id')
+        ->where('product_branchs.product_id', $product_id)
+        ->select('branchs.id', 'branchs.long', 'branchs.lat')->get();
         foreach ($listBranch as $value) {
             $point2 = [
                 $value->long,
@@ -448,7 +452,7 @@ class WebController extends Controller
         }
 
         asort($list_branch_value_km);
-        
+
         return array_keys($list_branch_value_km);
     }
 
@@ -464,19 +468,17 @@ class WebController extends Controller
 
 
         // Get list branch closet customer
-        $list_brach_id_closet_customer = $this->getBranchClosetCustomer($point1);
+        $list_brach_id_closet_customer = $this->getBranchClosetCustomer($point1, $product_id);
         $branch_closet_customer = null;
-        foreach ($list_brach_id_closet_customer as $branch_id) {
-            $product = Product::where([
-                'branch_id' => $branch_id,
-                'search' => $request->session()->get('productCart')['id']
-            ])->first();
-            if ($product) {
-                $request->session()->put('productCart', $product);
-                $product_id = $product['id'];
-                $branch_closet_customer = $branch_id;
-                break;
-            }
+
+        $product = Product::where([
+            'id' => $request->session()->get('productCart')['id']
+        ])->first();
+        if ($product) {
+            $request->session()->put('productCart', $product);
+            $product_id = $product['id'];
+            $branch_closet_customer = $list_brach_id_closet_customer[0];
+
         }
 
         // Save branch_id
@@ -503,7 +505,7 @@ class WebController extends Controller
                 'status' => 1
             ]);
         }
-        
+
         // Save order
         $order = $this->orderRepository->save([
             'customer_id' => $customer->id,
@@ -511,14 +513,14 @@ class WebController extends Controller
             'code' => $this->generateRandomString(),
             'note' => $request->session()->get('note'),
             'total_price' => $request->session()->get('total_price'),
-            'branch_id' => $request->session()->get('productCart')['branch_id'],
+            'branch_id' => $branch_closet_customer,
             'index' => 1,
             'status' => 1,
             'price_promotion' => $request->session()->get('price_promotion'),
             'status_delivered' => 1,
             'created_at' => $request->session()->get('expressOrder'),
             'updated_at' => $request->session()->get('expressOrder'),
-            
+
         ]);
         $price = str_replace(',', '', $request->session()->get('productCart')['sale_off_price']);
 
@@ -547,7 +549,7 @@ class WebController extends Controller
         ]);
 
         $shipment = number_format(WebController::FREESHIP);
-        
+
         $now = new DateTime('now');
         $now->format('Y-m-d');
         $report = Report::where('branch_id',$request->session()->get('productCart')['branch_id'])->whereDate('date_created',$now)->first();
@@ -565,14 +567,14 @@ class WebController extends Controller
             $report->total_promotion += $request->session()->get('price_promotion');
             $report->save();
         }
-        
+
         $express_order =$request->session()->get('expressOrder')->modify('+4 hour')->format('H:i d/m/Y');
         $quantity = $request->session()->get('quantity');
         $price_promotion = number_format($request->session()->get('price_promotion'));
         $total_price = number_format($request->session()->get('total_price'));
 
         $request->session()->flush();
-        
+
         return view('web.Pages.success_product', [
             'order_code' => $order->code,
             'price' => number_format($price),
@@ -585,7 +587,7 @@ class WebController extends Controller
             'isDetail' => false,
             'isDashboard' => true
         ]);
-        
+
     }
 
     public function shipper_product()
@@ -739,7 +741,7 @@ class WebController extends Controller
 
         return redirect(route('login_web_get'));
     }
-    
+
     public function searchOrder()
     {
         return view('web.Pages.history_search-order', [
@@ -916,7 +918,7 @@ class WebController extends Controller
 
         }
     }
-    
+
     function checkExpressOrder($customer_id): string
     {
         $listOrderCustomer = Order::where('customer_id', $customer_id)->get();
@@ -933,9 +935,9 @@ class WebController extends Controller
                     $payment->save();
                 }
             }
-            
+
         }
         return true;
     }
-    
+
 }
