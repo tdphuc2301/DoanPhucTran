@@ -97,10 +97,9 @@ class ProductService
         } else {
             $array_rand_rate = [ 3 => 1, 4 => 2, 5=>3];
             $array_rand_total_rate = [ 100 => 1, 250 => 2, 130=>3,400=>4,450=>5];
-            
+
             $product = $this->productRepository->save([
                 'category_id' => $data['category_id'],
-                'branch_id' => $data['branch_id'],
                 'ram_id' => $data['ram_id'],
                 'rom_id' => $data['rom_id'],
                 'brand_id' => $data['brand_id'],
@@ -113,7 +112,6 @@ class ProductService
                 'sale_off_price' => $data['sale_off_price'] ?? 0,
                 'rate' => array_rand($array_rand_rate) ?? 0,
                 'total_rate' => array_rand($array_rand_total_rate) ?? 0,
-                'stock_quantity' => $data['stock_quantity'] ?? 0,
                 'status' => $data['status'] ?? config('common.status.active')
             ]);
             $colors = [1,2,3,4,5,6];

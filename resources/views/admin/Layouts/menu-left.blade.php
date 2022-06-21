@@ -25,14 +25,21 @@
                     <i class="mdi mdi-vector-arrange-above menu-icon"></i>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('admin.product.index') }}">
+                    <span class="menu-title">Danh sách sản phẩm</span>
+                    <i class="mdi mdi-vector-difference-ba menu-icon"></i>
+                </a>
+            </li>
         @endif
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('admin.product.index') }}">
-                <span class="menu-title">Danh sách sản phẩm</span>
-                <i class="mdi mdi-vector-difference-ba menu-icon"></i>
-            </a>
-        </li>
-
+        @if(Auth::user()->role_id == 2)
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('admin.product.info') }}">
+                    <span class="menu-title">Thông tin sản phẩm</span>
+                    <i class="mdi mdi-vector-difference-ba menu-icon"></i>
+                </a>
+            </li>
+        @endif
         <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.order.index') }}">
                 <span class="menu-title">Danh sách đơn hàng</span>

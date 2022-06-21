@@ -9,7 +9,7 @@ class Product_branch extends Model
 {
     use HasFactory;
 
-    protected $table = 'product_branch';
+    protected $table = 'product_branchs';
 
     protected $fillable = [
         'product_id',

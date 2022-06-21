@@ -92,17 +92,7 @@
 
                                         <div class="row">
                                             <div class="col-sm">
-                                                @if (Auth::user()->branch_id === null)
-                                                    <p class="m-0 font-0-9">Chi nhánh<span class="text-danger">*</span>
-                                                    </p>
-                                                    <select class="search  show-tick" name="branch_id"
-                                                            data-live-search="true">
-                                                        <option value="" selected>Vui lòng chọn</option>
-                                                        @foreach ($branchs as $branch)
-                                                            <option value="{{ $branch['id'] }}">{{ $branch['name'] }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                @endif
+
                                             </div>
 {{--                                            <div class="col-sm">--}}
 {{--                                                <p class="m-0 font-0-9">Màu<span class="text-danger">*</span></p>--}}
@@ -118,8 +108,7 @@
 {{--                                                </fieldset>--}}
 {{--                                                --}}
 {{--                                            </div>--}}
-                                            <input id="branch_id" name="branch_id" type="hidden"
-                                                   class="form-control form-control-sm">
+
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -134,12 +123,7 @@
                                         <input name="sale_off_price" type="number" min="0" required
                                                class="form-control form-control-sm">
                                     </div>
-                                    <div class="form-group">
-                                        <p class="m-0 font-0-9">Số lương tồn kho<span class="text-danger">*</span>
-                                        </p>
-                                        <input name="stock_quantity" type="number" min="0" required
-                                               class="form-control form-control-sm stock_quantity">
-                                    </div>
+
                                     <div class="form-group">
                                         <p class="m-0 font-0-9">Vị trí</p>
                                         <input name="index" type="number" value="1" min="0"
