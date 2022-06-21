@@ -108,8 +108,13 @@ class AdminUserService
     public function createAdminUser(array $data): ?Model
     {
         if (!empty($data['id'])) {
-            $adminUser = $this->adminUserRepository->findOne($data['id']);
-            $adminUser = $this->adminUserRepository->update($adminUser, $data);
+            $adminUser = User::find($data['id']);
+            $adminUser->name = $data['name'];
+            $adminUser->email = $data['email'];
+            $adminUser->username = $data['username'];
+            $adminUser->password = Hash::make($data['password']);
+            $adminUser->role_id = $data['role_id'];
+            $adminUser->save();
         } else {
             $adminUser = $this->adminUserRepository->save([
                 'name' => $data['name'],

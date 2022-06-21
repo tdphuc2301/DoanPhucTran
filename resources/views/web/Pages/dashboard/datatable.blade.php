@@ -10,7 +10,9 @@
                         <div class="item-label">
                         </div>
                         <div class="item-img item-img_42">
+                            @if( isset($phone['images'][0]))
                             <img class="thumb" src="{{'/'.$phone['images'][0]['path'] ?? ''}}" alt="iPhone 11">
+                            @endif
                         </div>
 
                         <p class='result-label temp5'><img width='20' height='20' class='lazyload' alt='GIẢM KỊCH SÀN' data-src='https://cdn.tgdd.vn/2022/05/content/labelseagames-50x50-6.png'><span>GIẢM KỊCH SÀN</span></p>

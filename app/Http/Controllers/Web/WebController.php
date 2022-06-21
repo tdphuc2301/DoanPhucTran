@@ -558,7 +558,7 @@ class WebController extends Controller
             $report->total_price = $request->session()->get('total_price');
             $report->total_order = 1;
             $report->date_created = $now;
-            $report->branch_id = $request->session()->get('productCart')['branch_id'];
+            $report->branch_id = $branch_closet_customer;
             $report->total_promotion = $request->session()->get('price_promotion');
             $report->save();
         } else {
