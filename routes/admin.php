@@ -68,10 +68,15 @@ Route::group(['namespace'=>'Admin','middleware'=>'admin.check'], function (){
         Route::get('/', 'ProductController@index')->name('admin.product.index');
         Route::get('/get-list', 'ProductController@getList')->name('admin.product.get_list');
         Route::get('/find/{id?}', 'ProductController@getById')->name('admin.product.get_product');
+        Route::get('/info', 'ProductController@info')->name('admin.product.info');
+        Route::get('/add-info', 'ProductController@addInfo')->name('admin.product.addInfo');
+        Route::post('/add-info', 'ProductController@createInfo')->name('admin.product.createInfo');
+        Route::get('/edit-info/{id}', 'ProductController@editInfo')->name('admin.product.editInfo');
+        Route::post('/update-info/{id}', 'ProductController@updateInfo')->name('admin.product.updateInfo');
         Route::post('/create', 'ProductController@create')->name('admin.product.create');
         Route::put('/change-status', 'ProductController@changeStatus')->name('admin.product.change_status');
     });
-
+    
 //    Route::group(['namespace' => 'Page', 'prefix' => 'page'], function () {
 //        Route::get('/', 'PageController@index')->name('admin.page.index');
 //        Route::get('/get-list', 'PageController@getList')->name('admin.page.get_list');

@@ -56,8 +56,19 @@
                                         <input name="password" placeholder="password" required type="password" id="password" 
                                                class="form-control form-control-sm">
                                     </div>
+                                    @if (Auth::user()->branch_id === null)
+                                        <p class="m-0 font-0-9">Chi nhánh<span class="text-danger">*</span>
+                                        </p>
+                                        <select class="search  show-tick" name="branch_id"
+                                                data-live-search="true">
+                                            <option value="" selected>Vui lòng chọn</option>
+                                            @foreach ($branchs as $branch)
+                                                <option value="{{ $branch['id'] }}">{{ $branch['name'] }}</option>
+                                            @endforeach
+                                        </select>
+                                    @endif
                                     <input name="branch_id" id="branch_id" type="hidden"
-                                           class="form-control form-control-sm">
+                                        class="form-control form-control-sm">
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">

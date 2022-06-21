@@ -9,6 +9,8 @@ use App\Http\Requests\Product\CreateProductRequest;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\ProductResource;
 use App\Http\Responses\PaginationResponse;
+use App\Models\Product;
+use App\Models\Product_branch;
 use App\Services\BranchService;
 use App\Services\BrandService;
 use App\Services\CategoryService;
@@ -18,6 +20,7 @@ use App\Services\RamService;
 use App\Services\RomService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 use function PHPSTORM_META\type;
@@ -134,5 +137,52 @@ class ProductController extends Controller
             return $this->responseError(Response::HTTP_INTERNAL_SERVER_ERROR, $e);
         }
     }
-}
 
+    public function info() {
+        $branch = Auth::user()->branch_id;
+        $list = DB::table('products')
+                ->join('product_branchs', 'product_branchs.product_id', '=', 'products.id')
+                ->select('products.id', 'products.name', 'products.price', 'products.sale_off_price', 'products.status', 'product_branchs.stock_quantity' )
+                ->where('product_branchs.branch_id', $branch)->get();
+        return view ('admin.Product.info')->with('list', $list);
+    }
+    public function addInfo() {
+        $products = Product::all();
+        return view ('admin.Product.addInfo')->with('products', $products);
+    }
+    public function createInfo(Request $request) {
+        $product_branchs = Product_branch::where('product_id', $request->product_id)->where('branch_id', Auth::user()->branch_id)->first();
+        if (isset($product_branchs)){
+            $product_branchs->stock_quantity = (int)$product_branchs->stock_quantity + (int)$request->stock_quantity;
+        } else {
+            $pro = Product::find($request->product_id);
+            $product_branchs = new Product_branch();
+            $product_branchs->branch_id = Auth::user()->branch_id;
+            $product_branchs->product_id = $pro->id;
+            $product_branchs->stock_quantity = $request->stock_quantity;
+        }
+        $product_branchs->save();
+        return redirect(route('admin.product.info'));
+    }
+    public function editInfo($id) {
+        $branch = Auth::user()->branch_id;
+        $products = Product::all();
+        $list = DB::table('products')
+                ->join('product_branchs', 'product_branchs.product_id', '=', 'products.id')
+                ->select('products.id', 'products.name', 'products.price', 'products.sale_off_price', 'products.status', 'product_branchs.stock_quantity' )
+                ->where('product_branchs.branch_id', $branch)
+                ->where('product_branchs.product_id', $id)->first();
+        if (isset($list)){
+            return view ('admin.Product.editInfo')->with('list', $list)->with('products', $products);
+        }
+        return view ('admin.Product.info')->with('list', $list);
+    }
+    public function updateInfo($id, Request $request) {
+        $product_branchs = Product_branch::where('product_id', $id)->where('branch_id', Auth::user()->branch_id)->first();
+        if (isset($product_branchs)){
+            $product_branchs->stock_quantity = (int)$request->stock_quantity;
+            $product_branchs->save();
+        }
+        return redirect(route('admin.product.info'));
+    }
+}
