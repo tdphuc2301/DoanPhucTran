@@ -3119,7 +3119,7 @@ textarea {
 
 [class^="iconnewglobal-"],
 [class*="iconnewglobal-"] {
-    background-image: url(//cdn.tgdd.vn/mwgcart/mwg-site/ContentMwg/images/homev2/desk/iconnew.png);
+    /* background-image: url(//cdn.tgdd.vn/mwgcart/mwg-site/ContentMwg/images/homev2/desk/iconnew.png); */
     background-repeat: no-repeat;
     display: inline-block;
     height: 30px;

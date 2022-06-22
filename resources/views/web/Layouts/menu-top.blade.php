@@ -2,9 +2,8 @@
     <div class="header__top" style="height:60px">
         <div>
             <a href="/" class="header__logo">
-                <i class="iconnewglobal-logo"></i>
-            </a>
-
+                <img src="{{URL::to('images/logo.jpg')}}" alt="" style="height: 47px; width: 282px;"/>
+			</a>
 {{--            <a href="javascript:void(0)" class="header__address" onclick="OpenLocation()">--}}
 {{--                Xem giá, tồn kho tại:--}}
 {{--                <span data-province="3" data-district="2087" data-ward="27098">5555QL, P.Linh Xu&#xE2;n, TP.Th&#x1EE7; &#x110;&#x1EE9;c (G&#x1ED3;m Q2, Q9, Q.T&#x110;), H&#x1ED3; Ch&#xED; Minh</span>--}}
