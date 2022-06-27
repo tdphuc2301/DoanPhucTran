@@ -470,7 +470,9 @@ class WebController extends Controller
         // Get list branch closet customer
         $list_brach_id_closet_customer = $this->getBranchClosetCustomer($point1, $product_id);
         $branch_closet_customer = null;
-
+        if (!$list_brach_id_closet_customer){
+            return redirect(route('dashboard'))->with('message_epd', 'Sản phẩm tạm hết hàng');
+        }
         $product = Product::where([
             'id' => $request->session()->get('productCart')['id']
         ])->first();

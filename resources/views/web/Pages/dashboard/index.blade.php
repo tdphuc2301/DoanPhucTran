@@ -1,6 +1,11 @@
 @extends('web.Layouts.app')
 @section('content')
 <!-- The Modal -->
+@if (session('message_epd'))
+<script>
+    alert('Sản phẩm tạm hết hàng')
+</script>
+@endif
 <div id="myModal" class="modal">
     <!-- Modal content -->
     <div class="modal-content">
