@@ -65,8 +65,8 @@
                                     </button>
 
                                     <div class="form-outline">
-                                        <input id="form1" min="0" name="quantity" value="{{$quantity}}" type="number"
-                                               class="form-control"/>
+                                        <input id="form1" min="1" name="quantity" value="{{$quantity}}" type="number"
+                                               class="form-control" readonly/>
                                         <label class="form-label" for="form1">Quantity</label>
                                     </div>
 
@@ -134,7 +134,7 @@
             <h3 class="h6 pt-4 font-weight-semibold"><span class="badge badge-success mr-2">Note</span>Thêm note</h3>
             <form method="post" action="{{route('web.cart.post')}}">
                 @csrf
-                <input type="hidden" name="quantity_checkout">
+                <input type="hidden" min="1" name="quantity_checkout">
                 <input type="hidden" name="price_promotion_checkout">
                 <input type="hidden" name="total_price_checkout">
                 <input type="hidden" name="product_id">
@@ -362,19 +362,22 @@
     }
 
     function decrementQuantity() {
-        currentQuantity--;
-        $("input[name='quantity']").val(currentQuantity);
-        $("#quantity").html(currentQuantity);
-        $("input[name='quantity_checkout']").val(currentQuantity);
-        if (type_promotion_id_old === 1) {
-            totalPrice = parseInt(price_product) * currentQuantity + parseInt(shipment) - promotion_value_old;
-            $("#promotion").html(promotion_value_old.toLocaleString('it-IT', {style: 'currency', currency: 'VND'}))
-        } else {
-            totalPrice = parseInt(price_product) * currentQuantity + parseInt(shipment) - promotion_value_old * price_product * currentQuantity / 100;
-            $("#promotion").html((promotion_value_old * price_product * currentQuantity / 100).toLocaleString('it-IT', {style: 'currency', currency: 'VND'}))
+        if (currentQuantity > 1){
+            currentQuantity--;
+            $("input[name='quantity']").val(currentQuantity);
+            $("#quantity").html(currentQuantity);
+            $("input[name='quantity_checkout']").val(currentQuantity);
+            if (type_promotion_id_old === 1) {
+                totalPrice = parseInt(price_product) * currentQuantity + parseInt(shipment) - promotion_value_old;
+                $("#promotion").html(promotion_value_old.toLocaleString('it-IT', {style: 'currency', currency: 'VND'}))
+            } else {
+                totalPrice = parseInt(price_product) * currentQuantity + parseInt(shipment) - promotion_value_old * price_product * currentQuantity / 100;
+                $("#promotion").html((promotion_value_old * price_product * currentQuantity / 100).toLocaleString('it-IT', {style: 'currency', currency: 'VND'}))
+            }
+            $("#total_price").html(totalPrice.toLocaleString('it-IT', {style: 'currency', currency: 'VND'}));
+            $("input[name='total_price_checkout']").val(totalPrice);
+        
         }
-        $("#total_price").html(totalPrice.toLocaleString('it-IT', {style: 'currency', currency: 'VND'}));
-        $("input[name='total_price_checkout']").val(totalPrice);
     }
     
 
