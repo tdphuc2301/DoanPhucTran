@@ -222,7 +222,6 @@
                         onAuthorize: function (data, actions) {
                             return actions.payment.execute().then(function () {
                                 showNotification("Thanh toán thành công",'success');
-                                AmagiLoader.show();
                                  isPaypal = true;
                                 $("input[name='paymentMethod']").val('paypal');
                                 $('#submit').click();
@@ -263,7 +262,6 @@
 <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 <script>
     $("#submit").click(function() {
-        AmagiLoader.show();
         $("input[name='paymentMethod']").val('COD');
         if(isPaypal) {
             $("input[name='paymentMethod']").val('paypal');
