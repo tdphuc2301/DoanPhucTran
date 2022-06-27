@@ -368,11 +368,11 @@
             $("#quantity").html(currentQuantity);
             $("input[name='quantity_checkout']").val(currentQuantity);
             if (type_promotion_id_old === 1) {
-                totalPrice = parseInt(price_product) * currentQuantity + parseInt(shipment) - promotion_value_old;
+                totalPrice = parseInt(price_product) * currentQuantity + parseInt(shipment) - promotion_value_old * currentQuantity /100;
                 $("#promotion").html(promotion_value_old.toLocaleString('it-IT', {style: 'currency', currency: 'VND'}))
             } else {
-                totalPrice = parseInt(price_product) * currentQuantity + parseInt(shipment) - promotion_value_old * price_product * currentQuantity / 100;
-                $("#promotion").html((promotion_value_old * price_product * currentQuantity / 100).toLocaleString('it-IT', {style: 'currency', currency: 'VND'}))
+                totalPrice = parseInt(price_product) * currentQuantity + parseInt(shipment) - promotion_value_old * currentQuantity / 100;
+                $("#promotion").html((promotion_value_old  * currentQuantity ).toLocaleString('it-IT', {style: 'currency', currency: 'VND'}))
             }
             $("#total_price").html(totalPrice.toLocaleString('it-IT', {style: 'currency', currency: 'VND'}));
             $("input[name='total_price_checkout']").val(totalPrice);
